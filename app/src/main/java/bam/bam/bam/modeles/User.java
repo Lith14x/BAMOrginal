@@ -4,14 +4,8 @@ package bam.bam.bam.modeles;
  * classe stoquant les informations d'un utilisateur
  *
  * @author Marc
- * @author Mabato
  */
-
 public class User {
-    /**
-     * note publique de l'utilisateur
-     */
-    private UserNote note;
 
     /**
      * id de l'appareil
@@ -67,20 +61,7 @@ public class User {
     public void setPhoto_data (String photo_data ) {
         this.photo_data  = photo_data ;
     }
-    public String getNote()
-    {
-        return ""+note.getVal()+"";
-    }
 
-    public String getNbn()
-    {
-        return ""+note.getNbVotes()+"";
-    }
-
-    public String getStatus()
-    {
-        return "";
-    }
     public String getUser_pseudo() {
         return user_pseudo;
     }
@@ -91,37 +72,6 @@ public class User {
 
     public void setUser_phone_number(String user_phone_number) {
         this.user_phone_number = user_phone_number;
-    }
-
-    public void addNote(UserNote note)
-    {
-        float val = this.note.getVal();
-        int nbVotes = this.note.getNbVotes();
-        float buff;
-
-        buff = (val*nbVotes + note.getVal())/(nbVotes+1);
-
-        switch((int) buff)
-        {
-            case 0 :
-                this.note = UserNote.N_0;
-                this.note.setVal(buff);
-            case 1 :
-                this.note = UserNote.N_1;
-                this.note.setVal(buff);
-            case 2 :
-                this.note = UserNote.N_2;
-                this.note.setVal(buff);
-            case 3 :
-                this.note = UserNote.N_3;
-                this.note.setVal(buff);
-            case 4 :
-                this.note = UserNote.N_4;
-                this.note.setVal(buff);
-            case 5 :
-                this.note = UserNote.N_5;
-                this.note.setVal(buff);
-        }
     }
 
     public void setId(int id) {
