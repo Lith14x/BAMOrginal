@@ -112,18 +112,12 @@ public class UserJSONParser {
         urlNom.add("user_device_id");
         urlNom.add("user_phone_number");
         urlNom.add("photo_data");
-        urlNom.add("user_note");
-        urlNom.add("user_status");
-        urlNom.add("user_nbn");
 
         List<String> urlData = new ArrayList<>();
         urlData.add(user.getUser_pseudo());
         urlData.add(user.getUser_device_id());
         urlData.add(user.getUser_phone_number());
         urlData.add(user.getPhoto_data());
-        urlData.add(user.getNote());
-        urlData.add(user.getStatus());
-        urlData.add(user.getNbn());
 
         PostPutData ppd = new PostPutData(URL_PUT_USER + user.getId(), "PUT", urlNom, urlData);
         return ppd.lancerEnregistrement();
