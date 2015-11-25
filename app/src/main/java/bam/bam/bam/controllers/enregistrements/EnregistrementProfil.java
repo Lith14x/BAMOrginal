@@ -180,20 +180,34 @@ public class EnregistrementProfil implements View.OnClickListener {
                 @Override
                 protected void onPreExecute() {
                     super.onPreExecute();
+<<<<<<< HEAD
                     InfoToast.display(false, activity.getString(R.string.enregistrement), activity);
+=======
+                    InfoToast.display(false, activity.getString(R.string.enregistrement),activity);
+>>>>>>> 1aa2aa8e18d03c240d0aa97952b56d57a5e79952
                 }
 
                 @Override
                 protected Void doInBackground(Void... params) {
 
+<<<<<<< HEAD
                     Bitmap bitmap = ((BitmapDrawable) image.getDrawable()).getBitmap();
 
                     if (Internet.isConnected(activity)) {
+=======
+                    Bitmap bitmap = ((BitmapDrawable)image.getDrawable()).getBitmap();
+
+                    if(Internet.isConnected(activity)) {
+>>>>>>> 1aa2aa8e18d03c240d0aa97952b56d57a5e79952
 
 
                         user = userDAO.getUserByDevice(Utility.getPhoneId(activity));
 
+<<<<<<< HEAD
                         if (pf.isPhotoChange()) {
+=======
+                        if(pf.isPhotoChange()) {
+>>>>>>> 1aa2aa8e18d03c240d0aa97952b56d57a5e79952
                             user.setPhoto_data(Utility.encodeTobase64(bitmap));
                         }
 
@@ -211,17 +225,31 @@ public class EnregistrementProfil implements View.OnClickListener {
                         userDAO.updateUser(user);
                         Refresher.getInstance().onRefresh();
                         goListsApp();
+<<<<<<< HEAD
                     } else {
                         if (serveurOk != null) {
                             InfoToast.display(false, activity.getString(R.string.pb_serveur), activity);
                         } else {
+=======
+                    }
+                    else
+                    {
+                        if (serveurOk != null) {
+                            InfoToast.display(false, activity.getString(R.string.pb_serveur), activity);
+                        }
+                        else {
+>>>>>>> 1aa2aa8e18d03c240d0aa97952b56d57a5e79952
                             Internet.infoInet(false, activity);
                         }
                     }
 
                     occup = false;
                 }
+<<<<<<< HEAD
             }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
+=======
+            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+>>>>>>> 1aa2aa8e18d03c240d0aa97952b56d57a5e79952
 
         }
         else
