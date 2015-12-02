@@ -10,8 +10,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:orientation="vertical">
 
         <!-- Récupère le focus-->
         <LinearLayout
@@ -64,10 +64,42 @@
             <EditText android:id="@+id/tel"
                 style="@style/edittext_tel"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Ma note"
+                android:id="@+id/ratingbar"
+                style="@style/profil_send_textView" />
+
+            <RatingBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/note"
+                android:layout_gravity="center_horizontal"
+                android:numStars="5" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:id="@+id/textView"
+                android:text="Mon statut"
+                style="@style/profil_send_textView" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/statut"
+                android:layout_gravity="center_horizontal"
+                style="@style/profil_send_textView" />
+
             <Button
                 android:id="@+id/saveProfil"
                 style="@style/bouton"
-                android:text="@string/profil_bouton"/>
+                android:text="@string/profil_bouton"
+                android:layout_gravity="center_horizontal" />
 
         </LinearLayout>
 
