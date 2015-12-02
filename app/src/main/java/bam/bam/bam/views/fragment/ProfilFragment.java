@@ -1,8 +1,10 @@
 package bam.bam.bam.views.fragment;
 
+import bam.bam.bam.modeles.UserNote;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.media.Rating;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import bam.bam.R;
@@ -84,13 +87,16 @@ public class ProfilFragment extends Fragment
         EditText tel = (EditText) view.findViewById(R.id.tel);
         EditText pseudoET = (EditText) view.findViewById(R.id.pseudoET);
         TextView pseudoTV = (TextView) view.findViewById(R.id.pseudoTV);
+        RatingBar ratingBar = (RatingBar) view.findViewById(R.id.ratingBar);
 
         Button btn = (Button) view.findViewById(R.id.saveProfil);
         btn.setOnClickListener(new EnregistrementProfil(this,act,image,tel,pseudoET));
+        User user = new UserDAO(act).getUserByDevice(Utility.getPhoneId(act));
+
+        ratingBar.setRating(user.getRealNote().getVal());
 
         if(!act.isFirst()) // si c'est pour une modification de profil
         {
-            User user = new UserDAO(act).getUserByDevice(Utility.getPhoneId(act));
             image.setImageBitmap(Utility.decodeBase64(user.getPhoto_data()));
 
             pseudoTV.setText(user.getUser_pseudo());

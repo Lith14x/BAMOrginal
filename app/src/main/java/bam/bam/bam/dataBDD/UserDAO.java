@@ -52,9 +52,13 @@ public class UserDAO extends DAO {
 
             values.put(UserTable.ID, u.getId());
             values.put(UserTable.PSEUDO, u.getUser_pseudo());
-            values.put(UserTable.PHOTO, u.getPhoto_data());
-            values.put(UserTable.PHONE, u.getUser_phone_number());
             values.put(UserTable.DEVICE_ID, u.getUser_device_id());
+            values.put(UserTable.PHONE, u.getUser_phone_number());
+            values.put(UserTable.PHOTO, u.getPhoto_data());
+            values.put(UserTable.NOTE, u.getNote());
+            values.put(UserTable.STATUS, u.getStatus());
+            values.put(UserTable.NBN, u.getNbn());
+
 
             // On insère, sans vérifier que le user est déjà présent
             if (getDatabase().insert(UserTable.TABLE_NAME, null, values) != -1) {
@@ -77,9 +81,12 @@ public class UserDAO extends DAO {
         this.open();
 
         ContentValues values = new ContentValues();
-        values.put(UserTable.PHOTO, user.getPhoto_data());
-        values.put(UserTable.PHONE, user.getUser_phone_number());
         values.put(UserTable.DEVICE_ID, user.getUser_device_id());
+        values.put(UserTable.PHONE, user.getUser_phone_number());
+        values.put(UserTable.PHOTO, user.getPhoto_data());
+        values.put(UserTable.NOTE, user.getNote());
+        values.put(UserTable.STATUS, user.getStatus());
+        values.put(UserTable.NBN, user.getNbn());
 
         getDatabase().update(UserTable.TABLE_NAME, values, UserTable.ID + " =  '" + user.getId() + "'", null);
 
@@ -175,9 +182,12 @@ public class UserDAO extends DAO {
 
         return new User(curseur.getInt(curseur.getColumnIndex(UserTable.ID)),
                 curseur.getString(curseur.getColumnIndex(UserTable.PSEUDO)),
+                curseur.getString(curseur.getColumnIndex(UserTable.DEVICE_ID)),
                 curseur.getString(curseur.getColumnIndex(UserTable.PHONE)),
                 curseur.getString(curseur.getColumnIndex(UserTable.PHOTO)),
-                curseur.getString(curseur.getColumnIndex(UserTable.DEVICE_ID)));
+                curseur.getInt(curseur.getColumnIndex(UserTable.NOTE)),
+                curseur.getString(curseur.getColumnIndex(UserTable.STATUS)),
+                curseur.getInt(curseur.getColumnIndex(UserTable.NBN)));
     }
 
     /**

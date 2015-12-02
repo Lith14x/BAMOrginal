@@ -33,11 +33,7 @@ public class EnregistrementAnnulation implements DialogInterface.OnClickListener
     private  Bam bam;
 
     /**
-<<<<<<< HEAD
-     * si on est dans les reponses caca pro
-=======
      * si on est dans les reponses
->>>>>>> parent of 4615fb2...  On branch master
      */
     private boolean rep;
 

@@ -40,14 +40,33 @@ public class UserTable {
     public static final String PHONE = "phone";
 
     /**
+     * note de l'utilisateur
+     */
+
+    public static final String NOTE = "note";
+
+    /**
+     * "statut" de l'utilisateur
+     */
+    public static final String STATUS = "status";
+
+    /**
+     * nombre de notes données à l'utilisateur
+     */
+    public static final String NBN = "nbn";
+
+    /**
      * Commande de creation de la table
      */
     private static final String DATABASE_CREATE = "create table " + TABLE_NAME
             + "( " + ID + " integer not null, "
             + PSEUDO + " text not null, "
-            + PHOTO + " text not null, "
-            + PHONE + " text not null, "
             + DEVICE_ID + " text not null "
+            + PHONE + " text not null, "
+            + PHOTO + " text not null, "
+            + NOTE + " integer, "
+            + STATUS + " text not null, "
+            + NBN + "integer , "
             + ");";
 
     public static void onCreate(SQLiteDatabase database) {

@@ -37,4 +37,9 @@ public enum UserNote {
     {
         return nbVotes;
     }
+
+    public void setNbVotes(int nb)
+    {
+        this.nbVotes = nb;
+    }
 };
