@@ -45,6 +45,12 @@
             </com.balysv.materialripple.MaterialRippleLayout>
             </LinearLayout>
 
+            <RatingBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ratingBar"
+                android:layout_gravity="center_horizontal" />
+
             <TextView
                 android:text="@string/profil_pseudo"
                 style="@style/profil_send_textView"/>

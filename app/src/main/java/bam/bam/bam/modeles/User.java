@@ -18,6 +18,11 @@ public class User {
      */
     private UserNote note;
     /**
+     * statut publique de l'utilisateur
+     */
+    private String status;
+
+    /**
      * id de l'appareil
      */
     private final String user_device_id;
@@ -42,6 +47,7 @@ public class User {
      */
     private String photo_data;
 
+<<<<<<< HEAD
     /**
      * appréciation
      */
@@ -58,13 +64,42 @@ public class User {
      */
 
     public User(int id, String user_pseudo, String user_phone_number, String photo_data, String user_device_id, int evaluation) {
+=======
+    public User(int id, String user_pseudo, String user_device_id, String user_phone_number,String photo_data, int note, String status, int nbn ) {
+>>>>>>> 956cfe31012ccf7155ddefa899883d59bda6fd58
 
         this.id = id;
         this.photo_data = photo_data;
         this.user_pseudo = user_pseudo;
         this.user_phone_number = user_phone_number;
         this.user_device_id = user_device_id;
+<<<<<<< HEAD
         this.evaluation = evaluation;
+=======
+        switch(note)
+        {
+            case 0 :
+                this.note = UserNote.N_0;
+                break;
+            case 1 :
+                this.note = UserNote.N_1;
+                break;
+            case 2 :
+                this.note = UserNote.N_2;
+                break;
+            case 3 :
+                this.note = UserNote.N_3;
+                break;
+            case 4 :
+                this.note = UserNote.N_4;
+                break;
+            case 5 :
+                this.note = UserNote.N_5;
+                break;
+        }
+        this.note.setNbVotes(nbn);
+        this.status = status;
+>>>>>>> 956cfe31012ccf7155ddefa899883d59bda6fd58
     }
 
         public User(int id, String user_pseudo, String user_phone_number, String photo_data, String user_device_id)
@@ -88,11 +123,15 @@ public class User {
     public void setPhoto_data(String photo_data) {
         this.photo_data = photo_data;
     }
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 956cfe31012ccf7155ddefa899883d59bda6fd58
     public String getNote() {
         return "" + note.getVal() + "";
     }
+    public UserNote getRealNote() { return note;}
 
     public String getNbn() {
         return "" + note.getNbVotes() + "";
