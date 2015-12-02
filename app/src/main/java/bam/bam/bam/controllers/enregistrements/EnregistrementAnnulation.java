@@ -33,7 +33,7 @@ public class EnregistrementAnnulation implements DialogInterface.OnClickListener
     private  Bam bam;
 
     /**
-     * si on est dans les reponses
+     * si on est dans les reponses caca pro
      */
     private boolean rep;
 
