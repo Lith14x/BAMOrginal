@@ -39,14 +39,6 @@ public class UserTable {
      */
     public static final String PHONE = "phone";
 
-<<<<<<< HEAD
-    public static final String EVALUATION = "evaluation";
-
-    /**
-     * Commande de creation de la table
-     */
-
-=======
     /**
      * note de l'utilisateur
      */
@@ -66,23 +58,15 @@ public class UserTable {
     /**
      * Commande de creation de la table
      */
->>>>>>> 1aa2aa8e18d03c240d0aa97952b56d57a5e79952
     private static final String DATABASE_CREATE = "create table " + TABLE_NAME
             + "( " + ID + " integer not null, "
             + PSEUDO + " text not null, "
             + DEVICE_ID + " text not null "
-<<<<<<< HEAD
-<<<<<<< HEAD
-            + EVALUATION + "text not null"
-=======
->>>>>>> 1aa2aa8e18d03c240d0aa97952b56d57a5e79952
-=======
             + PHONE + " text not null, "
             + PHOTO + " text not null, "
             + NOTE + " integer, "
             + STATUS + " text not null, "
             + NBN + "integer , "
->>>>>>> 956cfe31012ccf7155ddefa899883d59bda6fd58
             + ");";
 
     public static void onCreate(SQLiteDatabase database) {

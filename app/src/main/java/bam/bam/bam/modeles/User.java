@@ -1,22 +1,18 @@
 package bam.bam.bam.modeles;
 
 /**
- * classe stockant les informations d'un utilisateur
- *
- * @author Marc
- */
-public class User {
-/**
  * classe stoquant les informations d'un utilisateur
  *
  * @author Marc
  * @author Mabato
  */
 
+public class User {
     /**
      * note publique de l'utilisateur
      */
     private UserNote note;
+
     /**
      * statut publique de l'utilisateur
      */
@@ -45,37 +41,15 @@ public class User {
     /**
      * photo
      */
-    private String photo_data;
+    private String photo_data ;
 
-<<<<<<< HEAD
-    /**
-     * appréciation
-     */
-
-    private int evaluation;
-
-    /**
-     * @param id
-     * @param user_pseudo
-     * @param user_phone_number
-     * @param photo_data
-     * @param user_device_id
-     * @param evaluation
-     */
-
-    public User(int id, String user_pseudo, String user_phone_number, String photo_data, String user_device_id, int evaluation) {
-=======
     public User(int id, String user_pseudo, String user_device_id, String user_phone_number,String photo_data, int note, String status, int nbn ) {
->>>>>>> 956cfe31012ccf7155ddefa899883d59bda6fd58
 
         this.id = id;
-        this.photo_data = photo_data;
+        this.photo_data  = photo_data ;
         this.user_pseudo = user_pseudo;
         this.user_phone_number = user_phone_number;
         this.user_device_id = user_device_id;
-<<<<<<< HEAD
-        this.evaluation = evaluation;
-=======
         switch(note)
         {
             case 0 :
@@ -99,48 +73,42 @@ public class User {
         }
         this.note.setNbVotes(nbn);
         this.status = status;
->>>>>>> 956cfe31012ccf7155ddefa899883d59bda6fd58
     }
 
-        public User(int id, String user_pseudo, String user_phone_number, String photo_data, String user_device_id)
-        {
+    public User(String user_pseudo,String user_phone_number,String photo_data ,String user_device_id) {
 
-            this.id = id;
-            this.photo_data = photo_data;
-            this.user_pseudo = user_pseudo;
-            this.user_phone_number = user_phone_number;
-            this.user_device_id = user_device_id;
-        }
+        this.id = -1;
+        this.photo_data  = photo_data ;
+        this.user_pseudo = user_pseudo;
+        this.user_phone_number = user_phone_number;
+        this.user_device_id = user_device_id;
+    }
 
     public int getId() {
         return id;
     }
 
-    public String getPhoto_data() {
-        return photo_data;
+    public String getPhoto_data () {
+        return photo_data ;
     }
 
-    public void setPhoto_data(String photo_data) {
-        this.photo_data = photo_data;
+    public void setPhoto_data (String photo_data ) {
+        this.photo_data  = photo_data ;
     }
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 956cfe31012ccf7155ddefa899883d59bda6fd58
     public String getNote() {
         return "" + note.getVal() + "";
     }
     public UserNote getRealNote() { return note;}
 
-    public String getNbn() {
-        return "" + note.getNbVotes() + "";
+    public String getNbn()
+    {
+        return ""+note.getNbVotes()+"";
     }
 
-    public String getStatus() {
+    public String getStatus()
+    {
         return "";
     }
-
     public String getUser_pseudo() {
         return user_pseudo;
     }
@@ -153,30 +121,32 @@ public class User {
         this.user_phone_number = user_phone_number;
     }
 
-    public void addNote(UserNote note) {
+    public void addNote(UserNote note)
+    {
         float val = this.note.getVal();
         int nbVotes = this.note.getNbVotes();
         float buff;
 
-        buff = (val * nbVotes + note.getVal()) / (nbVotes + 1);
+        buff = (val*nbVotes + note.getVal())/(nbVotes+1);
 
-        switch ((int) buff) {
-            case 0:
+        switch((int) buff)
+        {
+            case 0 :
                 this.note = UserNote.N_0;
                 this.note.setVal(buff);
-            case 1:
+            case 1 :
                 this.note = UserNote.N_1;
                 this.note.setVal(buff);
-            case 2:
+            case 2 :
                 this.note = UserNote.N_2;
                 this.note.setVal(buff);
-            case 3:
+            case 3 :
                 this.note = UserNote.N_3;
                 this.note.setVal(buff);
-            case 4:
+            case 4 :
                 this.note = UserNote.N_4;
                 this.note.setVal(buff);
-            case 5:
+            case 5 :
                 this.note = UserNote.N_5;
                 this.note.setVal(buff);
         }
@@ -189,13 +159,4 @@ public class User {
     public String getUser_device_id() {
         return user_device_id;
     }
-
-    public int getEvaluation() {
-        return evaluation;
-    }
-
-    public void setEvaluation(int evaluation) {
-        this.evaluation = evaluation;
-    }
-
 }
