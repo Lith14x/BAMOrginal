@@ -1,5 +1,6 @@
 package bam.bam.bam.views.fragment;
 
+import bam.bam.bam.controllers.enregistrements.EnregistrementNoteUtilisateur;
 import bam.bam.bam.modeles.UserNote;
 import android.app.Activity;
 import android.content.Intent;
@@ -89,9 +90,11 @@ public class ProfilFragment extends Fragment
         TextView pseudoTV = (TextView) view.findViewById(R.id.pseudoTV);
         RatingBar ratingBar = (RatingBar) view.findViewById(R.id.ratingBar);
 
+
         Button btn = (Button) view.findViewById(R.id.saveProfil);
         btn.setOnClickListener(new EnregistrementProfil(this,act,image,tel,pseudoET));
         User user = new UserDAO(act).getUserByDevice(Utility.getPhoneId(act));
+        ratingBar.setOnClickListener(new EnregistrementNoteUtilisateur(this,user.getId(),act, UserNote.getUserNote(ratingBar.getNumStars())));
 
         ratingBar.setRating(user.getRealNote().getVal());
 
