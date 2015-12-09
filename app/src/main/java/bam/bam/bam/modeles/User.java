@@ -50,27 +50,7 @@ public class User {
         this.user_pseudo = user_pseudo;
         this.user_phone_number = user_phone_number;
         this.user_device_id = user_device_id;
-        switch(note)
-        {
-            case 0 :
-                this.note = UserNote.N_0;
-                break;
-            case 1 :
-                this.note = UserNote.N_1;
-                break;
-            case 2 :
-                this.note = UserNote.N_2;
-                break;
-            case 3 :
-                this.note = UserNote.N_3;
-                break;
-            case 4 :
-                this.note = UserNote.N_4;
-                break;
-            case 5 :
-                this.note = UserNote.N_5;
-                break;
-        }
+        this.note = UserNote.getUserNote(note);
         this.note.setNbVotes(nbn);
         this.status = status;
     }
@@ -82,6 +62,8 @@ public class User {
         this.user_pseudo = user_pseudo;
         this.user_phone_number = user_phone_number;
         this.user_device_id = user_device_id;
+        this.note = UserNote.N_0;
+        this.note.setNbVotes(0);
     }
 
     public int getId() {
