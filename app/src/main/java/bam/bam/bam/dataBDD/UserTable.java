@@ -61,12 +61,12 @@ public class UserTable {
     private static final String DATABASE_CREATE = "create table " + TABLE_NAME
             + "( " + ID + " integer not null, "
             + PSEUDO + " text not null, "
-            + DEVICE_ID + " text not null "
+            + DEVICE_ID + " text not null, "
             + PHONE + " text not null, "
             + PHOTO + " text not null, "
             + NOTE + " integer, "
             + STATUS + " text not null, "
-            + NBN + "integer , "
+            + NBN + " integer "
             + ");";
 
     public static void onCreate(SQLiteDatabase database) {
