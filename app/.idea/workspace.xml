@@ -87,21 +87,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UserJSONParser.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="UserJSONParser.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/bam/bam/bam/dataWS/UserJSONParser.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.456722">
-              <caret line="132" column="35" selection-start-line="132" selection-start-column="35" selection-end-line="132" selection-end-column="35" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="237" column="9" selection-start-line="237" selection-start-column="9" selection-end-line="237" selection-end-column="9" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ProfilFragment.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ProfilFragment.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/bam/bam/bam/views/fragment/ProfilFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-9.166667">
-              <caret line="96" column="70" selection-start-line="96" selection-start-column="41" selection-end-line="96" selection-end-column="70" />
+            <state vertical-scroll-proportion="0.21419518">
+              <caret line="96" column="106" selection-start-line="96" selection-start-column="106" selection-end-line="96" selection-end-column="106" />
               <folding />
             </state>
           </provider>
@@ -1531,10 +1531,10 @@
       <list>
         <option value="$PROJECT_DIR$/src/androidTest/java/bam/bam/ApplicationTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/bam/bam/bam/modeles/UserNote.java" />
-        <option value="$PROJECT_DIR$/src/main/java/bam/bam/bam/views/fragment/ProfilFragment.java" />
         <option value="$PROJECT_DIR$/src/main/java/bam/bam/bam/controllers/enregistrements/EnregistrementNoteUtilisateur.java" />
         <option value="$PROJECT_DIR$/src/main/java/bam/bam/bam/controllers/enregistrements/EnregistrementProfil.java" />
         <option value="$PROJECT_DIR$/src/main/java/bam/bam/bam/dataWS/UserJSONParser.java" />
+        <option value="$PROJECT_DIR$/src/main/java/bam/bam/bam/views/fragment/ProfilFragment.java" />
       </list>
     </option>
   </component>
@@ -2368,7 +2368,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32867134" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32867134" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -2518,14 +2518,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/bam/bam/bam/views/fragment/ProfilFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.166667">
-          <caret line="96" column="70" selection-start-line="96" selection-start-column="41" selection-end-line="96" selection-end-column="70" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/bam/bam/bam/controllers/enregistrements/EnregistrementNoteUtilisateur.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -2569,8 +2561,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/bam/bam/bam/dataWS/UserJSONParser.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.456722">
-          <caret line="132" column="35" selection-start-line="132" selection-start-column="35" selection-end-line="132" selection-end-column="35" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="237" column="9" selection-start-line="237" selection-start-column="9" selection-end-line="237" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/bam/bam/bam/views/fragment/ProfilFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.21419518">
+          <caret line="96" column="106" selection-start-line="96" selection-start-column="106" selection-end-line="96" selection-end-column="106" />
           <folding />
         </state>
       </provider>
