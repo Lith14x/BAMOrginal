@@ -50,11 +50,8 @@ public class UserJSONParser {
     /**
      * URL pour vérifier un pseudo
      */
-<<<<<<< HEAD
-    private String URL_GET_PSEUDO
-=======
+
     private String URL_GET_PSEUDO;
->>>>>>> 1aa2aa8e18d03c240d0aa97952b56d57a5e79952
 
     public UserJSONParser(Context context) {
         String URL = context.getResources().getString(R.string.URL);
@@ -82,24 +79,18 @@ public class UserJSONParser {
         urlNom.add("user_device_id");
         urlNom.add("user_phone_number");
         urlNom.add("photo_data");
-<<<<<<< HEAD
-=======
         urlNom.add("user_note");
         urlNom.add("user_status");
         urlNom.add("user_nbn");
->>>>>>> 1aa2aa8e18d03c240d0aa97952b56d57a5e79952
 
         List<String> urlData = new ArrayList<>();
         urlData.add(user.getUser_pseudo());
         urlData.add(user.getUser_device_id());
         urlData.add(user.getUser_phone_number());
         urlData.add(user.getPhoto_data());
-<<<<<<< HEAD
-=======
         urlData.add(user.getNote());
         urlData.add(user.getStatus());
         urlData.add(user.getNbn());
->>>>>>> 1aa2aa8e18d03c240d0aa97952b56d57a5e79952
 
         try {
             PostPutData ppd = new PostPutData(URL_POST_USER,"POST",urlNom,urlData);
@@ -128,24 +119,18 @@ public class UserJSONParser {
         urlNom.add("user_device_id");
         urlNom.add("user_phone_number");
         urlNom.add("photo_data");
-<<<<<<< HEAD
-=======
         urlNom.add("user_note");
         urlNom.add("user_status");
         urlNom.add("user_nbn");
->>>>>>> 1aa2aa8e18d03c240d0aa97952b56d57a5e79952
 
         List<String> urlData = new ArrayList<>();
         urlData.add(user.getUser_pseudo());
         urlData.add(user.getUser_device_id());
         urlData.add(user.getUser_phone_number());
         urlData.add(user.getPhoto_data());
-<<<<<<< HEAD
-=======
         urlData.add(user.getNote());
         urlData.add(user.getStatus());
         urlData.add(user.getNbn());
->>>>>>> 1aa2aa8e18d03c240d0aa97952b56d57a5e79952
 
         PostPutData ppd = new PostPutData(URL_PUT_USER + user.getId(), "PUT", urlNom, urlData);
         return ppd.lancerEnregistrement();
