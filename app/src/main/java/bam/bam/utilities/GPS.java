@@ -32,6 +32,8 @@ public class GPS {
         LocationManager manager = (LocationManager) context.getSystemService(Activity.LOCATION_SERVICE);
         locationListener = new MyLocationListener();
         manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+        manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+
     }
 
     /**
