@@ -37,7 +37,7 @@ public class GPS {
     }
 
     /**
-     * obtenir la localisation
+     * obtenir la localisation koukou
      *
      * @param list si on est sur les tabs
      * @param context le context
