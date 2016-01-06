@@ -13,7 +13,8 @@
             android:id="@+id/photo"
             android:layout_marginBottom="3dp"
             style="@style/photo_pseudo_list"
-            android:layout_width="match_parent" />
+            android:layout_width="match_parent"
+            android:layout_height="76dp" />
 
         <TextView
             android:id="@+id/pseudo"

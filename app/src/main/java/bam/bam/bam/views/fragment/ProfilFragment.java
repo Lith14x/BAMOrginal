@@ -92,12 +92,13 @@ public class ProfilFragment extends Fragment
 
 
         Button btn = (Button) view.findViewById(R.id.saveProfil);
-        btn.setOnClickListener(new EnregistrementProfil(this,act,image,tel,pseudoET));
+        btn.setOnClickListener(new EnregistrementProfil(this, act, image, tel, pseudoET));
         User user = new UserDAO(act).getUserByDevice(Utility.getPhoneId(act));
-        ratingBar.setOnClickListener(new EnregistrementNoteUtilisateur(this,user.getId(),act, ratingBar));
+
 
         if(!act.isFirst()) // si c'est pour une modification de profil
         {
+            ratingBar.setOnClickListener(new EnregistrementNoteUtilisateur(this,user.getId(),act, ratingBar));
             image.setImageBitmap(Utility.decodeBase64(user.getPhoto_data()));
 
             pseudoTV.setText(user.getUser_pseudo());
