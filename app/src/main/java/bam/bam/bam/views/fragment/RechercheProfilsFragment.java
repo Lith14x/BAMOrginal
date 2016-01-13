@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ import java.util.Map;
 
 import bam.bam.R;
 import bam.bam.bam.controllers.CallReciever;
+import bam.bam.bam.controllers.refresher.LoadDataRechTask;
 import bam.bam.bam.controllers.refresher.Refresher;
 import bam.bam.bam.dataBDD.ReponseDAO;
 import bam.bam.bam.dataBDD.UserDAO;
@@ -59,6 +61,12 @@ public class RechercheProfilsFragment extends Fragment {
     private EditText etKeyword;
 
     /**
+     * fragment du profil sur lequel on a cliqué
+     */
+
+    private LinearLayout fragTrouve;
+
+    /**
      * fragment des profils trouvés
      */
     private RelativeLayout fragProfils;
@@ -89,7 +97,7 @@ public class RechercheProfilsFragment extends Fragment {
     private TextView tvStatus;
 
     /**
-     * Dernier profil utilisé dans la liste des profils
+     * Profil à utiliser pour la page d'utilisateur au moment du clic
      */
     private User lastProfil;
 
@@ -106,6 +114,7 @@ public class RechercheProfilsFragment extends Fragment {
         // frame résultats
         rvProfils = (RecyclerView)v.findViewById(R.id.recyclerView);
         tvPseudo = (TextView)v.findViewById(R.id.pseudo);
+        fragTrouve = (LinearLayout)v.findViewById(R.id.fragTrouve);
         fragProfils = (RelativeLayout)v.findViewById(R.id.fragRechProfils);
         tvStatus = (TextView)v.findViewById(R.id.status);
         rbEtoiles = (RatingBar)v.findViewById(R.id.nbEtoiles);
@@ -125,7 +134,9 @@ public class RechercheProfilsFragment extends Fragment {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
                         (keyCode == KeyEvent.KEYCODE_ENTER)) {
                     // On cherche dans la DB et on ouvre la fenêtre des résultats
-                    loadListProfilsBDD(etKeyword.getText().toString()); // Modifie l'adapter des résultats
+                    Refresher.getInstance().setKeyword(etKeyword.getText().toString());
+                    Refresher.getInstance().onRefresh();
+                    //loadListProfilsBDD(etKeyword.getText().toString()); // Modifie l'adapter des résultats
                     return true;
                 }
                 return false;
@@ -181,10 +192,11 @@ public class RechercheProfilsFragment extends Fragment {
      */
     public void frameBack()
     {
-        fragEnv.setVisibility(View.VISIBLE);
-        fragRep.setVisibility(View.GONE);
+        fragProfils.setVisibility(View.GONE);
+        fragTrouve.setVisibility(View.VISIBLE);
         activity.getTabsLayoutManager().setCrayonVisibility(View.VISIBLE);
-        envVisible = true;
+        rechVisible = true;
+        //loadListProfilsBDD();
     }
 
     /**
@@ -194,11 +206,12 @@ public class RechercheProfilsFragment extends Fragment {
      */
     public void  frameNext(User user)
     {
-        fragProfils.setVisibility(View.VISIBLE);
+        fragProfils.setVisibility(View.GONE);
+        fragTrouve.setVisibility(View.VISIBLE);
         activity.getTabsLayoutManager().setCrayonVisibility(View.GONE);
         lastProfil = user;
+        rechVisible = false;
 
-        loadListProfilsBDD();
     }
 
     /**
@@ -229,6 +242,11 @@ public class RechercheProfilsFragment extends Fragment {
     public boolean isRechVisible()
     {
         return rechVisible;
+    }
+
+    public EditText getETKeyword()
+    {
+        return etKeyword;
     }
 
 }

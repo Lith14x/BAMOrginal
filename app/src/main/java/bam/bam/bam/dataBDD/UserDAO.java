@@ -149,7 +149,7 @@ public class UserDAO extends DAO {
      * @return List<User> liste d'utilisateurs
      */
 
-    public List<User> resultSetToUsers(ResultSet rs)
+    public static List<User> resultSetToUsers(ResultSet rs)
     {
         List<User> listUsers = new ArrayList<User>();
 

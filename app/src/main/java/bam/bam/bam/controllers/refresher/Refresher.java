@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
+import bam.bam.bam.views.fragment.RechercheProfilsFragment;
 import bam.bam.utilities.GPS;
 import bam.bam.bam.dataBDD.BamDAO;
 import bam.bam.bam.dataBDD.ReponseDAO;
@@ -40,6 +41,11 @@ public class Refresher implements SwipeRefreshLayout.OnRefreshListener{
      * savoir s'il y a un chargement
      */
     private boolean onLoad = false;
+    /**
+     * keyword pour recherche
+     */
+
+    private String keyword;
 
     /**
      * l'instance de la classe
@@ -92,6 +98,11 @@ public class Refresher implements SwipeRefreshLayout.OnRefreshListener{
                 LoadData loadD = new LoadData(activity,location);
                 loadD.loadList();
 
+            }
+            else if(keyword != null)
+            {
+                LoadDataRechTask loadRech = new LoadDataRechTask(activity,new LoadData(activity,null),(RechercheProfilsFragment)activity.getTabsLayoutManager().getAdapterVP().getItem(3));
+                loadRech.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             }
             else
             {
@@ -167,5 +178,10 @@ public class Refresher implements SwipeRefreshLayout.OnRefreshListener{
                 return null;
             }
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    public void setKeyword(String keyword)
+    {
+        this.keyword = keyword;
     }
 }

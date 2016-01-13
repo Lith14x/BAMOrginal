@@ -127,21 +127,15 @@ public class RechercheProfilsAdapter extends RecyclerView.Adapter<RechercheProfi
      */
     @Override
     public void onBindViewHolder(final RechercheProfilsAdapter.ViewHolder holder, final int position) {
-
-        holder.pseudo.setText(users.get(position).getUser_pseudo());
+        final User curUser = users.get(position);
+        holder.pseudo.setText(curUser.getUser_pseudo());
         holder.photo.setImageBitmap(Utility.decodeBase64(users.get(position).getPhoto_data()));
-        holder.status.setText(users.get(position).getStatus());
-        holder.rating.setRating(users.get(position).getRealNote().getVal());
+        holder.status.setText(curUser.getStatus());
+        holder.rating.setRating(curUser.getRealNote().getVal());
         holder.pseudo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /**
-                 * A MODIFIER
-                 *
-                 * TROUVER COMMENT FAIRE POUR OUVRIR LA PAGE D'UN USER EN CLIQUANT SUR SON PSEUDO
-                 *
-                 *
-                 */
+                rpf.frameNext(curUser);
 
             }
         });

@@ -14,10 +14,17 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import bam.bam.R;
+import bam.bam.bam.dataBDD.UserDAO;
+import bam.bam.bam.dataBDD.UserTable;
 import bam.bam.bam.modeles.User;
 
 /**
@@ -136,6 +143,32 @@ public class UserJSONParser {
         return ppd.lancerEnregistrement();
     }
 
+    /**
+     * obtenir des utilisateurs à partir d'un keyword
+     *
+     * @param keyword le mot-clé à utiler
+     * @return la liste d'utilisateurs
+     */
+
+    public List<User> getUsersByKeyword(String keyword)
+    {
+
+
+        try {
+            Connection con = DriverManager.getConnection("jdbc://bam-serverws.rhcloud.com/", "adminj3UCslK", "cfgmWUpHkRAL"); //!!!!Problème de sécurité ici!!!
+            String query = "SELECT * FROM " + UserTable.TABLE_NAME + " WHERE user_pseudo LIKE %"+keyword+"%";
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+
+
+            return UserDAO.resultSetToUsers(rs);
+
+        } catch (Exception e)
+        {
+            return null;
+        }
+    }
     /**
      * obtenir un utilisateur à partir de l'id
      *

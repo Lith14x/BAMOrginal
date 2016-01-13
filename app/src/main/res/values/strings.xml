@@ -55,5 +55,9 @@
 
     <!-- NOTIFICATIONS -->
     <string name="notification">Nouveau BAM !</string>
+    <string name="rech_pseudo">Pseudo</string>
+    <string name="rech_tel">Téléphone</string>
+    <string name="rech_note">Note</string>
+    <string name="rech_status">Statut</string>
 
 </resources>
