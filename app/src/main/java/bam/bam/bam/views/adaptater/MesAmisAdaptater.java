@@ -214,6 +214,6 @@ public class MesAmisAdaptater extends RecyclerView.Adapter<MesAmisAdaptater.View
     {
         amis.remove(ami);
         notifyDataSetChanged();
-        brf.setNombreAmiTV(amis.size());
+        brf.setNombreBamTV(amis.size());
     }
 }

@@ -258,18 +258,40 @@ public class UserDAO extends DAO {
         ArrayList<User> Amis = new ArrayList<User>();
         Id = user.getUser_liste_amis().split(";");
         for (k = 0; k < Id.length;k++ ){
-            Amis += getUser((Integer.parseInt(Id[k]));
+            Amis.add(getUser((Integer.parseInt(Id[k]))));
         }
         return Amis;
     }
 
-    public void addAmis(User user, User Ami){
+    public String addAmis(User user, User ami){
         String Amis=user.getUser_liste_amis();
         if (Amis == ""){
-            Amis+=Ami.getId();
+            Amis+=ami.getId();
         } else {
-            Amis+=";"+Ami.getId();
+            Amis+=";"+ami.getId();
         }
+        return Amis;
+    }
+
+    public String removeAmis(User user,User ami){
+        String Amis=user.getUser_liste_amis();
+        String[] Id;
+        int ami_id =ami.getId();
+        int i;
+        if (Amis != ""){
+            Id = Amis.split(";");
+            for (i=0;i<Id.length;i++ ) {
+                if (Integer.parseInt(Id[i])==ami_id){
+                    Amis.replace(";" + ami_id, "");
+                    return Amis;
+            }
+        }
+            return Amis;
+        }
+        if (Amis == "" + ami_id){
+            Amis = "";
+        }
+        return Amis;
     }
 
 
