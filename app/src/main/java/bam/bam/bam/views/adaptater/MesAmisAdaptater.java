@@ -35,7 +35,7 @@ public class MesAmisAdaptater extends RecyclerView.Adapter<MesAmisAdaptater.View
     private List<User> amis;
 
     /**
-     * savoir si le bam est expand
+     * savoir si l'ami est expand
      */
     private Map<Integer,Boolean> expand;
 
@@ -46,6 +46,11 @@ public class MesAmisAdaptater extends RecyclerView.Adapter<MesAmisAdaptater.View
 
     /**
      * fragment des bams ecus
+     */
+    private Map<Bam,User> bamUsers;
+
+    /**
+     * context courant
      */
     private MesAmisFragment brf;
 
@@ -167,7 +172,7 @@ public class MesAmisAdaptater extends RecyclerView.Adapter<MesAmisAdaptater.View
     }
 
     /**
-     * paramètre d'un bam en mode fermé
+     * paramètre d'un ami en mode fermé
      *
      * @param holder holder
      * @param position la position
@@ -194,7 +199,7 @@ public class MesAmisAdaptater extends RecyclerView.Adapter<MesAmisAdaptater.View
         return amis.size();
     }
 
-    public void setNewList(List<User> bams) {
+    public void setNewList(List<User> amis) {
         this.amis = new ArrayList<>(amis);
         this.expand = new HashMap<>();
         notifyDataSetChanged();
@@ -205,10 +210,10 @@ public class MesAmisAdaptater extends RecyclerView.Adapter<MesAmisAdaptater.View
      *
      * @param bam bam à enlever
      */
-    public void removeBam(Bam bam)
+    public void removeBam(User ami)
     {
-        amis.remove(bam);
+        amis.remove(ami);
         notifyDataSetChanged();
-        brf.setNombreBamTV(amis.size());
+        brf.setNombreAmiTV(amis.size());
     }
 }

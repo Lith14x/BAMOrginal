@@ -1,41 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/linear_list_recu_rep"
-    android:focusableInTouchMode="false">
+    style="@style/linear_list_recu_rep">
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:weightSum="1">
+        android:layout_width="70dp"
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/photo"
-            android:layout_marginBottom="3dp"
-            style="@style/photo_pseudo_list"
-            android:layout_width="match_parent"
-            android:layout_height="76dp" />
+            android:layout_marginBottom="5dp"
+            style="@style/photo_pseudo_list"/>
 
         <TextView
             android:id="@+id/pseudo"
-            style="@style/pseudo_recu_env"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <RatingBar
-            style="?android:attr/ratingBarStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/noteBam"
-            android:numStars="5" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:id="@+id/nbvotes"
-            android:text="votes"
-            android:layout_weight="6.17" />
+            style="@style/pseudo_recu_env" />
 
     </LinearLayout>
 

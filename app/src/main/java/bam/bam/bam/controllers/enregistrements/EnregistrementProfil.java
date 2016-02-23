@@ -108,16 +108,10 @@ public class EnregistrementProfil implements View.OnClickListener {
 
                 private int idUser = -2;
                 private User user;
-                private Bitmap bitmap;
-                private String pseudoETString;
-                private String telText;
 
                 @Override
                 protected void onPreExecute() {
                     super.onPreExecute();
-                    bitmap = ((BitmapDrawable)image.getDrawable()).getBitmap();
-                    pseudoETString = pseudoET.getText().toString();
-                    telText = tel.getText().toString();
                     InfoToast.display(false, activity.getString(R.string.enregistrement), activity);
                 }
 
@@ -125,9 +119,11 @@ public class EnregistrementProfil implements View.OnClickListener {
                 protected Void doInBackground(Void... params) {
 
 
+                    Bitmap bitmap = ((BitmapDrawable)image.getDrawable()).getBitmap();
+
                     if(Internet.isConnected(activity)) {
 
-                        user = new User(pseudoETString.trim().replaceAll("\\s+", " "), telText,
+                        user = new User(pseudoET.getText().toString().trim().replaceAll("\\s+", " "), tel.getText().toString(),
                                 Utility.encodeTobase64(bitmap),Utility.getPhoneId(activity));
 
                         idUser = userJSONParser.setUser(user);
@@ -149,7 +145,7 @@ public class EnregistrementProfil implements View.OnClickListener {
                     }
 
                     if (idUser == -1) {
-                        InfoToast.display(true, activity.getString(R.string.pb_serveur) + "1", activity);
+                            InfoToast.display(true, activity.getString(R.string.pb_serveur) + "1", activity);
                     }
 
                     if (idUser == -2) {
@@ -180,20 +176,17 @@ public class EnregistrementProfil implements View.OnClickListener {
 
                 private Boolean serveurOk = null;
                 private User user;
-                private Bitmap bitmap;
-                private String telText;
 
                 @Override
                 protected void onPreExecute() {
                     super.onPreExecute();
-                    bitmap = ((BitmapDrawable)image.getDrawable()).getBitmap();
-                    telText = tel.getText().toString();
                     InfoToast.display(false, activity.getString(R.string.enregistrement),activity);
                 }
 
                 @Override
                 protected Void doInBackground(Void... params) {
 
+                    Bitmap bitmap = ((BitmapDrawable)image.getDrawable()).getBitmap();
 
                     if(Internet.isConnected(activity)) {
 
@@ -204,7 +197,7 @@ public class EnregistrementProfil implements View.OnClickListener {
                             user.setPhoto_data(Utility.encodeTobase64(bitmap));
                         }
 
-                        user.setUser_phone_number(telText);
+                        user.setUser_phone_number(tel.getText().toString());
                         serveurOk = userJSONParser.updateUser(user);
 
                     }

@@ -50,7 +50,6 @@ public class UserJSONParser {
     /**
      * URL pour vérifier un pseudo
      */
-
     private String URL_GET_PSEUDO;
 
     public UserJSONParser(Context context) {

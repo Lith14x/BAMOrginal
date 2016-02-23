@@ -77,7 +77,7 @@ public class MesAmisFragment extends Fragment {
             adapter.setNewList(amis);
         }
 
-        nombreAmis.setText(amis.size() + " " + getString(R.string.textRecus));
+        nombreAmis.setText(amis.size() + " " + getString(R.string.amis_titre2));
     }
 
     /**
@@ -86,7 +86,7 @@ public class MesAmisFragment extends Fragment {
      * @param nb nombre de bams recus
      */
     public void setNombreBamTV(int nb) {
-        nombreAmis.setText(nb + " " + getString(R.string.textRecus));
+        nombreAmis.setText(nb + " " + getString(R.string.amis_titre2));
     }
 }
 
