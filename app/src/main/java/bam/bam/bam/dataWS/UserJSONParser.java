@@ -52,6 +52,12 @@ public class UserJSONParser {
      */
     private String URL_GET_PSEUDO;
 
+    /**
+     * URL pour obtenir les amis
+     */
+
+    private String URL_GET_AMIS;
+
     public UserJSONParser(Context context) {
         String URL = context.getResources().getString(R.string.URL);
 
@@ -60,13 +66,14 @@ public class UserJSONParser {
         this.URL_POST_USER = URL + "users";
         this.URL_PUT_USER = URL + "users/";
         this.URL_GET_PSEUDO = URL + "users/pseudo/";
+        this.URL_GET_AMIS = URL +"users/amis/";
     }
 
     /**
      * créer un utilisateur
      *
      * @param user l'utilisateur
-     * @return si la requête à marchée
+     * @return si la requête a marché
      */
     public int setUser(User user)
     {
@@ -81,6 +88,7 @@ public class UserJSONParser {
         urlNom.add("user_note");
         urlNom.add("user_status");
         urlNom.add("user_nbn");
+        urlNom.add("user_amis");
 
         List<String> urlData = new ArrayList<>();
         urlData.add(user.getUser_pseudo());
@@ -90,6 +98,7 @@ public class UserJSONParser {
         urlData.add(user.getNote());
         urlData.add(user.getStatus());
         urlData.add(user.getNbn());
+        urlData.add(user.getUser_liste_amis());
 
         try {
             PostPutData ppd = new PostPutData(URL_POST_USER,"POST",urlNom,urlData);
@@ -121,6 +130,7 @@ public class UserJSONParser {
         urlNom.add("user_note");
         urlNom.add("user_status");
         urlNom.add("user_nbn");
+        urlNom.add("user_amis");
 
         List<String> urlData = new ArrayList<>();
         urlData.add(user.getUser_pseudo());
@@ -130,9 +140,19 @@ public class UserJSONParser {
         urlData.add(user.getNote());
         urlData.add(user.getStatus());
         urlData.add(user.getNbn());
+        urlData.add(user.getUser_liste_amis());
 
         PostPutData ppd = new PostPutData(URL_PUT_USER + user.getId(), "PUT", urlNom, urlData);
         return ppd.lancerEnregistrement();
+    }
+    /**
+     * Obtenir la liste des amis
+     */
+    public List<User> getAmis(User user){
+        String URL_GET;
+        URL_GET= URL_GET_AMIS;
+        ArrayList<User> Amis = new ArrayList<User>();
+        return Amis;
     }
 
     /**

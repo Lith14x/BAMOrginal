@@ -263,7 +263,7 @@ public class UserDAO extends DAO {
         return Amis;
     }
 
-    public String addAmis(User user, User ami){
+    public static String addAmis(User user, User ami){
         String Amis=user.getUser_liste_amis();
         if (Amis == ""){
             Amis+=ami.getId();
