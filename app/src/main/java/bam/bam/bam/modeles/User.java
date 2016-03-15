@@ -1,5 +1,9 @@
 package bam.bam.bam.modeles;
 
+import android.util.Log;
+
+import bam.bam.BuildConfig;
+
 /**
  * classe stoquant les informations d'un utilisateur
  *
@@ -77,15 +81,23 @@ public class User {
         this.photo_data  = photo_data ;
     }
     public String getNote() {
-        assert note != null : "[!] La note utilisateur n'est pas définie";
+        if(note == null) {
+            if(BuildConfig.DEBUG)
+                Log.d("GETNOTE", "La note utilisateur n'est pas définie !");
+            this.note = new UserNote();
+        }
         return "" + note.getVal() + "";
     }
     public UserNote getRealNote() { return note;}
 
     public String getNbn()
     {
-        assert note != null : "[!] La note utilisateur n'est pas définie";
-        return ""+note.getNbVotes()+"";
+        if(note == null) {
+            if(BuildConfig.DEBUG)
+                Log.d("GETNOTE", "La note utilisateur n'est pas définie !");
+            this.note = new UserNote();
+        }
+        return ""+this.note.getNbVotes()+"";
     }
 
     public String getStatus()
