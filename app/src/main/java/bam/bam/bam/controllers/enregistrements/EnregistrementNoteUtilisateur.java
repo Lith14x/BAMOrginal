@@ -105,7 +105,7 @@ public class EnregistrementNoteUtilisateur implements View.OnClickListener {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                note = UserNote.getUserNote(rb.getNumStars());
+                note = new UserNote(rb.getNumStars());
                 InfoToast.display(false, activity.getString(R.string.enregistrement),activity);
             }
 

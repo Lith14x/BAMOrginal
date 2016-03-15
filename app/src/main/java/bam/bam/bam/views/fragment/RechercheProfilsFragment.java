@@ -1,5 +1,7 @@
 package bam.bam.bam.views.fragment;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,28 +17,16 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.balysv.materialripple.MaterialRippleLayout;
+import android.app.AlertDialog;
 
 import java.util.List;
-import java.util.Map;
 
 import bam.bam.R;
-import bam.bam.bam.controllers.CallReciever;
-import bam.bam.bam.controllers.refresher.LoadDataRechTask;
 import bam.bam.bam.controllers.refresher.Refresher;
-import bam.bam.bam.dataBDD.ReponseDAO;
 import bam.bam.bam.dataBDD.UserDAO;
-import bam.bam.bam.modeles.Bam;
 import bam.bam.bam.modeles.User;
-import bam.bam.bam.views.adaptater.BamsEnvoyesAdaptater;
-import bam.bam.bam.views.adaptater.BamsReponsesAdaptater;
 import bam.bam.bam.views.adaptater.RechercheProfilsAdapter;
-import bam.bam.bam.views.alerts.AlertBamEnvSuppr;
 import bam.bam.globalDisplay.views.MainActivity;
-import bam.bam.utilities.InfoToast;
-import bam.bam.utilities.Utility;
 
 /**
  * fragment recherche de profils
@@ -114,8 +104,8 @@ public class RechercheProfilsFragment extends Fragment {
         // frame résultats
         rvProfils = (RecyclerView)v.findViewById(R.id.recyclerView);
         tvPseudo = (TextView)v.findViewById(R.id.pseudo);
-        fragTrouve = (LinearLayout)v.findViewById(R.id.fragTrouve);
-        fragProfils = (RelativeLayout)v.findViewById(R.id.fragRechProfils);
+        fragTrouve = (LinearLayout)v.findViewById(R.id.fragTrouve); // Fragment correspondant à l'affichage d'un utilisateur sur lequel on cliquerait
+        fragProfils = (RelativeLayout)v.findViewById(R.id.fragRechProfils); // Fragment contenant la liste des profils trouvés suite à une recherche
         tvStatus = (TextView)v.findViewById(R.id.status);
         rbEtoiles = (RatingBar)v.findViewById(R.id.nbEtoiles);
 
@@ -123,23 +113,34 @@ public class RechercheProfilsFragment extends Fragment {
         swRLRech.setOnRefreshListener(Refresher.getInstance());
         Refresher.getInstance().addswRL(swRLRech);
 
-        LinearLayoutManager lmRech = new LinearLayoutManager(getActivity());
-        lmRech.setOrientation(LinearLayoutManager.VERTICAL);
-        rvProfils.setLayoutManager(lmRech);
+        LinearLayoutManager lmRech = new LinearLayoutManager(getActivity()); // LayoutManager de la recherche de profils
+        lmRech.setOrientation(LinearLayoutManager.VERTICAL);// Un linearLayoutManager vertical : une liste verticale.
+        rvProfils.setLayoutManager(lmRech);// le RecyclerView se trouve donc formaté
 
         etKeyword.setOnKeyListener(new View.OnKeyListener() // Vérifie que l'on appuie sur entrée
         {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 // En cas d'appui sur la touche entrée
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
-                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                        (keyCode == KeyEvent.KEYCODE_ENTER)) { // Si l'on a appuyé sur entrée et que l'on était sur la barre de recherche
                     // On cherche dans la DB et on ouvre la fenêtre des résultats
-                    Refresher.getInstance().setKeyword(etKeyword.getText().toString());
-                    Refresher.getInstance().onRefresh();
+                    Refresher.getInstance().setKeyword(etKeyword.getText().toString()); // On modifie le keyword du refresher
+                    Refresher.getInstance().onRefresh(); // On refresh
                     //loadListProfilsBDD(etKeyword.getText().toString()); // Modifie l'adapter des résultats
                     return true;
                 }
                 return false;
+            }
+        });
+
+        /**
+         * OnClickListener pour rvProfils, c'est-à-dire onClickListener pour chacun des éléments du RecyclerView
+         * chargé de stocker les profils trouvés suite à la recherche
+         */
+        ItemClickSupport.addTo(rvProfils).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+            @Override
+            public void onItemClicked(RecyclerView rv, int position, View v) {
+                System.err.println("[X]         Click           !");
             }
         });
     /*
@@ -166,7 +167,7 @@ public class RechercheProfilsFragment extends Fragment {
     }
 
     /**
-     * charger la liste des utilisateurs
+     * charger la liste des utilisateurs dans l'adapter prévu à cet effet
      *
      * @param users liste des utilisateurs
      */
@@ -200,7 +201,7 @@ public class RechercheProfilsFragment extends Fragment {
     }
 
     /**
-     * aller sur la page de l'utilisateur
+     * aller sur la page de l'utilisateur sur lequel on aurait cliqué
      *
      * @param user l'user
      */

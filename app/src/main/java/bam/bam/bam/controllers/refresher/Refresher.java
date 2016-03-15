@@ -103,6 +103,7 @@ public class Refresher implements SwipeRefreshLayout.OnRefreshListener{
             {
                 LoadDataRechTask loadRech = new LoadDataRechTask(activity,new LoadData(activity,null),(RechercheProfilsFragment)activity.getTabsLayoutManager().getAdapterVP().getItem(3));
                 loadRech.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                keyword = null;
             }
             else
             {

@@ -5,43 +5,28 @@ package bam.bam.bam.modeles;
  *
  * Implémente les notes utilisateur
  */
-public enum UserNote {
-    N_1(1),
-    N_0(0),
-    N_2(2),
-    N_3(3),
-    N_4(4),
-    N_5(5);
+public class UserNote {
 
     private float val;
     private int note;
     private int nbVotes;
 
-    UserNote(int note)
+    public UserNote()
+    {
+        this.note = 0;
+        this.val = 0;
+        this.nbVotes = 0;
+    }
+    public UserNote(int note)
     {
         this.val = note;
         this.note = note;
     }
-
-    public static UserNote getUserNote(int note)
+    public UserNote(int note, int nbVotes)
     {
-        switch(note)
-        {
-            case 0 :
-                return N_0;
-            case 1 :
-                return N_1;
-            case 2 :
-                return N_2;
-            case 3 :
-                return N_3;
-            case 4 :
-                return N_4;
-            case 5 :
-                return N_5;
-            default :
-                return N_0;
-        }
+        this.val = note;
+        this.note = note;
+        this.nbVotes = nbVotes;
     }
 
     public float getVal()

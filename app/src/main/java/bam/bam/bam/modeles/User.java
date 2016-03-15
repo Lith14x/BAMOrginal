@@ -50,8 +50,7 @@ public class User {
         this.user_pseudo = user_pseudo;
         this.user_phone_number = user_phone_number;
         this.user_device_id = user_device_id;
-        this.note = UserNote.getUserNote(note);
-        this.note.setNbVotes(nbn);
+        this.note = new UserNote(note,nbn);
         this.status = status;
     }
 
@@ -62,8 +61,8 @@ public class User {
         this.user_pseudo = user_pseudo;
         this.user_phone_number = user_phone_number;
         this.user_device_id = user_device_id;
-        this.note = UserNote.N_0;
-        this.note.setNbVotes(0);
+        this.note = new UserNote();
+        this.status = "default status";
     }
 
     public int getId() {
@@ -78,12 +77,14 @@ public class User {
         this.photo_data  = photo_data ;
     }
     public String getNote() {
+        assert note != null : "[!] La note utilisateur n'est pas définie";
         return "" + note.getVal() + "";
     }
     public UserNote getRealNote() { return note;}
 
     public String getNbn()
     {
+        assert note != null : "[!] La note utilisateur n'est pas définie";
         return ""+note.getNbVotes()+"";
     }
 
@@ -111,27 +112,8 @@ public class User {
 
         buff = (val*nbVotes + note.getVal())/(nbVotes+1);
 
-        switch((int) buff)
-        {
-            case 0 :
-                this.note = UserNote.N_0;
-                this.note.setVal(buff);
-            case 1 :
-                this.note = UserNote.N_1;
-                this.note.setVal(buff);
-            case 2 :
-                this.note = UserNote.N_2;
-                this.note.setVal(buff);
-            case 3 :
-                this.note = UserNote.N_3;
-                this.note.setVal(buff);
-            case 4 :
-                this.note = UserNote.N_4;
-                this.note.setVal(buff);
-            case 5 :
-                this.note = UserNote.N_5;
-                this.note.setVal(buff);
-        }
+        note.setNbVotes(note.getNbVotes()+1);
+        note.setVal(buff);
     }
 
     public void setId(int id) {
