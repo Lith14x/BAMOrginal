@@ -210,7 +210,7 @@ public class MesAmisAdaptater extends RecyclerView.Adapter<MesAmisAdaptater.View
      *
      * @param bam bam à enlever
      */
-    public void removeBam(User ami)
+    public void removeAmi(User ami)
     {
         amis.remove(ami);
         notifyDataSetChanged();

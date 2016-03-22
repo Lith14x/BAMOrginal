@@ -1,8 +1,10 @@
 package bam.bam.bam.views.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +22,7 @@ import bam.bam.bam.modeles.Bam;
 import bam.bam.bam.modeles.User;
 import bam.bam.bam.views.adaptater.BamsRecusAdaptater;
 import bam.bam.bam.views.adaptater.MesAmisAdaptater;
+import bam.bam.globalDisplay.views.MainActivity;
 
 /**
  * fragment amis
@@ -43,16 +46,19 @@ public class MesAmisFragment extends Fragment {
      */
     private MesAmisAdaptater adapter;
 
+    protected FragmentActivity mActivity;
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v =inflater.inflate(R.layout.fragment_mes_amis,container,false);
 
 
         rv = (RecyclerView)v.findViewById(R.id.recyclerView);
-        LinearLayoutManager lm = new LinearLayoutManager(getActivity());
+        MainActivity act = ((MainActivity)getActivity());
+        LinearLayoutManager lm = new LinearLayoutManager(act);
         lm.setOrientation(LinearLayoutManager.VERTICAL);
         rv.setLayoutManager(lm);
-        nombreAmis = (TextView)v.findViewById(R.id.nbBAM);
+        nombreAmis = (TextView)v.findViewById(R.id.nbAmis);
 
         SwipeRefreshLayout swRL = (SwipeRefreshLayout)v.findViewById(R.id.swRL);
         swRL.setOnRefreshListener(Refresher.getInstance());
@@ -87,6 +93,12 @@ public class MesAmisFragment extends Fragment {
      */
     public void setNombreBamTV(int nb) {
         nombreAmis.setText(nb + " " + getString(R.string.amis_titre2));
+    }
+
+    @Override
+    public void onAttach(Activity activity){
+        super.onAttach(activity);
+        mActivity= (FragmentActivity)activity;
     }
 }
 
