@@ -47,7 +47,7 @@ public class User {
      */
     private String photo_data ;
 
-    public User(int id, String user_pseudo, String user_device_id, String user_phone_number,String photo_data, int note, String status, int nbn ) {
+    public User(int id, String user_pseudo, String user_device_id, String user_phone_number,String photo_data, float note, String status, int nbn ) {
 
         this.id = id;
         this.photo_data  = photo_data ;

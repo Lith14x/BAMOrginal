@@ -8,7 +8,9 @@ import android.graphics.Bitmap;
 import android.media.Rating;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -25,6 +27,7 @@ import bam.bam.bam.modeles.User;
 import bam.bam.bam.views.alerts.AlertPhoto;
 import bam.bam.globalDisplay.views.MainActivity;
 import bam.bam.utilities.Utility;
+import android.view.View.OnTouchListener;
 
 /**
  * fragment profil
@@ -89,6 +92,11 @@ public class ProfilFragment extends Fragment
         EditText pseudoET = (EditText) view.findViewById(R.id.pseudoET);
         TextView pseudoTV = (TextView) view.findViewById(R.id.pseudoTV);
         RatingBar ratingBar = (RatingBar) view.findViewById(R.id.ratingBar);
+        ratingBar.setOnTouchListener(new OnTouchListener() { // Rendre la RatingBar inclickable
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
 
 
         Button btn = (Button) view.findViewById(R.id.saveProfil);
@@ -97,7 +105,9 @@ public class ProfilFragment extends Fragment
 
         if(!act.isFirst()) // si c'est pour une modification de profil
         {
-            ratingBar.setOnClickListener(new EnregistrementNoteUtilisateur(this,user.getId(),act, ratingBar));
+            //ratingBar.setOnClickListener(new EnregistrementNoteUtilisateur(this,user.getId(),act, ratingBar));
+            Log.d("[UserNote]"," La note de "+user.getUser_pseudo()+" est de "+user.getRealNote().getVal()+" étoiles. ");
+            ratingBar.setRating(user.getRealNote().getVal());
 
             image.setImageBitmap(Utility.decodeBase64(user.getPhoto_data()));
             pseudoTV.setText(user.getUser_pseudo());

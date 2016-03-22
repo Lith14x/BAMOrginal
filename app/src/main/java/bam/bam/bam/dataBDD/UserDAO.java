@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
+import android.util.Log;
 
 import java.sql.Connection;
 import java.sql.Driver;
@@ -134,6 +135,7 @@ public class UserDAO extends DAO {
         List<User> users = new ArrayList<>();
 
         for (curseur.moveToFirst(); !curseur.isAfterLast(); curseur.moveToNext()) {
+            Log.i("[Users]","User name : "+cursorToUser(curseur).getUser_pseudo());
             users.add(cursorToUser(curseur));
         }
 
@@ -153,7 +155,7 @@ public class UserDAO extends DAO {
     {
         List<User> listUsers = new ArrayList<User>();
 
-        int note;
+        float note;
         int nbn;
         String status;
         String user_device_id;
@@ -165,7 +167,7 @@ public class UserDAO extends DAO {
         try {
 
             do {
-                note =rs.getInt("user_note");
+                note =rs.getFloat("user_note");
                 nbn = rs.getInt("user_nbn");
                 status = rs.getString("user_status");
                 user_device_id = rs.getString("user_device_id");
@@ -252,13 +254,12 @@ public class UserDAO extends DAO {
      * @return l'utilisateur
      */
     public User cursorToUser(Cursor curseur) {
-
         return new User(curseur.getInt(curseur.getColumnIndex(UserTable.ID)),
                 curseur.getString(curseur.getColumnIndex(UserTable.PSEUDO)),
                 curseur.getString(curseur.getColumnIndex(UserTable.DEVICE_ID)),
                 curseur.getString(curseur.getColumnIndex(UserTable.PHONE)),
                 curseur.getString(curseur.getColumnIndex(UserTable.PHOTO)),
-                curseur.getInt(curseur.getColumnIndex(UserTable.NOTE)),
+                curseur.getFloat(curseur.getColumnIndex(UserTable.NOTE)),
                 curseur.getString(curseur.getColumnIndex(UserTable.STATUS)),
                 curseur.getInt(curseur.getColumnIndex(UserTable.NBN)));
     }

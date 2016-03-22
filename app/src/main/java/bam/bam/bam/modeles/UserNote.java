@@ -22,10 +22,10 @@ public class UserNote {
         this.val = note;
         this.note = note;
     }
-    public UserNote(int note, int nbVotes)
+    public UserNote(float note, int nbVotes)
     {
         this.val = note;
-        this.note = note;
+        this.note = (int)note;
         this.nbVotes = nbVotes;
     }
 
