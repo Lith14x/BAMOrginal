@@ -69,6 +69,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return super.getWritableDatabase();
     }
 
+    @Override
+    public SQLiteDatabase getReadableDatabase(){
+        nb_open++;
+        return super.getReadableDatabase();
+    }
+
 
     @Override
     public synchronized void close() {

@@ -41,6 +41,22 @@ public class UserDAO extends DAO {
     }
 
     /**
+     * Sert à ouvrir la database (en fait une copie de travail en local)
+     * @throws android.database.SQLException
+     */
+    @Override
+    protected void open() throws android.database.SQLException {
+        database = dbHelper.getWritableDatabase();
+    }
+
+    protected void open(boolean read) throws android.database.SQLException {
+        if(read)
+            database = dbHelper.getReadableDatabase();
+        else
+            open();
+    }
+
+    /**
      * insérer des utilisateurs
      *
      * @param users liste des utilisateurs
@@ -126,8 +142,7 @@ public class UserDAO extends DAO {
      * @return liste de tout les utilisateurs
      */
     public List<User> getUsers() {
-
-        this.open();
+        this.open(true);
 
         Cursor curseur = getDatabase().rawQuery("SELECT * FROM " + UserTable.TABLE_NAME
                 , null);
@@ -135,7 +150,6 @@ public class UserDAO extends DAO {
         List<User> users = new ArrayList<>();
 
         for (curseur.moveToFirst(); !curseur.isAfterLast(); curseur.moveToNext()) {
-            Log.i("[Users]","User name : "+cursorToUser(curseur).getUser_pseudo());
             users.add(cursorToUser(curseur));
         }
 
@@ -254,6 +268,13 @@ public class UserDAO extends DAO {
      * @return l'utilisateur
      */
     public User cursorToUser(Cursor curseur) {
+
+        Log.i("[User]","Entry ID : "+curseur.getString(curseur.getColumnIndex(UserTable.ID)));
+        Log.i("[User]","Device ID : "+curseur.getString(curseur.getColumnIndex(UserTable.DEVICE_ID)));
+        Log.i("[User]","Note : "+curseur.getFloat(curseur.getColumnIndex(UserTable.NOTE)));
+        Log.i("[User]","Statut : "+curseur.getString(curseur.getColumnIndex(UserTable.STATUS)));
+        Log.i("[User]","Nombre de votes : "+curseur.getInt(curseur.getColumnIndex(UserTable.NBN)));
+
         return new User(curseur.getInt(curseur.getColumnIndex(UserTable.ID)),
                 curseur.getString(curseur.getColumnIndex(UserTable.PSEUDO)),
                 curseur.getString(curseur.getColumnIndex(UserTable.DEVICE_ID)),

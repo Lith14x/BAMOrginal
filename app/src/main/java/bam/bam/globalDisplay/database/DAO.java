@@ -22,15 +22,15 @@ public abstract class DAO {
     /**
      * Database utilisée par le DAO
      */
-    private SQLiteDatabase database;
+    protected SQLiteDatabase database;
     /**
      * DatabaseHelper utilisé par le DAO
      */
-    private DatabaseHelper dbHelper;
+    protected DatabaseHelper dbHelper;
     /**
      * Context par lequel le DAO a été construit
      */
-    private Context context;
+    protected Context context;
 
     /**
      * Constructeur
@@ -66,7 +66,7 @@ public abstract class DAO {
      *
      * @return la base de données sur laquelle effectuer des opérations.
      */
-    protected SQLiteDatabase getDatabase() {
+    protected SQLiteDatabase getDatabase(){
         return database;
     }
 
