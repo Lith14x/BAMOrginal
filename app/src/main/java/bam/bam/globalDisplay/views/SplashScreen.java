@@ -63,26 +63,19 @@ public class SplashScreen extends Activity {
     /**
      * verifier si la BDD est rempli et avant de lancer l'appli
      */
-    public void verifiation()
+    public void verifiation() // On ne l'utilise plus car on vérifie à chaque démarrage les données l'utilisateur sur la DB
     {
         parametersDAO = new ParametersDAO(this);
 
-        if(!parametersDAO.isBDDFill()) // si BDD vide
+        if(Internet.isConnected(SplashScreen.this))
         {
-
-            if(Internet.isConnected(SplashScreen.this))
-            {
-                verificationUser();
-            }
-            else // arrêter l'appli
-            {
-                endApp();
-            }
+            verificationUser();
         }
-        else
+        else // arrêter l'appli
         {
-            chargerApp(false);
+            endApp();
         }
+        //chargerApp(false);
     }
 
     /**

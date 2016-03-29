@@ -128,6 +128,8 @@ public class User {
         note.setVal(buff);
     }
 
+    public void setNote(UserNote note){this.note = note;}
+
     public void setId(int id) {
         this.id = id;
     }

@@ -2,6 +2,7 @@ package bam.bam.bam.dataWS;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -26,6 +27,7 @@ import bam.bam.R;
 import bam.bam.bam.dataBDD.UserDAO;
 import bam.bam.bam.dataBDD.UserTable;
 import bam.bam.bam.modeles.User;
+import bam.bam.bam.modeles.UserNote;
 
 /**
  * paseur utilisateurs
@@ -205,6 +207,8 @@ public class UserJSONParser {
                 }
                 in.close();
 
+                Log.d("[DB]",response.toString());
+
                 JSONObject jObj = new JSONObject(response.toString());
                 JSONObject userPhoto = (JSONObject) jObj.get("user_photo");
                 String photoData = (String) userPhoto.get("photo_data");
@@ -212,6 +216,8 @@ public class UserJSONParser {
                 Gson gson = new Gson();
                 Type type = new TypeToken<User>() {}.getType();
                 User user = gson.fromJson(response.toString(), type);
+                UserNote note = new UserNote((float)jObj.getDouble("user_note"),jObj.getInt("user_nbn"));
+                user.setNote(note);
                 user.setPhoto_data(photoData);
 
                 return user;

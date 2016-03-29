@@ -17,10 +17,10 @@ public class UserNote {
         this.val = 0;
         this.nbVotes = 0;
     }
-    public UserNote(int note)
+    public UserNote(float note)
     {
         this.val = note;
-        this.note = note;
+        this.note = (int)note;
     }
     public UserNote(float note, int nbVotes)
     {

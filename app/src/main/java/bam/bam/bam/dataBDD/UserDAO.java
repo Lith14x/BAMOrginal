@@ -146,7 +146,12 @@ public class UserDAO extends DAO {
 
         Cursor curseur = getDatabase().rawQuery("SELECT * FROM " + UserTable.TABLE_NAME
                 , null);
-
+        StringBuilder sb = new StringBuilder();
+        for(String i : curseur.getColumnNames())
+        {
+            sb.append(i+",");
+        }
+        Log.d("[UserTable]",sb.toString());
         List<User> users = new ArrayList<>();
 
         for (curseur.moveToFirst(); !curseur.isAfterLast(); curseur.moveToNext()) {
