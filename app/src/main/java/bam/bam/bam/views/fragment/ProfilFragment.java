@@ -1,6 +1,7 @@
 package bam.bam.bam.views.fragment;
 
 import bam.bam.bam.controllers.enregistrements.EnregistrementNoteUtilisateur;
+import bam.bam.bam.dataWS.UserJSONParser;
 import bam.bam.bam.modeles.UserNote;
 import android.app.Activity;
 import android.content.Intent;
@@ -28,6 +29,9 @@ import bam.bam.bam.views.alerts.AlertPhoto;
 import bam.bam.globalDisplay.views.MainActivity;
 import bam.bam.utilities.Utility;
 import android.view.View.OnTouchListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * fragment profil
@@ -57,6 +61,58 @@ public class ProfilFragment extends Fragment
      */
     private boolean photoChange = false;
 
+    public void refreshProfil(User user, View view,MainActivity act) // Recharge les infos utilisateur sur la page
+    {
+        EditText tel = (EditText) view.findViewById(R.id.tel);
+        EditText pseudoET = (EditText) view.findViewById(R.id.pseudoET);
+        TextView pseudoTV = (TextView) view.findViewById(R.id.pseudoTV);
+        TextView statutTV = (TextView) view.findViewById(R.id.statut);
+        RatingBar ratingBar = (RatingBar) view.findViewById(R.id.ratingBar);
+        ratingBar.setOnTouchListener(new OnTouchListener() { // Rendre la RatingBar inclickable
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
+
+
+        Button btn = (Button) view.findViewById(R.id.saveProfil);
+        btn.setOnClickListener(new EnregistrementProfil(this,act,image,tel,pseudoET));
+
+        if(!act.isFirst()) // si c'est pour une modification de profil
+        {
+            //ratingBar.setOnClickListener(new EnregistrementNoteUtilisateur(this,user.getId(),act, ratingBar));
+            Log.d("[UserNote]"," La note de "+user.getUser_pseudo()+" est de "+user.getRealNote().getVal()+" étoiles. ");
+            ratingBar.setRating(user.getRealNote().getVal());
+            statutTV.setText(user.getStatus());
+
+            image.setImageBitmap(Utility.decodeBase64(user.getPhoto_data()));
+            pseudoTV.setText(user.getUser_pseudo());
+            pseudoTV.setVisibility(View.VISIBLE);
+            pseudoET.setVisibility(View.GONE);
+
+            tel.setText(user.getUser_phone_number());
+        }
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+
+        Log.d("[OnHiddenChanged]","Hidden changed !");
+
+        if(!hidden) {
+            View v = this.getView();
+
+            final List<Boolean> connexion = new ArrayList<>();
+            connexion.add(false);
+
+            UserJSONParser userJSONParser = new UserJSONParser(v.getContext());
+            User user = userJSONParser.getUser(Utility.getPhoneId(v.getContext()), true, connexion);
+            MainActivity act = ((MainActivity) getActivity());
+
+            refreshProfil(user, v, act);
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -82,40 +138,19 @@ public class ProfilFragment extends Fragment
 
             @Override
             public boolean onLongClick(View v) {
-                new AlertPhoto(ProfilFragment.this,image);
+                new AlertPhoto(ProfilFragment.this, image);
 
                 return true;
             }
         });
 
-        EditText tel = (EditText) view.findViewById(R.id.tel);
-        EditText pseudoET = (EditText) view.findViewById(R.id.pseudoET);
-        TextView pseudoTV = (TextView) view.findViewById(R.id.pseudoTV);
-        RatingBar ratingBar = (RatingBar) view.findViewById(R.id.ratingBar);
-        ratingBar.setOnTouchListener(new OnTouchListener() { // Rendre la RatingBar inclickable
-            public boolean onTouch(View v, MotionEvent event) {
-                return true;
-            }
-        });
 
 
-        Button btn = (Button) view.findViewById(R.id.saveProfil);
-        btn.setOnClickListener(new EnregistrementProfil(this,act,image,tel,pseudoET));
+
         User user = new UserDAO(act).getUserByDevice(Utility.getPhoneId(act));
+        this.refreshProfil(user, view, act);
 
-        if(!act.isFirst()) // si c'est pour une modification de profil
-        {
-            //ratingBar.setOnClickListener(new EnregistrementNoteUtilisateur(this,user.getId(),act, ratingBar));
-            Log.d("[UserNote]"," La note de "+user.getUser_pseudo()+" est de "+user.getRealNote().getVal()+" étoiles. ");
-            ratingBar.setRating(user.getRealNote().getVal());
 
-            image.setImageBitmap(Utility.decodeBase64(user.getPhoto_data()));
-            pseudoTV.setText(user.getUser_pseudo());
-            pseudoTV.setVisibility(View.VISIBLE);
-            pseudoET.setVisibility(View.GONE);
-
-            tel.setText(user.getUser_phone_number());
-        }
 
         return view;
     }
