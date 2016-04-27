@@ -95,23 +95,22 @@ public class ProfilFragment extends Fragment
     }
 
     @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
+    public void onResume() {
 
         Log.d("[OnHiddenChanged]","Hidden changed !");
 
-        if(!hidden) {
-            View v = this.getView();
 
-            final List<Boolean> connexion = new ArrayList<>();
-            connexion.add(false);
+        View v = this.getView();
 
-            UserJSONParser userJSONParser = new UserJSONParser(v.getContext());
-            User user = userJSONParser.getUser(Utility.getPhoneId(v.getContext()), true, connexion);
-            MainActivity act = ((MainActivity) getActivity());
+        final List<Boolean> connexion = new ArrayList<>();
+        connexion.add(false);
 
-            refreshProfil(user, v, act);
-        }
+        UserJSONParser userJSONParser = new UserJSONParser(v.getContext());
+        User user = userJSONParser.getUser(Utility.getPhoneId(v.getContext()), true, connexion);
+        MainActivity act = ((MainActivity) getActivity());
+
+        refreshProfil(user, v, act);
+
     }
 
     @Override
