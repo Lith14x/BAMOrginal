@@ -1,6 +1,7 @@
 package bam.bam.bam.views.fragment;
 
 import bam.bam.bam.controllers.enregistrements.EnregistrementNoteUtilisateur;
+import bam.bam.bam.controllers.refresher.LoadDataUserTask;
 import bam.bam.bam.dataWS.UserJSONParser;
 import bam.bam.bam.modeles.UserNote;
 import android.app.Activity;
@@ -95,21 +96,32 @@ public class ProfilFragment extends Fragment
     }
 
     @Override
-    public void onResume() {
+    public void onStart() {
+        super.onStart();
+        if(!this.isHidden()) {
+            Log.d("[ProfilFragment]", "Fragment visible !");
 
-        Log.d("[OnHiddenChanged]","Hidden changed !");
+            User user = null;
+            View v = this.getView();
 
+            final List<Boolean> connexion = new ArrayList<>();
+            connexion.add(true);
 
-        View v = this.getView();
+            UserJSONParser userJSONParser = new UserJSONParser(v.getContext());
 
-        final List<Boolean> connexion = new ArrayList<>();
-        connexion.add(false);
+            //User user = userJSONParser.getUser(Utility.getPhoneId(v.getContext()), true, connexion);
+            MainActivity act = ((MainActivity) getActivity());
 
-        UserJSONParser userJSONParser = new UserJSONParser(v.getContext());
-        User user = userJSONParser.getUser(Utility.getPhoneId(v.getContext()), true, connexion);
-        MainActivity act = ((MainActivity) getActivity());
+            final LoadDataUserTask userLoader = new LoadDataUserTask(act,Utility.getPhoneId(v.getContext()),connexion,this);
 
-        refreshProfil(user, v, act);
+            userLoader.reloadUser();
+
+            /*
+            if (user != null)
+                refreshProfil(user, v, act);
+            else
+                Log.d("[ProfilFragment]","L'utilisateur est null");*/
+        }else{}
 
     }
 

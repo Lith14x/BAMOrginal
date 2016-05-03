@@ -11,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
@@ -225,8 +226,15 @@ public class UserJSONParser {
 
             return null;
 
-        } catch (Exception e)
+        } catch (IOException e)
         {
+            Log.e("[UserJSONParser]","IOException");
+            e.printStackTrace();
+            return null;
+        } catch(org.json.JSONException e)
+        {
+            Log.e("[UserJSONParser]","JSONException");
+            e.printStackTrace();
             return null;
         }
     }
