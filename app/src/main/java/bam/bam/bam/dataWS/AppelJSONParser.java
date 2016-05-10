@@ -54,4 +54,21 @@ public class AppelJSONParser {
 
         return new PostPutData(URL_POST_USER,"POST",urlNom,urlData).lancerEnregistrement();
     }
+
+    public boolean setAppelAmi(int calledUerId, int callerUserId)
+    {
+        List<String> urlNom  = new ArrayList<>();
+        urlNom.add("call_caller_user_id");
+        urlNom.add("call_called_user_id");
+        urlNom.add("call_date");
+
+        List<String> urlData = new ArrayList<>();
+        urlData.add(String.valueOf(callerUserId));
+        urlData.add(String.valueOf(calledUerId));
+        urlData.add(Utility.dateToString(new Date()));
+
+
+
+        return new PostPutData(URL_POST_USER,"POST",urlNom,urlData).lancerEnregistrement();
+    }
 }

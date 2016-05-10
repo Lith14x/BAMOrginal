@@ -1,6 +1,9 @@
 package bam.bam.bam.views.adaptater;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,11 +18,15 @@ import java.util.List;
 import java.util.Map;
 
 import bam.bam.R;
+import bam.bam.bam.controllers.CallReciever;
 import bam.bam.bam.controllers.verifications.VerifValidation;
+import bam.bam.bam.dataWS.AppelJSONParser;
+import bam.bam.bam.dataWS.UserJSONParser;
 import bam.bam.bam.modeles.Bam;
 import bam.bam.bam.modeles.User;
 import bam.bam.bam.views.fragment.BamsRecusFragment;
 import bam.bam.bam.views.fragment.MesAmisFragment;
+import bam.bam.utilities.InfoToast;
 import bam.bam.utilities.Utility;
 
 /**
@@ -54,6 +61,11 @@ public class MesAmisAdaptater extends RecyclerView.Adapter<MesAmisAdaptater.View
      */
     private MesAmisFragment brf;
 
+    /**
+     * gestion des appel
+     */
+    private AppelJSONParser appelJSONParser;
+
 
     /**
      * classe ou on va chercher tout les objets du layout de la vue
@@ -74,6 +86,11 @@ public class MesAmisAdaptater extends RecyclerView.Adapter<MesAmisAdaptater.View
          * image pour supprimer un ami
          */
         ImageView ko;
+
+        /**
+         * le téléphone
+         */
+        ImageView tel;
 
         /**
          * le layout pour mettre une taille fixe ou variable
@@ -97,8 +114,7 @@ public class MesAmisAdaptater extends RecyclerView.Adapter<MesAmisAdaptater.View
             pseudo = (TextView) itemView.findViewById(R.id.pseudo);
             photo = (ImageView) itemView.findViewById(R.id.photo);
             linear = (LinearLayout) itemView.findViewById(R.id.linear);
-            ko = (ImageView) itemView.findViewById(R.id.ko);
-            boutons = (LinearLayout) itemView.findViewById(R.id.boutons);
+            tel = (ImageView) itemView.findViewById(R.id.tel);
         }
     }
 
@@ -106,15 +122,34 @@ public class MesAmisAdaptater extends RecyclerView.Adapter<MesAmisAdaptater.View
     public MesAmisAdaptater(List<User> amis, MesAmisFragment brf){
         this.brf = brf;
         this.amis = new ArrayList<>(amis);
+        this.appelJSONParser = new AppelJSONParser(context);
         this.context = brf.getActivity();
         this.expand = new HashMap<>();
     }
 
     public void onBindViewHolder(final MesAmisAdaptater.ViewHolder holder, final int position) {
 
-        setLinearExpandClose(holder, position);
+        holder.pseudo.setText(amis.get(position).getUser_pseudo());
+        holder.photo.setImageBitmap(Utility.decodeBase64(amis.get(position).getPhoto_data()));
+        holder.tel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        expand.put(position, false);
+                Intent callIntent = new Intent(Intent.ACTION_CALL);
+                callIntent.setData(Uri.parse("tel:" + amis.get(position).getUser_phone_number()));
+                context.startActivity(callIntent);
+                new AsyncTask<Void, Void, Void>() {
+                    @Override
+                    protected Void doInBackground(Void... params) {
+                        UserJSONParser ujp = new UserJSONParser(context);
+                        User user = ujp.getUser(Utility.getPhoneId(context),true,null);
+                        appelJSONParser.setAppelAmi(amis.get(position).getId(),user.getId());
+                        return null;
+                    }
+                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            }
+        });
+
     }
 
     /**
@@ -130,63 +165,6 @@ public class MesAmisAdaptater extends RecyclerView.Adapter<MesAmisAdaptater.View
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.amis_item, parent, false);
 
         return new ViewHolder(v,viewType);
-    }
-
-    /**
-     * mettre le bam expand ou non
-     *
-     * @param holder holder
-     * @param position position de l'item
-     */
-    private void setLinearExpandClose(final ViewHolder holder, final int position) {
-
-        setCloseParams(holder, position);
-
-        holder.vue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (expand.get(position)) {
-                    setCloseParams(holder, position);
-                } else {
-                    setExpandParams(holder, position);
-                }
-            }
-        });
-    }
-
-    /**
-     * paramètre d'un bam en mode expand
-     *
-     * @param holder holder
-     * @param position la position
-     */
-    public void setExpandParams(ViewHolder holder, int position)
-    {
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        holder.linear.setLayoutParams(layoutParams);
-        holder.boutons.setVisibility(View.VISIBLE);
-        expand.remove(position);
-        expand.put(position, true);
-    }
-
-    /**
-     * paramètre d'un ami en mode fermé
-     *
-     * @param holder holder
-     * @param position la position
-     */
-    public void setCloseParams(ViewHolder holder, int position)
-    {
-        int dp70 = (int) Utility.convertDpToPixel(70, context);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT, dp70);
-        holder.linear.setLayoutParams(layoutParams);
-
-        holder.boutons.setVisibility(View.GONE);
-        expand.remove(position);
-        expand.put(position, false);
     }
 
     /**
