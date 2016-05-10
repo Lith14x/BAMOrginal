@@ -220,6 +220,7 @@ public class UserJSONParser {
                 UserNote note = new UserNote((float)jObj.getDouble("user_note"),jObj.getInt("user_nbn"));
                 user.setNote(note);
                 user.setPhoto_data(photoData);
+                //user.setStatus(jObj.getString("user_status"));
 
                 return user;
             }

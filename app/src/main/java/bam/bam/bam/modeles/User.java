@@ -20,7 +20,7 @@ public class User {
     /**
      * statut publique de l'utilisateur
      */
-    private String status;
+    private String user_status;
 
     /**
      * id de l'appareil
@@ -55,7 +55,7 @@ public class User {
         this.user_phone_number = user_phone_number;
         this.user_device_id = user_device_id;
         this.note = new UserNote(note,nbn);
-        this.status = status;
+        this.user_status = status;
     }
 
     public User(String user_pseudo,String user_phone_number,String photo_data ,String user_device_id) {
@@ -66,7 +66,7 @@ public class User {
         this.user_phone_number = user_phone_number;
         this.user_device_id = user_device_id;
         this.note = new UserNote();
-        this.status = "default status";
+        this.user_status = "default status";
     }
 
     public int getId() {
@@ -102,7 +102,7 @@ public class User {
 
     public String getStatus()
     {
-        return "";
+        return user_status;
     }
     public String getUser_pseudo() {
         return user_pseudo;
@@ -133,6 +133,8 @@ public class User {
     public void setId(int id) {
         this.id = id;
     }
+
+    public void setStatus(String statut) {this.user_status = statut;}
 
     public String getUser_device_id() {
         return user_device_id;

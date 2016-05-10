@@ -1,6 +1,7 @@
 package bam.bam.bam.controllers.refresher;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,7 +37,7 @@ public class LoadDataUserTask extends AsyncTask<Void,Void,Void>{
     /**
      * le fragment profil
      */
-    ProfilFragment profilFragment;
+    final ProfilFragment profilFragment;
 
     /**
      * liste des connexions
@@ -90,7 +91,7 @@ public class LoadDataUserTask extends AsyncTask<Void,Void,Void>{
         super.onPostExecute(aVoid);
 
         this.isLoaded = true;
-        profilFragment.refreshProfil(this.user,this.profilFragment.getView(),this.activity);
+        profilFragment.refreshProfil(this.user, this.profilFragment.getView(), this.activity);
 
     }
 

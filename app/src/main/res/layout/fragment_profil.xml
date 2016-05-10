@@ -85,7 +85,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:id="@+id/textView"
+                android:id="@+id/statutTextView"
                 android:text="Mon statut"
                 style="@style/profil_send_textView" />
 
@@ -93,7 +93,7 @@
                 android:layout_width="325dp"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:id="@+id/statut"
+                android:id="@+id/statutProfilPerso"
                 style="@style/profil_send_textView" />
 
             <Button

@@ -64,11 +64,14 @@ public class ProfilFragment extends Fragment
 
     public void refreshProfil(User user, View view,MainActivity act) // Recharge les infos utilisateur sur la page
     {
+        Log.d("[ProfilFragment]","Refreshing user profile");
+
         EditText tel = (EditText) view.findViewById(R.id.tel);
         EditText pseudoET = (EditText) view.findViewById(R.id.pseudoET);
         TextView pseudoTV = (TextView) view.findViewById(R.id.pseudoTV);
-        TextView statutTV = (TextView) view.findViewById(R.id.statut);
+        TextView statutTV = (TextView) view.findViewById(R.id.statutProfilPerso);
         RatingBar ratingBar = (RatingBar) view.findViewById(R.id.ratingBar);
+
         ratingBar.setOnTouchListener(new OnTouchListener() { // Rendre la RatingBar inclickable
             public boolean onTouch(View v, MotionEvent event) {
                 return true;
@@ -82,7 +85,7 @@ public class ProfilFragment extends Fragment
         if(!act.isFirst()) // si c'est pour une modification de profil
         {
             //ratingBar.setOnClickListener(new EnregistrementNoteUtilisateur(this,user.getId(),act, ratingBar));
-            Log.d("[UserNote]"," La note de "+user.getUser_pseudo()+" est de "+user.getRealNote().getVal()+" étoiles. ");
+            Log.d("[ProfilFragment]", "Refreshing on screen data...");
             ratingBar.setRating(user.getRealNote().getVal());
             statutTV.setText(user.getStatus());
 
@@ -90,6 +93,8 @@ public class ProfilFragment extends Fragment
             pseudoTV.setText(user.getUser_pseudo());
             pseudoTV.setVisibility(View.VISIBLE);
             pseudoET.setVisibility(View.GONE);
+            statutTV.setVisibility(View.GONE);
+            statutTV.setVisibility(View.VISIBLE);
 
             tel.setText(user.getUser_phone_number());
         }
@@ -101,15 +106,11 @@ public class ProfilFragment extends Fragment
         if(!this.isHidden()) {
             Log.d("[ProfilFragment]", "Fragment visible !");
 
-            User user = null;
             View v = this.getView();
 
             final List<Boolean> connexion = new ArrayList<>();
             connexion.add(true);
 
-            UserJSONParser userJSONParser = new UserJSONParser(v.getContext());
-
-            //User user = userJSONParser.getUser(Utility.getPhoneId(v.getContext()), true, connexion);
             MainActivity act = ((MainActivity) getActivity());
 
             final LoadDataUserTask userLoader = new LoadDataUserTask(act,Utility.getPhoneId(v.getContext()),connexion,this);
@@ -158,10 +159,14 @@ public class ProfilFragment extends Fragment
 
 
 
-        User user = new UserDAO(act).getUserByDevice(Utility.getPhoneId(act));
-        this.refreshProfil(user, view, act);
+        //User user = new UserDAO(act).getUserByDevice(Utility.getPhoneId(act));
+        //this.refreshProfil(user, view, act);
+        final List<Boolean> connexion = new ArrayList<>();
+        connexion.add(false);
 
+        final LoadDataUserTask userLoader = new LoadDataUserTask(act,Utility.getPhoneId(act),connexion,this);
 
+        userLoader.reloadUser();
 
         return view;
     }
