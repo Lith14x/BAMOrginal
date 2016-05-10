@@ -1,5 +1,9 @@
 package bam.bam.bam.modeles;
 
+import android.util.Log;
+
+import bam.bam.BuildConfig;
+
 /**
  * classe stoquant les informations d'un utilisateur
  *
@@ -16,7 +20,7 @@ public class User {
     /**
      * statut publique de l'utilisateur
      */
-    private String status;
+    private String user_status;
 
     /**
      * id de l'appareil
@@ -43,36 +47,15 @@ public class User {
      */
     private String photo_data ;
 
-    public User(int id, String user_pseudo, String user_device_id, String user_phone_number,String photo_data, int note, String status, int nbn ) {
+    public User(int id, String user_pseudo, String user_device_id, String user_phone_number,String photo_data, float note, String status, int nbn ) {
 
         this.id = id;
         this.photo_data  = photo_data ;
         this.user_pseudo = user_pseudo;
         this.user_phone_number = user_phone_number;
         this.user_device_id = user_device_id;
-        switch(note)
-        {
-            case 0 :
-                this.note = UserNote.N_0;
-                break;
-            case 1 :
-                this.note = UserNote.N_1;
-                break;
-            case 2 :
-                this.note = UserNote.N_2;
-                break;
-            case 3 :
-                this.note = UserNote.N_3;
-                break;
-            case 4 :
-                this.note = UserNote.N_4;
-                break;
-            case 5 :
-                this.note = UserNote.N_5;
-                break;
-        }
-        this.note.setNbVotes(nbn);
-        this.status = status;
+        this.note = new UserNote(note,nbn);
+        this.user_status = status;
     }
 
     public User(String user_pseudo,String user_phone_number,String photo_data ,String user_device_id) {
@@ -82,6 +65,8 @@ public class User {
         this.user_pseudo = user_pseudo;
         this.user_phone_number = user_phone_number;
         this.user_device_id = user_device_id;
+        this.note = new UserNote();
+        this.user_status = "default status";
     }
 
     public int getId() {
@@ -96,18 +81,28 @@ public class User {
         this.photo_data  = photo_data ;
     }
     public String getNote() {
+        if(note == null) {
+            if(BuildConfig.DEBUG)
+                Log.d("GETNOTE", "La note utilisateur n'est pas définie !");
+            this.note = new UserNote();
+        }
         return "" + note.getVal() + "";
     }
     public UserNote getRealNote() { return note;}
 
     public String getNbn()
     {
-        return ""+note.getNbVotes()+"";
+        if(note == null) {
+            if(BuildConfig.DEBUG)
+                Log.d("GETNOTE", "La note utilisateur n'est pas définie !");
+            this.note = new UserNote();
+        }
+        return ""+this.note.getNbVotes()+"";
     }
 
     public String getStatus()
     {
-        return "";
+        return user_status;
     }
     public String getUser_pseudo() {
         return user_pseudo;
@@ -129,32 +124,17 @@ public class User {
 
         buff = (val*nbVotes + note.getVal())/(nbVotes+1);
 
-        switch((int) buff)
-        {
-            case 0 :
-                this.note = UserNote.N_0;
-                this.note.setVal(buff);
-            case 1 :
-                this.note = UserNote.N_1;
-                this.note.setVal(buff);
-            case 2 :
-                this.note = UserNote.N_2;
-                this.note.setVal(buff);
-            case 3 :
-                this.note = UserNote.N_3;
-                this.note.setVal(buff);
-            case 4 :
-                this.note = UserNote.N_4;
-                this.note.setVal(buff);
-            case 5 :
-                this.note = UserNote.N_5;
-                this.note.setVal(buff);
-        }
+        note.setNbVotes(note.getNbVotes()+1);
+        note.setVal(buff);
     }
+
+    public void setNote(UserNote note){this.note = note;}
 
     public void setId(int id) {
         this.id = id;
     }
+
+    public void setStatus(String statut) {this.user_status = statut;}
 
     public String getUser_device_id() {
         return user_device_id;

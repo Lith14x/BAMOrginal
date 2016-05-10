@@ -2,6 +2,7 @@ package bam.bam.bam.dataWS;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -10,15 +11,24 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import bam.bam.R;
+import bam.bam.bam.dataBDD.UserDAO;
+import bam.bam.bam.dataBDD.UserTable;
 import bam.bam.bam.modeles.User;
+import bam.bam.bam.modeles.UserNote;
 
 /**
  * paseur utilisateurs
@@ -50,6 +60,7 @@ public class UserJSONParser {
     /**
      * URL pour vérifier un pseudo
      */
+
     private String URL_GET_PSEUDO;
 
     public UserJSONParser(Context context) {
@@ -136,6 +147,32 @@ public class UserJSONParser {
     }
 
     /**
+     * obtenir des utilisateurs à partir d'un keyword
+     *
+     * @param keyword le mot-clé à utiler
+     * @return la liste d'utilisateurs
+     */
+
+    public List<User> getUsersByKeyword(String keyword)
+    {
+
+
+        try {
+            Connection con = DriverManager.getConnection("jdbc://bam-serverws.rhcloud.com/", "adminj3UCslK", "cfgmWUpHkRAL"); //!!!!Problème de sécurité ici!!!
+            String query = "SELECT * FROM " + UserTable.TABLE_NAME + " WHERE user_pseudo LIKE %"+keyword+"%";
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+
+
+            return UserDAO.resultSetToUsers(rs);
+
+        } catch (Exception e)
+        {
+            return null;
+        }
+    }
+    /**
      * obtenir un utilisateur à partir de l'id
      *
      * @param id id à utiliser
@@ -171,6 +208,8 @@ public class UserJSONParser {
                 }
                 in.close();
 
+                Log.d("[DB]",response.toString());
+
                 JSONObject jObj = new JSONObject(response.toString());
                 JSONObject userPhoto = (JSONObject) jObj.get("user_photo");
                 String photoData = (String) userPhoto.get("photo_data");
@@ -178,15 +217,25 @@ public class UserJSONParser {
                 Gson gson = new Gson();
                 Type type = new TypeToken<User>() {}.getType();
                 User user = gson.fromJson(response.toString(), type);
+                UserNote note = new UserNote((float)jObj.getDouble("user_note"),jObj.getInt("user_nbn"));
+                user.setNote(note);
                 user.setPhoto_data(photoData);
+                //user.setStatus(jObj.getString("user_status"));
 
                 return user;
             }
 
             return null;
 
-        } catch (Exception e)
+        } catch (IOException e)
         {
+            Log.e("[UserJSONParser]","IOException");
+            e.printStackTrace();
+            return null;
+        } catch(org.json.JSONException e)
+        {
+            Log.e("[UserJSONParser]","JSONException");
+            e.printStackTrace();
             return null;
         }
     }

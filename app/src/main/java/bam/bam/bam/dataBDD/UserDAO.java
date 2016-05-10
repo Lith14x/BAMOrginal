@@ -3,11 +3,23 @@ package bam.bam.bam.dataBDD;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
+import android.util.Log;
 
+import java.sql.Connection;
+import java.sql.Driver;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import bam.bam.bam.modeles.User;
+import bam.bam.bam.modeles.UserNote;
 import bam.bam.globalDisplay.database.DAO;
 import bam.bam.utilities.Utility;
 
@@ -26,6 +38,22 @@ public class UserDAO extends DAO {
     public UserDAO(Context context) {
         super(context);
         this.context = context;
+    }
+
+    /**
+     * Sert à ouvrir la database (en fait une copie de travail en local)
+     * @throws android.database.SQLException
+     */
+    @Override
+    protected void open() throws android.database.SQLException {
+        database = dbHelper.getWritableDatabase();
+    }
+
+    protected void open(boolean read) throws android.database.SQLException {
+        if(read)
+            database = dbHelper.getReadableDatabase();
+        else
+            open();
     }
 
     /**
@@ -107,18 +135,23 @@ public class UserDAO extends DAO {
 
 
 
+
     /**
      * obtenir tout les utilisateurs
      *
      * @return liste de tout les utilisateurs
      */
     public List<User> getUsers() {
-
-        this.open();
+        this.open(true);
 
         Cursor curseur = getDatabase().rawQuery("SELECT * FROM " + UserTable.TABLE_NAME
                 , null);
-
+        StringBuilder sb = new StringBuilder();
+        for(String i : curseur.getColumnNames())
+        {
+            sb.append(i+",");
+        }
+        Log.d("[UserTable]",sb.toString());
         List<User> users = new ArrayList<>();
 
         for (curseur.moveToFirst(); !curseur.isAfterLast(); curseur.moveToNext()) {
@@ -130,7 +163,68 @@ public class UserDAO extends DAO {
 
         return users;
     }
+    /**
+     * retourne une liste d'utilisateurs à partir d'un ResultSet
+     *
+     * @param ResultSet rs
+     * @return List<User> liste d'utilisateurs
+     */
 
+    public static List<User> resultSetToUsers(ResultSet rs)
+    {
+        List<User> listUsers = new ArrayList<User>();
+
+        float note;
+        int nbn;
+        String status;
+        String user_device_id;
+        int id;
+        String user_pseudo;
+        String user_phone_number;
+        String photo_data ;
+
+        try {
+
+            do {
+                note =rs.getFloat("user_note");
+                nbn = rs.getInt("user_nbn");
+                status = rs.getString("user_status");
+                user_device_id = rs.getString("user_device_id");
+                id = rs.getInt("id");
+                user_pseudo = rs.getString("user_pseudo");
+                user_phone_number = rs.getString("user_phone_number");
+                photo_data = rs.getString("user_photo_id");
+
+                listUsers.add(new User(id, user_pseudo, user_device_id, user_phone_number,photo_data, note, status, nbn));
+
+            } while (rs.next());
+
+        }catch(SQLException e){}
+
+        return listUsers;
+    }
+
+    /**
+     * obtenir une liste d'utilisateurs en fonction d'un mot-clé
+     *
+     * @param String keyword
+     * @return liste d'utilisateurs trouvés en fonction du mot clef
+     */
+    public List<User> getUsersByKeyword(String keyword)
+    {
+        this.open();
+        String query = "SELECT * FROM " + UserTable.TABLE_NAME + " WHERE user_pseudo LIKE %"+keyword+"%";
+        try {
+            Connection con = DriverManager.getConnection("jdbc://bam-serverws.rhcloud.com/","adminj3UCslK","cfgmWUpHkRAL"); //!!!!Problème de sécurité ici!!!!
+            Properties connectionProps = new Properties();
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            return resultSetToUsers(rs);
+        } catch (SQLException e) {}
+
+        return null;
+    }
 
     /**
      * insérer un utilisateur
@@ -180,12 +274,18 @@ public class UserDAO extends DAO {
      */
     public User cursorToUser(Cursor curseur) {
 
+        Log.i("[User]","Entry ID : "+curseur.getString(curseur.getColumnIndex(UserTable.ID)));
+        Log.i("[User]","Device ID : "+curseur.getString(curseur.getColumnIndex(UserTable.DEVICE_ID)));
+        Log.i("[User]","Note : "+curseur.getFloat(curseur.getColumnIndex(UserTable.NOTE)));
+        Log.i("[User]","Statut : "+curseur.getString(curseur.getColumnIndex(UserTable.STATUS)));
+        Log.i("[User]","Nombre de votes : "+curseur.getInt(curseur.getColumnIndex(UserTable.NBN)));
+
         return new User(curseur.getInt(curseur.getColumnIndex(UserTable.ID)),
                 curseur.getString(curseur.getColumnIndex(UserTable.PSEUDO)),
                 curseur.getString(curseur.getColumnIndex(UserTable.DEVICE_ID)),
                 curseur.getString(curseur.getColumnIndex(UserTable.PHONE)),
                 curseur.getString(curseur.getColumnIndex(UserTable.PHOTO)),
-                curseur.getInt(curseur.getColumnIndex(UserTable.NOTE)),
+                curseur.getFloat(curseur.getColumnIndex(UserTable.NOTE)),
                 curseur.getString(curseur.getColumnIndex(UserTable.STATUS)),
                 curseur.getInt(curseur.getColumnIndex(UserTable.NBN)));
     }

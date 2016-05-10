@@ -5,13 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:isScrollContainer="true">
+    android:isScrollContainer="true"
+    android:id="@+id/fragProfil">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:orientation="vertical">
 
         <!-- Récupère le focus-->
         <LinearLayout
@@ -45,12 +46,6 @@
             </com.balysv.materialripple.MaterialRippleLayout>
             </LinearLayout>
 
-            <RatingBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/ratingBar"
-                android:layout_gravity="center_horizontal" />
-
             <TextView
                 android:text="@string/profil_pseudo"
                 style="@style/profil_send_textView"/>
@@ -70,10 +65,42 @@
             <EditText android:id="@+id/tel"
                 style="@style/edittext_tel"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Ma note"
+                android:id="@+id/ratingbar"
+                style="@style/profil_send_textView" />
+
+            <RatingBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ratingBar"
+                android:layout_gravity="center_horizontal"
+                android:numStars="5"
+                android:contextClickable="false" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:id="@+id/statutTextView"
+                android:text="Mon statut"
+                style="@style/profil_send_textView" />
+
+            <TextView
+                android:layout_width="325dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/statutProfilPerso"
+                style="@style/profil_send_textView" />
+
             <Button
                 android:id="@+id/saveProfil"
                 style="@style/bouton"
-                android:text="@string/profil_bouton"/>
+                android:text="@string/profil_bouton"
+                android:layout_gravity="center_horizontal" />
 
         </LinearLayout>
 

@@ -18,7 +18,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /**
      * Nom de la base.
      */
-    private static final String DATABASE_NAME = "isidroid";
+    //private static final String DATABASE_NAME = "isidroid";
+    private static final String DATABASE_NAME="bam";
     /**
      * Version de la base.
      */
@@ -66,6 +67,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public SQLiteDatabase getWritableDatabase() {
         nb_open++;
         return super.getWritableDatabase();
+    }
+
+    @Override
+    public SQLiteDatabase getReadableDatabase(){
+        nb_open++;
+        return super.getReadableDatabase();
     }
 
 
