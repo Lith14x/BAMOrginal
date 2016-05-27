@@ -89,13 +89,13 @@ public class User {
         this.photo_data  = photo_data ;
     }
     public String getNote() {
-        return "" + 0 + "";
+        return "" + note.getVal() + "";
     }
     public UserNote getRealNote() { return note;}
 
     public String getNbn()
     {
-        return ""+0+"";
+        return ""+note.getNbVotes()+"";
     }
 
     public String getStatus()

@@ -12,7 +12,7 @@ public class UserTable {
     /**
      * Nom de la table des Users.
      */
-    public static final String TABLE_NAME = "users";
+    public static final String TABLE_NAME = "User";
 
     /**
      * id
@@ -22,43 +22,43 @@ public class UserTable {
     /**
      * id de l'appareil
      */
-    public static final String DEVICE_ID = "user_device_id";
+    public static final String DEVICE_ID = "device_id";
 
     /**
      * photo
      */
-    public static final String PHOTO = "user_photo_id";
+    public static final String PHOTO = "photo";
 
     /**
      * pseudo
      */
-    public static final String PSEUDO = "user_pseudo";
+    public static final String PSEUDO = "pseudo";
 
     /**
      * numéro de téléphone
      */
-    public static final String PHONE = "user_phone";
+    public static final String PHONE = "phone";
 
     /**
      * note de l'utilisateur
      */
 
-    public static final String NOTE = "user_note";
+    public static final String NOTE = "note";
 
     /**
      * "statut" de l'utilisateur
      */
-    public static final String STATUS = "user_status";
+    public static final String STATUS = "status";
 
     /**
      * nombre de notes données à l'utilisateur
      */
-    public static final String NBN = "user_nbn";
+    public static final String NBN = "nbn";
 
     /**
      * Commande de creation de la table
      */
-    public static final String AMIS = "user_list_amis";
+    public static final String AMIS = "amis";
     /**
      * Liste des amis
      */
@@ -72,7 +72,7 @@ public class UserTable {
             + NOTE + " integer, "
             + STATUS + " text not null, "
             + NBN + "integer , "
-            + AMIS + " text not null "
+            + AMIS + "text not null "
             + ");";
 
     public static void onCreate(SQLiteDatabase database) {

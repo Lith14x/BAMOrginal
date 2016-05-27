@@ -18,7 +18,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /**
      * Nom de la base.
      */
-    private static final String DATABASE_NAME = "bam";
+    private static final String DATABASE_NAME = "isidroid";
     /**
      * Version de la base.
      */
@@ -44,10 +44,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      *
      * @param context contexte courant
      */
-    private DatabaseHelper(Context context){
+    private DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, VERSION);
-
-
 
     }
 

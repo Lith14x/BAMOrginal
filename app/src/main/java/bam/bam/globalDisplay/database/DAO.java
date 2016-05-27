@@ -50,7 +50,6 @@ public abstract class DAO {
      */
     protected void open() throws SQLException {
         database = dbHelper.getWritableDatabase();
-
     }
 
     /**

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
-import android.util.Log;
 
 import java.sql.Connection;
 import java.sql.Driver;
@@ -304,7 +303,7 @@ public class UserDAO extends DAO {
      * @return l'utilisateur
      */
     public User cursorToUser(Cursor curseur) {
-        Log.e("erreur","" + curseur.getColumnIndex(UserTable.AMIS));
+
         return new User(curseur.getInt(curseur.getColumnIndex(UserTable.ID)),
                 curseur.getString(curseur.getColumnIndex(UserTable.PSEUDO)),
                 curseur.getString(curseur.getColumnIndex(UserTable.DEVICE_ID)),

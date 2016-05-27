@@ -62,11 +62,11 @@ public class UserJSONParser {
         String URL = context.getResources().getString(R.string.URL);
 
         this.URL_GET_USER_IDUSEUR = URL + "users/";
-        this.URL_GET_USER_IDDEVICE =  URL + "users/user_device/";
+        this.URL_GET_USER_IDDEVICE =  URL + "users/device/";
         this.URL_POST_USER = URL + "users";
         this.URL_PUT_USER = URL + "users/";
-        this.URL_GET_PSEUDO = URL + "users/user_pseudo/";
-        this.URL_GET_AMIS = URL +"users/user_list_amis/";
+        this.URL_GET_PSEUDO = URL + "users/pseudo/";
+        this.URL_GET_AMIS = URL +"users/amis/";
     }
 
     /**
@@ -88,7 +88,7 @@ public class UserJSONParser {
         urlNom.add("user_note");
         urlNom.add("user_status");
         urlNom.add("user_nbn");
-        urlNom.add("user_list_amis");
+        urlNom.add("user_amis");
 
         List<String> urlData = new ArrayList<>();
         urlData.add(user.getUser_pseudo());
@@ -130,7 +130,7 @@ public class UserJSONParser {
         urlNom.add("user_note");
         urlNom.add("user_status");
         urlNom.add("user_nbn");
-        urlNom.add("user_list_amis");
+        urlNom.add("user_amis");
 
         List<String> urlData = new ArrayList<>();
         urlData.add(user.getUser_pseudo());

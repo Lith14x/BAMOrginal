@@ -3,6 +3,7 @@ package bam.bam.globalDisplay;
 import bam.bam.R;
 import bam.bam.bam.views.fragment.MesAmisFragment;
 import bam.bam.bam.views.fragment.ProfilFragment;
+import bam.bam.bam.views.fragment.MesAmisFragment;
 import bam.bam.globalDisplay.views.tabs.TabsFragment;
 
 /**
@@ -14,7 +15,7 @@ public enum NavDrawerParams {
 
     PROFIL(R.string.profil_titre, R.mipmap.compte, ProfilFragment.class),
     TABS(R.string.bam_recus_envoyes_titre, R.mipmap.summary,TabsFragment.class),
-    AMIS(R.string.amis_titre, R.mipmap.picto_dispute, MesAmisFragment.class);
+    AMIS(R.string.amis_titre,R.mipmap.picto_dispute, MesAmisFragment.class);
 
 
     /**
@@ -90,4 +91,3 @@ public enum NavDrawerParams {
         return fragmentClass == null;
     }
 }
-
