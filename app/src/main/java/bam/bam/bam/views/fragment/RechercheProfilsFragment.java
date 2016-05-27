@@ -23,6 +23,8 @@ import android.app.AlertDialog;
 import java.util.List;
 
 import bam.bam.R;
+import bam.bam.bam.controllers.refresher.LoadData;
+import bam.bam.bam.controllers.refresher.LoadDataRechTask;
 import bam.bam.bam.controllers.refresher.Refresher;
 import bam.bam.bam.dataBDD.UserDAO;
 import bam.bam.bam.modeles.User;
@@ -117,6 +119,7 @@ public class RechercheProfilsFragment extends Fragment {
         LinearLayoutManager lmRech = new LinearLayoutManager(getActivity()); // LayoutManager de la recherche de profils
         lmRech.setOrientation(LinearLayoutManager.VERTICAL);// Un linearLayoutManager vertical : une liste verticale.
         rvProfils.setLayoutManager(lmRech);// le RecyclerView se trouve donc formaté
+        final RechercheProfilsFragment rpf = this;
 
         etKeyword.setOnKeyListener(new View.OnKeyListener() // Vérifie que l'on appuie sur entrée
         {
@@ -125,8 +128,10 @@ public class RechercheProfilsFragment extends Fragment {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
                         (keyCode == KeyEvent.KEYCODE_ENTER)) { // Si l'on a appuyé sur entrée et que l'on était sur la barre de recherche
                     // On cherche dans la DB et on ouvre la fenêtre des résultats
-                    Refresher.getInstance().setKeyword(etKeyword.getText().toString()); // On modifie le keyword du refresher
-                    Refresher.getInstance().onRefresh(); // On refresh
+                    //Refresher.getInstance().setKeyword(etKeyword.getText().toString()); // On modifie le keyword du refresher
+                    //Refresher.getInstance().onRefresh(); // On refresh
+                    LoadDataRechTask loadSearch = new LoadDataRechTask(activity,new LoadData(activity,null),rpf);
+                    loadSearch.execute();
                     //loadListProfilsBDD(etKeyword.getText().toString()); // Modifie l'adapter des résultats
                     return true;
                 }

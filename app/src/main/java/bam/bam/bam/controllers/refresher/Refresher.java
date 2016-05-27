@@ -19,6 +19,7 @@ import java.util.TimeZone;
 import bam.bam.R;
 import bam.bam.bam.views.fragment.ProfilFragment;
 import bam.bam.bam.views.fragment.RechercheProfilsFragment;
+import bam.bam.globalDisplay.FragmentParams;
 import bam.bam.globalDisplay.views.SplashScreen;
 import bam.bam.utilities.GPS;
 import bam.bam.bam.dataBDD.BamDAO;
@@ -107,7 +108,7 @@ public class Refresher implements SwipeRefreshLayout.OnRefreshListener{
             }
             else if(keyword != null)
             {
-                LoadDataRechTask loadRech = new LoadDataRechTask(activity,new LoadData(activity,null),(RechercheProfilsFragment)activity.getTabsLayoutManager().getAdapterVP().getItem(3));
+                LoadDataRechTask loadRech = new LoadDataRechTask(activity,new LoadData(activity,null),(RechercheProfilsFragment)activity.getTabsLayoutManager().getAdapterVP().getItem(FragmentParams.SEARCH.ordinal()));
                 loadRech.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 keyword = null;
             }

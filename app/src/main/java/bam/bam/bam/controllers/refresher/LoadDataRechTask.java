@@ -1,6 +1,7 @@
 package bam.bam.bam.controllers.refresher;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,7 +48,7 @@ public class LoadDataRechTask extends AsyncTask<Void,Void,Void> {
     /**
      * fragment de recherche de profils
      */
-    private RechercheProfilsFragment rpf;
+    private final RechercheProfilsFragment rpf;
 
     /**
      * le context
@@ -106,7 +107,7 @@ public class LoadDataRechTask extends AsyncTask<Void,Void,Void> {
 
         userDAO = new UserDAO(activity);
 
-        this.keyword = rpf.getETKeyword().toString();
+        this.keyword = rpf.getETKeyword().getText().toString();
 
     }
 
@@ -121,11 +122,8 @@ public class LoadDataRechTask extends AsyncTask<Void,Void,Void> {
     protected Void doInBackground(Void... params) {
 
         if (Internet.isConnected(activity)) {
-            // récupéré les utilisateurs de la bdd interne
-            usersRech = loadFromBDD();
-
             // récupéré les utilisateurs depuis le Web Service
-            loadFromWS(usersRech);
+            loadFromWS();
 
         }
         else // si pas internet
@@ -146,24 +144,12 @@ public class LoadDataRechTask extends AsyncTask<Void,Void,Void> {
      *
      * @param usersBDD liste des réponses de la BDD
      */
-    private void loadFromWS(List<User> usersBDD)
+    private void loadFromWS()
     {
         //String oldMAJ = userDAO.getLastUpdate(2);
 
         // load web service
-        List<User> usersParser = userJSONParser.getUsersByKeyword(keyword);
-        if (usersParser != null) {
-                usersRech.addAll(usersParser);
-                lastUser = usersRech.get(usersRech.size()-1);
-        } else if (lastUser != usersBDD.get(usersBDD.size()-1))
-        {
-            usersRech.addAll(usersBDD);
-            lastUser = usersRech.get(usersRech.size()-1);
-        }
-        else // pb de connexion au serveur
-        {
-            pbServeur();
-        }
+        usersRech = userJSONParser.getUsersByKeyword(keyword);
     }
 
     /**
@@ -173,12 +159,15 @@ public class LoadDataRechTask extends AsyncTask<Void,Void,Void> {
     {
         serveurOk = false;
 
+
+        Log.e("[Load..Task]","Erreur connexion serveur");
         // load BDD interne
+        /*
         List<User> usersBDD = loadFromBDD();
         if (lastUser != usersBDD.get(usersBDD.size()-1)) {
             usersRech.addAll(usersBDD);
             lastUser = usersRech.get(usersRech.size() - 1);
-        }
+        }*/
     }
 
     /**
@@ -195,6 +184,11 @@ public class LoadDataRechTask extends AsyncTask<Void,Void,Void> {
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
 
+        if (usersRech != null) {
+            lastUser = usersRech.get(usersRech.size()-1);
+        } else {
+            pbServeur();
+        }
     }
 
 
