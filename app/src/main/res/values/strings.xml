@@ -55,7 +55,5 @@
 
     <!-- NOTIFICATIONS -->
     <string name="notification">Nouveau BAM !</string>
-    <string name="amis_titre">\"Mes Amis\"</string>
-    <string name="amis_titre2">amis</string>
 
 </resources>

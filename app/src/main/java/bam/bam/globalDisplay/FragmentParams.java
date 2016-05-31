@@ -1,7 +1,6 @@
 package bam.bam.globalDisplay;
 
 import bam.bam.R;
-import bam.bam.bam.views.fragment.MesAmisFragment;
 import bam.bam.bam.views.fragment.ProfilFragment;
 import bam.bam.bam.views.fragment.SendBamFragment;
 import bam.bam.globalDisplay.views.tabs.TabsFragment;
@@ -15,7 +14,6 @@ public enum FragmentParams {
 
     PROFIL(ProfilFragment.class,R.string.profil_titre),
     TABS(TabsFragment.class,R.string.tabs_titre),
-    AMIS(MesAmisFragment.class,R.string.amis_titre),
     SENDBAM(SendBamFragment.class,R.string.send_bam_titre),
     PROFIL_FIRST(ProfilFragment.class,R.string.profil_titre);
 

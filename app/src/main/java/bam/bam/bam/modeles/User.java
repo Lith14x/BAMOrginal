@@ -1,9 +1,5 @@
 package bam.bam.bam.modeles;
 
-import java.util.ArrayList;
-import java.util.List;
-import bam.bam.bam.dataBDD.UserDAO;
-
 /**
  * classe stoquant les informations d'un utilisateur
  *
@@ -47,22 +43,36 @@ public class User {
      */
     private String photo_data ;
 
-    /**
-     * liste amis
-     */
-    private String user_liste_amis;
-
-    public User(int id, String user_pseudo, String user_device_id, String user_phone_number, String photo_data, int note, String status, int nbn, String user_liste_amis) {
+    public User(int id, String user_pseudo, String user_device_id, String user_phone_number,String photo_data, int note, String status, int nbn ) {
 
         this.id = id;
         this.photo_data  = photo_data ;
         this.user_pseudo = user_pseudo;
         this.user_phone_number = user_phone_number;
         this.user_device_id = user_device_id;
-        this.note = UserNote.getUserNote(note);
+        switch(note)
+        {
+            case 0 :
+                this.note = UserNote.N_0;
+                break;
+            case 1 :
+                this.note = UserNote.N_1;
+                break;
+            case 2 :
+                this.note = UserNote.N_2;
+                break;
+            case 3 :
+                this.note = UserNote.N_3;
+                break;
+            case 4 :
+                this.note = UserNote.N_4;
+                break;
+            case 5 :
+                this.note = UserNote.N_5;
+                break;
+        }
         this.note.setNbVotes(nbn);
         this.status = status;
-        this.user_liste_amis = user_liste_amis;
     }
 
     public User(String user_pseudo,String user_phone_number,String photo_data ,String user_device_id) {
@@ -72,9 +82,6 @@ public class User {
         this.user_pseudo = user_pseudo;
         this.user_phone_number = user_phone_number;
         this.user_device_id = user_device_id;
-        this.note = UserNote.N_0;
-        this.note.setNbVotes(0);
-        this.user_liste_amis = "";
     }
 
     public int getId() {
@@ -151,9 +158,5 @@ public class User {
 
     public String getUser_device_id() {
         return user_device_id;
-    }
-
-    public String getUser_liste_amis(){
-        return user_liste_amis;
     }
 }

@@ -8,7 +8,6 @@ import android.os.AsyncTask;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 
 import bam.bam.R;
 import bam.bam.bam.controllers.refresher.Refresher;
@@ -52,14 +51,10 @@ public class EnregistrementNoteUtilisateur implements View.OnClickListener {
     private MainActivity activity;
 
     /**
-     *  La rating bar
-     */
-    private RatingBar rb;
-
-    /**
-     * La note
+     *  La note
      */
     private UserNote note;
+
 
     /**
      * L'ID de l'utilisateur dont on doit modifier la note
@@ -76,10 +71,10 @@ public class EnregistrementNoteUtilisateur implements View.OnClickListener {
      */
     private ProfilFragment pf;
 
-    public EnregistrementNoteUtilisateur(ProfilFragment pf,int id, MainActivity activity, RatingBar rb) {
+    public EnregistrementNoteUtilisateur(ProfilFragment pf,int id, MainActivity activity, UserNote note) {
         this.pf = pf;
         this.activity = activity;
-        this.rb = rb;
+        this.note = note;
         this.targetID=id;
         this.userJSONParser = new UserJSONParser(activity);
     }
@@ -105,7 +100,6 @@ public class EnregistrementNoteUtilisateur implements View.OnClickListener {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                note = UserNote.getUserNote(rb.getNumStars());
                 InfoToast.display(false, activity.getString(R.string.enregistrement),activity);
             }
 

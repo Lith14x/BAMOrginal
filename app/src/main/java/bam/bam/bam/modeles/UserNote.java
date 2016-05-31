@@ -23,27 +23,6 @@ public enum UserNote {
         this.note = note;
     }
 
-    public static UserNote getUserNote(int note)
-    {
-        switch(note)
-        {
-            case 0 :
-                return N_0;
-            case 1 :
-                return N_1;
-            case 2 :
-                return N_2;
-            case 3 :
-                return N_3;
-            case 4 :
-                return N_4;
-            case 5 :
-                return N_5;
-            default :
-                return N_0;
-        }
-    }
-
     public float getVal()
     {
         return val;
