@@ -1,104 +1,127 @@
 package bam.bam.bam.views.fragment;
 
-import android.app.Activity;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.app.AlertDialog;
 
 import java.util.List;
-import java.util.Map;
 
 import bam.bam.R;
 import bam.bam.bam.controllers.refresher.Refresher;
-import bam.bam.bam.modeles.Bam;
+import bam.bam.bam.dataBDD.UserDAO;
 import bam.bam.bam.modeles.User;
-import bam.bam.bam.views.adaptater.BamsRecusAdaptater;
 import bam.bam.bam.views.adaptater.MesAmisAdaptater;
+import bam.bam.bam.views.adaptater.RechercheProfilsAdapter;
 import bam.bam.globalDisplay.views.MainActivity;
 
 /**
- * fragment amis
+ * fragment affichage des amis
  *
- * @author Marc
+ * @author Mabato
  */
 public class MesAmisFragment extends Fragment {
 
     /**
-     * liste des amis
+     * activity de l'appli
      */
-    private RecyclerView rv;
+    private MainActivity activity;
 
     /**
-     * nombre d'amis
+     * si la page amis est visible
      */
-    private TextView nombreAmis;
+    private boolean amisVisible = true;
+
 
     /**
-     * adaptateur liste des amis
+     * fragment des profils d'amis
      */
-    private MesAmisAdaptater adapter;
+    private RelativeLayout fragAmis;
 
-    protected FragmentActivity mActivity;
+
+    /**
+     * liste des profils trouvés
+     */
+    private RecyclerView rvProfils;
+
+    /**
+     * adaptateur liste des profils
+     */
+    private MesAmisAdaptater adpProfils;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v =inflater.inflate(R.layout.fragment_mes_amis,container,false);
+        View v = inflater.inflate(R.layout.fragment_mes_amis, container, false);
+        activity = (MainActivity) getActivity();
 
+        // frame résultats
+        rvProfils = (RecyclerView) v.findViewById(R.id.RecyclerView1);
+        fragAmis = (RelativeLayout) v.findViewById(R.id.MesAmisFragment); // Fragment contenant la liste des profils d'amis
 
-        rv = (RecyclerView)v.findViewById(R.id.recyclerView);
-        MainActivity act = ((MainActivity)getActivity());
-        LinearLayoutManager lm = new LinearLayoutManager(act);
-        lm.setOrientation(LinearLayoutManager.VERTICAL);
-        rv.setLayoutManager(lm);
-        nombreAmis = (TextView)v.findViewById(R.id.nbAmis);
-
-        SwipeRefreshLayout swRL = (SwipeRefreshLayout)v.findViewById(R.id.swRL);
+        SwipeRefreshLayout swRL = (SwipeRefreshLayout) v.findViewById(R.id.swRLAmis);
         swRL.setOnRefreshListener(Refresher.getInstance());
         Refresher.getInstance().addswRL(swRL);
+
+        LinearLayoutManager lm = new LinearLayoutManager(getActivity()); // LayoutManager de la recherche de profils
+        lm.setOrientation(LinearLayoutManager.VERTICAL);// Un linearLayoutManager vertical : une liste verticale.
+        rvProfils.setLayoutManager(lm);// le RecyclerView se trouve donc formaté
 
         return v;
     }
 
+
+
     /**
-     * charger la liste des bams recus
+     * charger la liste des utilisateurs dans l'adapter prévu à cet effet
      *
-     * @param amis les amis
+     * @param users liste des utilisateurs
      */
-    public void loadAdpRec(List<User> amis)
+    public void loadAdpProfils(List<User> users) {
+
+        if (adpProfils == null) {
+            adpProfils = new MesAmisAdaptater(users, this);
+            rvProfils.setAdapter(adpProfils);
+        } else {
+            adpProfils.setNewList(users);
+        }
+
+    }
+
+    /**
+     * charger la liste des utilisateurs trouvés à partir de la BDD interne
+     *
+     * @param String search
+     */
+   public void loadListProfilsBDD(User user) {
+
+        UserDAO userDAO = new UserDAO(activity);
+        loadAdpProfils(userDAO.getListeAmis(user));
+    }
+
+
+    /**
+     * savoir si on est sur la liste des recherches de profils
+     *
+     * @return si on est sur la liste des recherches de profils
+     */
+    public boolean isAmisVisible()
     {
-        if(adapter == null) {
-            adapter = new MesAmisAdaptater(amis,this);
-            rv.setAdapter(adapter);
-        }
-        else
-        {
-            adapter.setNewList(amis);
-        }
-
-        nombreAmis.setText(amis.size() + " " + getString(R.string.amis_titre2));
+        return amisVisible;
     }
 
-    /**
-     * mettre le nombre de bams recus
-     *
-     * @param nb nombre de bams recus
-     */
-    public void setNombreBamTV(int nb) {
-        nombreAmis.setText(nb + " " + getString(R.string.amis_titre2));
-    }
 
-    @Override
-    public void onAttach(Activity activity){
-        super.onAttach(activity);
-        mActivity= (FragmentActivity)activity;
-    }
 }
-

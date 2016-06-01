@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 
 import bam.bam.bam.views.fragment.BamsEnvoyesReponsesFragment;
 import bam.bam.bam.views.fragment.BamsRecusFragment;
+import bam.bam.bam.views.fragment.RechercheProfilsFragment;
 import bam.bam.globalDisplay.views.MainActivity;
 import bam.bam.utilities.Internet;
 
@@ -28,7 +29,7 @@ public class LoadData {
     /**
      * nombre de taches
      */
-    private int nbTask = 3;
+    private int nbTask = 4;
 
     public LoadData(MainActivity activity,Location location) {
         this.activity = activity;
@@ -47,6 +48,9 @@ public class LoadData {
         LoadDataEnvTask loadEnv = new LoadDataEnvTask(activity,this,
                 (BamsEnvoyesReponsesFragment)activity.getTabsLayoutManager().getAdapterVP().getItem(1));
         loadEnv.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+        LoadDataRechTask loadRech = new LoadDataRechTask(activity,this,(RechercheProfilsFragment)activity.getTabsLayoutManager().getAdapterVP().getItem(3));
+        loadRech.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     /**

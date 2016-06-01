@@ -1,43 +1,41 @@
 package bam.bam.bam.views.adaptater;
 
+
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import bam.bam.R;
-import bam.bam.bam.controllers.verifications.VerifValidation;
+import bam.bam.bam.controllers.CallReciever;
+import bam.bam.bam.dataWS.AppelJSONParser;
 import bam.bam.bam.modeles.Bam;
 import bam.bam.bam.modeles.User;
-import bam.bam.bam.views.fragment.BamsRecusFragment;
+import bam.bam.bam.views.fragment.BamsEnvoyesReponsesFragment;
 import bam.bam.bam.views.fragment.MesAmisFragment;
+import bam.bam.bam.views.fragment.RechercheProfilsFragment;
+import bam.bam.utilities.InfoToast;
 import bam.bam.utilities.Utility;
 
 /**
- * Adaptateur des bams recus.
- *
- * @author Marc
+ * Created by Max on 09/12/2015.
  */
-public class MesAmisAdaptater extends RecyclerView.Adapter<MesAmisAdaptater.ViewHolder> {
+public class MesAmisAdaptater extends RecyclerView.Adapter<MesAmisAdaptater.ViewHolder>{
 
     /**
-     * liste des amis
+     * liste des users
      */
-    private List<User> amis;
-
-    /**
-     * savoir si l'ami est expand
-     */
-    private Map<Integer,Boolean> expand;
+    private List<User> users;
 
     /**
      * context courant
@@ -45,15 +43,9 @@ public class MesAmisAdaptater extends RecyclerView.Adapter<MesAmisAdaptater.View
     private Context context;
 
     /**
-     * fragment des bams ecus
+     * fragment de la recherche
      */
-    private Map<Bam,User> bamUsers;
-
-    /**
-     * context courant
-     */
-    private MesAmisFragment brf;
-
+    private MesAmisFragment rpf;
 
     /**
      * classe ou on va chercher tout les objets du layout de la vue
@@ -66,24 +58,24 @@ public class MesAmisAdaptater extends RecyclerView.Adapter<MesAmisAdaptater.View
         TextView pseudo;
 
         /**
+         * le statut
+         */
+        TextView status;
+
+        /**
+         * la rating bar
+         */
+        RatingBar rating;
+
+        /**
          * la photo
          */
         ImageView photo;
 
         /**
-         * image pour supprimer un ami
+         * le téléphone
          */
-        ImageView ko;
-
-        /**
-         * le layout pour mettre une taille fixe ou variable
-         */
-        LinearLayout linear;
-
-        /**
-         * le boutonCrayon
-         */
-        LinearLayout boutons;
+        ImageView tel;
 
         /**
          * la vue
@@ -96,25 +88,15 @@ public class MesAmisAdaptater extends RecyclerView.Adapter<MesAmisAdaptater.View
             vue = itemView;
             pseudo = (TextView) itemView.findViewById(R.id.pseudo);
             photo = (ImageView) itemView.findViewById(R.id.photo);
-            linear = (LinearLayout) itemView.findViewById(R.id.linear);
-            ko = (ImageView) itemView.findViewById(R.id.ko);
-            boutons = (LinearLayout) itemView.findViewById(R.id.boutons);
+            tel = (ImageView) itemView.findViewById(R.id.tel);
         }
     }
 
 
-    public MesAmisAdaptater(List<User> amis, MesAmisFragment brf){
-        this.brf = brf;
-        this.amis = new ArrayList<>(amis);
-        this.context = brf.getActivity();
-        this.expand = new HashMap<>();
-    }
-
-    public void onBindViewHolder(final MesAmisAdaptater.ViewHolder holder, final int position) {
-
-        setLinearExpandClose(holder, position);
-
-        expand.put(position, false);
+    public MesAmisAdaptater(List<User> users, MesAmisFragment rpf){
+        this.users = new ArrayList<>(users);
+        this.context = rpf.getActivity();
+        this.rpf = rpf;
     }
 
     /**
@@ -124,69 +106,29 @@ public class MesAmisAdaptater extends RecyclerView.Adapter<MesAmisAdaptater.View
      * @param viewType type de vue
      * @return viewHolder
      */
+
+
     @Override
     public MesAmisAdaptater.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.amis_item, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.amis_item,parent,false);
 
         return new ViewHolder(v,viewType);
     }
 
     /**
-     * mettre le bam expand ou non
+     * met les valeurs dans les differents objets de la vue
      *
      * @param holder holder
      * @param position position de l'item
      */
-    private void setLinearExpandClose(final ViewHolder holder, final int position) {
-
-        setCloseParams(holder, position);
-
-        holder.vue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (expand.get(position)) {
-                    setCloseParams(holder, position);
-                } else {
-                    setExpandParams(holder, position);
-                }
-            }
-        });
-    }
-
-    /**
-     * paramètre d'un bam en mode expand
-     *
-     * @param holder holder
-     * @param position la position
-     */
-    public void setExpandParams(ViewHolder holder, int position)
-    {
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        holder.linear.setLayoutParams(layoutParams);
-        holder.boutons.setVisibility(View.VISIBLE);
-        expand.remove(position);
-        expand.put(position, true);
-    }
-
-    /**
-     * paramètre d'un ami en mode fermé
-     *
-     * @param holder holder
-     * @param position la position
-     */
-    public void setCloseParams(ViewHolder holder, int position)
-    {
-        int dp70 = (int) Utility.convertDpToPixel(70, context);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT, dp70);
-        holder.linear.setLayoutParams(layoutParams);
-
-        holder.boutons.setVisibility(View.GONE);
-        expand.remove(position);
-        expand.put(position, false);
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
+        final User curUser = users.get(position);
+        rpf.loadListProfilsBDD(curUser);
+        holder.pseudo.setText(curUser.getUser_pseudo());
+        holder.photo.setImageBitmap(Utility.decodeBase64(users.get(position).getPhoto_data()));
+        holder.status.setText(curUser.getStatus());
+        holder.rating.setRating(curUser.getRealNote().getVal());
     }
 
     /**
@@ -196,24 +138,18 @@ public class MesAmisAdaptater extends RecyclerView.Adapter<MesAmisAdaptater.View
      */
     @Override
     public int getItemCount() {
-        return amis.size();
+        return users.size();
     }
 
-    public void setNewList(List<User> amis) {
-        this.amis = new ArrayList<>(amis);
-        this.expand = new HashMap<>();
-        notifyDataSetChanged();
-    }
 
     /**
-     * supprimer un bam
+     * charger les nouveaux items
      *
-     * @param bam bam à enlever
+     * @param users les utilisateurs
      */
-    public void removeAmi(User ami)
-    {
-        amis.remove(ami);
+    public void setNewList(List<User> users) {
+        this.users = new ArrayList<>(users);
         notifyDataSetChanged();
-        brf.setNombreBamTV(amis.size());
     }
+
 }

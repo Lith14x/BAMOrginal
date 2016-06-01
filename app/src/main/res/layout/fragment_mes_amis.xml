@@ -1,28 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/MesAmisFragment"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content">
 
-    <!-- fragment envoyés -->
-
-    <!-- fragment réponses -->
-
-    <FrameLayout
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/margin_bar_tabs"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:background="#ffffff">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Mes amis"
-            android:id="@+id/text"
-            android:layout_gravity="center" />
-    </FrameLayout>
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/swRLAmis"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/RecyclerView1"
+                android:paddingTop="9dp"
+                android:paddingBottom="16dp"
+                android:clipToPadding="false"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+    </LinearLayout>
+
+    <!-- Ombre dessous le blank-->
+    <View style="@style/blank_shadow" />
 
 </RelativeLayout>
