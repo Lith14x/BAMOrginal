@@ -50,10 +50,10 @@ public class User {
     /**
      * liste amis
      */
-    private String user_liste_amis;
+    private String user_list_amis;
 
 
-    public User(int id, String user_pseudo, String user_device_id, String user_phone_number,String photo_data, float note, String status, int nbn, String user_liste_amis) {
+    public User(int id, String user_pseudo, String user_device_id, String user_phone_number,String photo_data, float note, String status, int nbn, String user_list_amis) {
 
         this.id = id;
         this.photo_data  = photo_data ;
@@ -62,7 +62,7 @@ public class User {
         this.user_device_id = user_device_id;
         this.note = new UserNote(note,nbn);
         this.user_status = status;
-        this.user_liste_amis = user_liste_amis;
+        this.user_list_amis = user_list_amis;
     }
 
     public User(String user_pseudo, String user_phone_number, String photo_data, String user_device_id) {
@@ -74,7 +74,7 @@ public class User {
         this.user_device_id = user_device_id;
         this.note = new UserNote();
         this.user_status = "default status";
-        this.user_liste_amis = "";
+        this.user_list_amis = "";
     }
 
     public int getId() {
@@ -149,6 +149,8 @@ public class User {
     }
 
     public String getUser_liste_amis(){
-        return user_liste_amis;
+        return user_list_amis;
     }
+
+    public void setUser_liste_amis(String amis) { this.user_list_amis = amis;}
 }

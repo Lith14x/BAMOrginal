@@ -59,7 +59,7 @@ public class UserTable {
      * Commande de creation de la table
      */
 
-    public static final String AMIS = "amis";
+    public static final String AMIS = "user_list_amis";
     /**
      * Liste des amis
      */

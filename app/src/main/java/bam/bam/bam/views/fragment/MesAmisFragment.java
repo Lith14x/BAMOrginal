@@ -19,15 +19,19 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.app.AlertDialog;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import bam.bam.R;
+import bam.bam.bam.controllers.refresher.LoadDataAmisTask;
 import bam.bam.bam.controllers.refresher.Refresher;
 import bam.bam.bam.dataBDD.UserDAO;
+import bam.bam.bam.dataWS.UserJSONParser;
 import bam.bam.bam.modeles.User;
 import bam.bam.bam.views.adaptater.MesAmisAdaptater;
 import bam.bam.bam.views.adaptater.RechercheProfilsAdapter;
 import bam.bam.globalDisplay.views.MainActivity;
+import bam.bam.utilities.Utility;
 
 /**
  * fragment affichage des amis
@@ -79,6 +83,10 @@ public class MesAmisFragment extends Fragment {
         LinearLayoutManager lm = new LinearLayoutManager(getActivity()); // LayoutManager de la recherche de profils
         lm.setOrientation(LinearLayoutManager.VERTICAL);// Un linearLayoutManager vertical : une liste verticale.
         rvProfils.setLayoutManager(lm);// le RecyclerView se trouve donc formaté
+        UserJSONParser ujp = new UserJSONParser(this.getContext());
+        List<Boolean> co = new ArrayList<>();
+        co.add(false);
+        loadAdpProfils(ujp.getListeAmis(ujp.getUser(Utility.getPhoneId(activity),true,co)));
 
         return v;
     }
@@ -98,6 +106,7 @@ public class MesAmisFragment extends Fragment {
         } else {
             adpProfils.setNewList(users);
         }
+
 
     }
 

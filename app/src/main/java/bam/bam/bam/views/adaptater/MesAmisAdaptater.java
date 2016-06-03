@@ -124,7 +124,6 @@ public class MesAmisAdaptater extends RecyclerView.Adapter<MesAmisAdaptater.View
      */
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final User curUser = users.get(position);
-        rpf.loadListProfilsBDD(curUser);
         holder.pseudo.setText(curUser.getUser_pseudo());
         holder.photo.setImageBitmap(Utility.decodeBase64(users.get(position).getPhoto_data()));
         holder.status.setText(curUser.getStatus());

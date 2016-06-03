@@ -2,6 +2,7 @@ package bam.bam.bam.dataWS;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.StrictMode;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -63,6 +64,7 @@ public class UserJSONParser {
 
     private String URL_GET_PSEUDO;
 
+
     public UserJSONParser(Context context) {
         String URL = context.getResources().getString(R.string.URL);
 
@@ -92,6 +94,7 @@ public class UserJSONParser {
         urlNom.add("user_note");
         urlNom.add("user_status");
         urlNom.add("user_nbn");
+        urlNom.add("user_list_amis");
 
         List<String> urlData = new ArrayList<>();
         urlData.add(user.getUser_pseudo());
@@ -101,6 +104,7 @@ public class UserJSONParser {
         urlData.add(user.getNote());
         urlData.add(user.getStatus());
         urlData.add(user.getNbn());
+        urlData.add(user.getUser_liste_amis());
 
         try {
             PostPutData ppd = new PostPutData(URL_POST_USER,"POST",urlNom,urlData);
@@ -132,6 +136,7 @@ public class UserJSONParser {
         urlNom.add("user_note");
         urlNom.add("user_status");
         urlNom.add("user_nbn");
+        urlNom.add("user_list_amis");
 
         List<String> urlData = new ArrayList<>();
         urlData.add(user.getUser_pseudo());
@@ -141,6 +146,7 @@ public class UserJSONParser {
         urlData.add(user.getNote());
         urlData.add(user.getStatus());
         urlData.add(user.getNbn());
+        urlData.add(user.getUser_liste_amis());
 
         PostPutData ppd = new PostPutData(URL_PUT_USER + user.getId(), "PUT", urlNom, urlData);
         return ppd.lancerEnregistrement();
@@ -218,6 +224,9 @@ public class UserJSONParser {
                 Type type = new TypeToken<User>() {}.getType();
                 User user = gson.fromJson(response.toString(), type);
                 UserNote note = new UserNote((float)jObj.getDouble("user_note"),jObj.getInt("user_nbn"));
+                String amis = (String) jObj.get("user_list_amis");
+                user.setUser_liste_amis(amis);
+
                 user.setNote(note);
                 user.setPhoto_data(photoData);
                 //user.setStatus(jObj.getString("user_status"));
@@ -284,5 +293,53 @@ public class UserJSONParser {
         {
             return null;
         }
+    }
+
+    /**
+     * Obtenir la liste des amis
+     */
+
+    public List<User> getListeAmis(User user) {
+        List<Boolean> co = new ArrayList<>();
+        co.add(false);
+        String[] Id;
+        int k;
+        ArrayList<User> Amis = new ArrayList<User>();
+        Id = user.getUser_liste_amis().split(";");
+        for (k = 0; k < Id.length;k++ ){
+            Amis.add(getUser(Id[k],false,co));
+        }
+        return Amis;
+    }
+
+    public static String addAmis(User user, User ami){
+        String Amis=user.getUser_liste_amis();
+        if (Amis == ""){
+            Amis+=ami.getId();
+        } else {
+            Amis+=";"+ami.getId();
+        }
+        return Amis;
+    }
+
+    public String removeAmis(User user,User ami){
+        String Amis=user.getUser_liste_amis();
+        String[] Id;
+        int ami_id =ami.getId();
+        int i;
+        if (Amis != ""){
+            Id = Amis.split(";");
+            for (i=0;i<Id.length;i++ ) {
+                if (Integer.parseInt(Id[i])==ami_id){
+                    Amis.replace(";" + ami_id, "");
+                    return Amis;
+                }
+            }
+            return Amis;
+        }
+        if (Amis == "" + ami_id){
+            Amis = "";
+        }
+        return Amis;
     }
 }

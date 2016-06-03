@@ -1,6 +1,7 @@
 package bam.bam.bam.controllers.refresher;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,28 +14,29 @@ import bam.bam.bam.dataWS.RepJSONParser;
 import bam.bam.bam.dataWS.UserJSONParser;
 import bam.bam.bam.modeles.Bam;
 import bam.bam.bam.modeles.User;
+import bam.bam.bam.views.fragment.MesAmisFragment;
 import bam.bam.bam.views.fragment.RechercheProfilsFragment;
 import bam.bam.globalDisplay.database.ParametersDAO;
 import bam.bam.globalDisplay.views.MainActivity;
 import bam.bam.utilities.Internet;
+import bam.bam.utilities.Utility;
 
 /**
  * chargeur de la liste des utilisateurs
  *
  * @author Max
  */
-public class LoadDataRechTask extends AsyncTask<Void,Void,Void> {
+public class LoadDataAmisTask extends AsyncTask<Void,Void,Void> {
 
+    /**
+     * le dernier utilisateur checké pour la recherche
+     */
     private User lastUser;
 
     /**
      * parser pour les utilisateurs
      */
     private UserJSONParser userJSONParser;
-    /**
-     * l'objet de la recherche
-     */
-    private String keyword;
 
     /**
      * gestionnaire des requêtes utilisateur
@@ -44,7 +46,7 @@ public class LoadDataRechTask extends AsyncTask<Void,Void,Void> {
     /**
      * fragment de recherche de profils
      */
-    private RechercheProfilsFragment rpf;
+    private final MesAmisFragment rpf;
 
     /**
      * le context
@@ -57,9 +59,9 @@ public class LoadDataRechTask extends AsyncTask<Void,Void,Void> {
     private static boolean serveurOk;
 
     /**
-     * liste des users recherchés
+     * liste des amis
      */
-    private static List<User> usersRech;
+    public static List<User> amis;
 
     /**
      * nouvelle date de MAJ
@@ -71,23 +73,13 @@ public class LoadDataRechTask extends AsyncTask<Void,Void,Void> {
      */
     private LoadData loadD;
 
-    /**
-     * liste a insérer dans la BDD (users)
-     */
-    private static Map<Integer,List<User>> usersByIdBam;
 
-    /**
-     * liste a insérer dans la BDD (dates)
-     */
-    private static Map<Integer,List<String>> datesByIdBam;
-
-
-    public LoadDataRechTask(MainActivity activity, LoadData loadD,RechercheProfilsFragment rpf) {
+    public LoadDataAmisTask(MainActivity activity, LoadData loadD,MesAmisFragment rpf) {
         this.activity = activity;
         this.loadD = loadD;
         this.userJSONParser = new UserJSONParser(activity);
         this.rpf = rpf;
-        //this.users = usersRech;
+        this.amis = new ArrayList<User>();
     }
 
     @Override
@@ -97,13 +89,12 @@ public class LoadDataRechTask extends AsyncTask<Void,Void,Void> {
         serveurOk = true;
 
         newMAJ = new ArrayList<>();
-        usersRech = new ArrayList<>();
+        amis = new ArrayList<>();
 
         userJSONParser = new UserJSONParser(activity);
 
         userDAO = new UserDAO(activity);
 
-        this.keyword = rpf.getETKeyword().toString();
 
     }
 
@@ -111,24 +102,21 @@ public class LoadDataRechTask extends AsyncTask<Void,Void,Void> {
     {
         serveurOk = true;
         newMAJ = new ArrayList<>();
-        usersRech = new ArrayList<>();
+        amis = new ArrayList<>();
     }
 
     @Override
     protected Void doInBackground(Void... params) {
 
         if (Internet.isConnected(activity)) {
-            // récupéré les utilisateurs de la bdd interne
-            usersRech = loadFromBDD();
-
             // récupéré les utilisateurs depuis le Web Service
-            loadFromWS(usersRech);
+            loadFromWS();
 
         }
         else // si pas internet
         {
             // load BDD interne
-            usersRech = loadFromBDD();
+            amis = loadFromBDD();
             /*if(lastUser != null && lastser.equals(bam)) {
                 users.addAll(usersBDD);
             }*/
@@ -143,24 +131,14 @@ public class LoadDataRechTask extends AsyncTask<Void,Void,Void> {
      *
      * @param usersBDD liste des réponses de la BDD
      */
-    private void loadFromWS(List<User> usersBDD)
+    private void loadFromWS()
     {
         //String oldMAJ = userDAO.getLastUpdate(2);
 
         // load web service
-        List<User> usersParser = userJSONParser.getUsersByKeyword(keyword);
-        if (usersParser != null) {
-                usersRech.addAll(usersParser);
-                lastUser = usersRech.get(usersRech.size()-1);
-        } else if (lastUser != usersBDD.get(usersBDD.size()-1))
-        {
-            usersRech.addAll(usersBDD);
-            lastUser = usersRech.get(usersRech.size()-1);
-        }
-        else // pb de connexion au serveur
-        {
-            pbServeur();
-        }
+        List<Boolean> co = new ArrayList<>();
+        co.add(false);
+        amis = userJSONParser.getListeAmis(userJSONParser.getUser(Utility.getPhoneId(activity),true,co));
     }
 
     /**
@@ -170,12 +148,15 @@ public class LoadDataRechTask extends AsyncTask<Void,Void,Void> {
     {
         serveurOk = false;
 
+
+        Log.e("[Load..Task]","Erreur connexion serveur");
         // load BDD interne
+        /*
         List<User> usersBDD = loadFromBDD();
         if (lastUser != usersBDD.get(usersBDD.size()-1)) {
             usersRech.addAll(usersBDD);
             lastUser = usersRech.get(usersRech.size() - 1);
-        }
+        }*/
     }
 
     /**
@@ -185,13 +166,18 @@ public class LoadDataRechTask extends AsyncTask<Void,Void,Void> {
      */
     private List<User> loadFromBDD()
     {
-        return userDAO.getUsersByKeyword(this.keyword);
+        return userDAO.getListeAmis(userDAO.getUserByDevice(Utility.getPhoneId(activity)));
     }
 
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
 
+        if (amis != null) {
+            lastUser = amis.get(amis.size()-1);
+        } else {
+            pbServeur();
+        }
     }
 
 
@@ -203,15 +189,12 @@ public class LoadDataRechTask extends AsyncTask<Void,Void,Void> {
         return serveurOk;
     }
 
-    public static List<User> getUsersRech() {
-        return usersRech;
+    public static List<User> getUsersAmis() {
+        return amis;
     }
 
-    public static void setUsersRech(List<User> users) {
-        LoadDataRechTask.usersRech = users;
+    public static void setUsersAmis(List<User> users) {
+        LoadDataAmisTask.amis = users;
     }
 
-    public void setKeyword(String keyword){
-        this.keyword = keyword;
-    }
 }

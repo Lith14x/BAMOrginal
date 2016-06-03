@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.TimeZone;
 
 import bam.bam.R;
+import bam.bam.bam.views.fragment.MesAmisFragment;
 import bam.bam.bam.views.fragment.ProfilFragment;
 import bam.bam.bam.views.fragment.RechercheProfilsFragment;
 import bam.bam.globalDisplay.views.SplashScreen;
@@ -53,6 +54,7 @@ public class Refresher implements SwipeRefreshLayout.OnRefreshListener{
 
     private String keyword;
 
+    private String amis;
     /**
      * l'instance de la classe
      */
@@ -190,5 +192,9 @@ public class Refresher implements SwipeRefreshLayout.OnRefreshListener{
     public void setKeyword(String keyword)
     {
         this.keyword = keyword;
+    }
+
+    public void setAmis(String amis){
+        this.amis = amis;
     }
 }

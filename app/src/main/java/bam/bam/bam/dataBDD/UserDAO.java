@@ -197,7 +197,7 @@ public class UserDAO extends DAO {
                 user_pseudo = rs.getString("user_pseudo");
                 user_phone_number = rs.getString("user_phone_number");
                 photo_data = rs.getString("user_photo_id");
-                user_liste_amis = rs.getString("user_liste_amis");
+                user_liste_amis = rs.getString("user_list_amis");
 
                 listUsers.add(new User(id, user_pseudo, user_device_id, user_phone_number,photo_data, note, status, nbn,user_liste_amis));
 
