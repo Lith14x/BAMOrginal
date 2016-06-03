@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.balysv.materialripple.MaterialRippleLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/ripple_bam_env">
+    <LinearLayout
+        android:id="@+id/item"
+        style="@style/linear_list_env"
+        android:padding="0dp">
+
+        <RelativeLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent">
+
+            <LinearLayout
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:padding="16dp">
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+<<<<<<< HEAD
+                        android:id="@+id/photoRech"
+=======
+                        android:id="@+id/photo"
+>>>>>>> 33ec48eb4c1ea338ba07d8ed885567548e07f2be
+                        android:layout_marginBottom="5dp"
+                        style="@style/photo_pseudo_list"/>
+
+                    <TextView
+<<<<<<< HEAD
+                        android:id="@+id/statusRech"
+=======
+                        android:id="@+id/pseudo"
+>>>>>>> 33ec48eb4c1ea338ba07d8ed885567548e07f2be
+                        style="@style/pseudo_recu_env" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linear"
+                    android:paddingLeft="16dp"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+<<<<<<< HEAD
+                            android:id="@+id/pseudoRech"
+=======
+                            android:id="@+id/status"
+>>>>>>> 33ec48eb4c1ea338ba07d8ed885567548e07f2be
+                            style="@style/titre" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:gravity="bottom"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <RatingBar
+<<<<<<< HEAD
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:isIndicator="true"
+                            android:id="@+id/ratingRech" />
+=======
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:isIndicator="true"
+                            android:id="@+id/nbEtoiles" />
+>>>>>>> 33ec48eb4c1ea338ba07d8ed885567548e07f2be
+
+                        <LinearLayout
+                            android:gravity="right|center_vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llgrise"
+                style="@style/linear_list_grise"
+                android:orientation="vertical" />
+
+        </RelativeLayout>
+    </LinearLayout>
+</com.balysv.materialripple.MaterialRippleLayout>
