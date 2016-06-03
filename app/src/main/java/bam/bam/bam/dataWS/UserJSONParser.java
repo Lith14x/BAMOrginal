@@ -41,7 +41,7 @@ public class UserJSONParser {
      * Adresse de la database
      */
 
-    private final String SERVER_ADDRESS = "bam-serverws.rhcloud.com:3306";
+    private final String SERVER_ADDRESS = /*"bam-serverws.rhcloud.com:3306"*/"127.9.189.2";
 
     /**
      * Informations de connexion
@@ -114,6 +114,7 @@ public class UserJSONParser {
         urlData.add(user.getStatus());
         urlData.add(user.getNbn());
 
+
         try {
             PostPutData ppd = new PostPutData(URL_POST_USER,"POST",urlNom,urlData);
             boolean ok = ppd.lancerEnregistrement();
@@ -123,6 +124,7 @@ public class UserJSONParser {
                 idUser = (int) jObj.get("id");
             }
         } catch (JSONException e) {
+            e.printStackTrace();
         }
 
         return idUser;
@@ -173,7 +175,7 @@ public class UserJSONParser {
             // cfgmWUpHkRAL
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             Log.d("[DriverManager]", "Connecting...");
-            Connection con = DriverManager.getConnection("jdbc:mysql://"+SERVER_ADDRESS+"//bam", LOGIN, PASS);
+            Connection con = DriverManager.getConnection("jdbc:mysql://"+SERVER_ADDRESS+"//bam", "adminj3UCslK", "cfgmWUpHkRAL");
             Log.d("[DriverManager]", "Connected to database");
             String query = "SELECT * FROM " + UserTable.TABLE_NAME + " WHERE user_pseudo LIKE %" + keyword + "%";
             Statement stmt = con.createStatement();

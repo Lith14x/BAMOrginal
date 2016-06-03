@@ -17,6 +17,7 @@ public enum FragmentParams {
     TABS(TabsFragment.class,R.string.tabs_titre),
     SENDBAM(SendBamFragment.class,R.string.send_bam_titre),
     SEARCH(RechercheProfilsFragment.class,R.string.recherche_profil_titre),
+    FOUND(ProfilFragment.class,R.string.rech_found),
     PROFIL_FIRST(ProfilFragment.class,R.string.profil_titre);
 
     /**

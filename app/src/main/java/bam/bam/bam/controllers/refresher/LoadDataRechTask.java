@@ -130,7 +130,7 @@ public class LoadDataRechTask extends AsyncTask<Void,Void,Void> {
         {
             // load BDD interne
             usersRech = loadFromBDD();
-            /*if(lastUser != null && lastser.equals(bam)) {
+            /*if(lastUser != null && lastUser.equals(bam)) {
                 users.addAll(usersBDD);
             }*/
             //nbRepsByItBam.put(bam.getId(), usersBDD.size()); // nbReps

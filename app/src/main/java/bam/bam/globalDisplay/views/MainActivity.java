@@ -121,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
     public void premierLancement() {
         FragmentParams fParams = FragmentParams.PROFIL_FIRST;
         loadFragment(fParams.ordinal(), false, getString(fParams.getPageTitle()));
+        first = false;
     }
 
     /**

@@ -14,6 +14,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import bam.bam.R;
@@ -86,13 +87,16 @@ public class RechercheProfilsAdapter extends RecyclerView.Adapter<RechercheProfi
          */
         View vue;
 
+
         public ViewHolder(View itemView,int ViewType) {
             super(itemView);
 
             vue = itemView;
-            pseudo = (TextView) itemView.findViewById(R.id.pseudo);
-            photo = (ImageView) itemView.findViewById(R.id.photo);
-            tel = (ImageView) itemView.findViewById(R.id.tel);
+            rating = (RatingBar) itemView.findViewById(R.id.ratingRech);
+            status = (TextView) itemView.findViewById(R.id.statusRech);
+            pseudo = (TextView) itemView.findViewById(R.id.pseudoRech);
+            photo = (ImageView) itemView.findViewById(R.id.photoRech);
+            //tel = (ImageView) itemView.findViewById(R.id.tel);
         }
     }
 
