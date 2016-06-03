@@ -5,6 +5,7 @@ import bam.bam.bam.controllers.refresher.LoadDataUserTask;
 import bam.bam.bam.dataWS.UserJSONParser;
 import bam.bam.bam.modeles.UserNote;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.Rating;
@@ -64,26 +65,44 @@ public class ProfilFragment extends Fragment
 
     public void refreshProfil(User user, View view,MainActivity act) // Recharge les infos utilisateur sur la page
     {
+
+
+
         Log.d("[ProfilFragment]","Refreshing user profile");
 
         EditText tel = (EditText) view.findViewById(R.id.tel);
         EditText pseudoET = (EditText) view.findViewById(R.id.pseudoET);
         TextView pseudoTV = (TextView) view.findViewById(R.id.pseudoTV);
         TextView statutTV = (TextView) view.findViewById(R.id.statutProfilPerso);
-        RatingBar ratingBar = (RatingBar) view.findViewById(R.id.ratingBar);
-
-        ratingBar.setOnTouchListener(new OnTouchListener() { // Rendre la RatingBar inclickable
-            public boolean onTouch(View v, MotionEvent event) {
-                return true;
-            }
-        });
+        final RatingBar ratingBar = (RatingBar) view.findViewById(R.id.ratingBar);
 
 
         Button btn = (Button) view.findViewById(R.id.saveProfil);
-        btn.setOnClickListener(new EnregistrementProfil(this,act,image,tel,pseudoET));
+
+
+        User buff = RechercheProfilsFragment.getLastProfil();
+        if(buff != null) {
+            user = buff.getCopy();
+            Log.d("azeazeaze", "not null");
+            RechercheProfilsFragment.resetLastProfil();
+
+            ratingBar.setIsIndicator(false);
+            ratingBar.setOnTouchListener(new EnregistrementNoteUtilisateur(this,user.getId(),act,ratingBar));
+            btn.setEnabled(false);
+            btn.setVisibility(View.GONE);
+            btn.setOnClickListener(null);
+        }
+        else {
+            ratingBar.setIsIndicator(true);
+            btn.setOnClickListener(new EnregistrementProfil(this, act, image, tel, pseudoET));
+            btn.setEnabled(true);
+            btn.setVisibility(View.VISIBLE);
+        }
 
         if(!act.isFirst()) // si c'est pour une modification de profil
         {
+
+
             //ratingBar.setOnClickListener(new EnregistrementNoteUtilisateur(this,user.getId(),act, ratingBar));
             Log.d("[ProfilFragment]", "Refreshing on screen data...");
             ratingBar.setRating(user.getRealNote().getVal());

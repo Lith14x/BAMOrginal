@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 
@@ -213,8 +214,9 @@ public class UserDAO extends DAO {
     public List<User> getUsersByKeyword(String keyword)
     {
         this.open();
-        String query = "SELECT * FROM " + UserTable.TABLE_NAME + " WHERE user_pseudo LIKE %"+keyword+"%";
-        try {
+        String query = "SELECT * FROM users";
+        //String query = "SELECT * FROM " + UserTable.TABLE_NAME + " WHERE user_pseudo LIKE '%"+keyword+"%';";
+        /*try {
             Connection con = DriverManager.getConnection("jdbc://bam-serverws.rhcloud.com/","adminj3UCslK","cfgmWUpHkRAL"); //!!!!Problème de sécurité ici!!!!
             Properties connectionProps = new Properties();
             Statement stmt = con.createStatement();
@@ -222,8 +224,27 @@ public class UserDAO extends DAO {
 
             return resultSetToUsers(rs);
         } catch (SQLException e) {}
+        */
+        List<User> users = new ArrayList<>();
+        try {
 
-        return null;
+            Cursor curseur = getDatabase().rawQuery(query, null);
+            StringBuilder sb = new StringBuilder();
+            for (String i : curseur.getColumnNames()) {
+                sb.append(i + ",");
+            }
+
+            for (curseur.moveToFirst(); !curseur.isAfterLast(); curseur.moveToNext()) {
+                users.add(cursorToUser(curseur));
+            }
+            curseur.close();
+        } catch (SQLiteException e ){
+            e.printStackTrace();
+        }
+
+            this.close();
+
+        return users;
     }
 
     /**

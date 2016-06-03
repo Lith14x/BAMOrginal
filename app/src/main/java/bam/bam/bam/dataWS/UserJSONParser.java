@@ -19,6 +19,7 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,17 @@ import bam.bam.bam.modeles.UserNote;
  * @author Marc
  */
 public class UserJSONParser {
+    /**
+     * Adresse de la database
+     */
+
+    private final String SERVER_ADDRESS = /*"bam-serverws.rhcloud.com:3306"*/"127.9.189.2";
+
+    /**
+     * Informations de connexion
+     */
+    private final String LOGIN = "Invite";
+    private final String PASS = "B4mInv1te";
 
     /**
      * URL pour obtenir un utilisateur (id de l'utilisateur)
@@ -102,6 +114,7 @@ public class UserJSONParser {
         urlData.add(user.getStatus());
         urlData.add(user.getNbn());
 
+
         try {
             PostPutData ppd = new PostPutData(URL_POST_USER,"POST",urlNom,urlData);
             boolean ok = ppd.lancerEnregistrement();
@@ -111,6 +124,7 @@ public class UserJSONParser {
                 idUser = (int) jObj.get("id");
             }
         } catch (JSONException e) {
+            e.printStackTrace();
         }
 
         return idUser;
@@ -153,24 +167,31 @@ public class UserJSONParser {
      * @return la liste d'utilisateurs
      */
 
-    public List<User> getUsersByKeyword(String keyword)
-    {
+    public List<User> getUsersByKeyword(String keyword) {
 
 
         try {
-            Connection con = DriverManager.getConnection("jdbc://bam-serverws.rhcloud.com/", "adminj3UCslK", "cfgmWUpHkRAL"); //!!!!Problème de sécurité ici!!!
-            String query = "SELECT * FROM " + UserTable.TABLE_NAME + " WHERE user_pseudo LIKE %"+keyword+"%";
+            // adminj3UCslK
+            // cfgmWUpHkRAL
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            Log.d("[DriverManager]", "Connecting...");
+            Connection con = DriverManager.getConnection("jdbc:mysql://"+SERVER_ADDRESS+"//bam", "adminj3UCslK", "cfgmWUpHkRAL");
+            Log.d("[DriverManager]", "Connected to database");
+            String query = "SELECT * FROM " + UserTable.TABLE_NAME + " WHERE user_pseudo LIKE %" + keyword + "%";
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
 
 
-
             return UserDAO.resultSetToUsers(rs);
 
-        } catch (Exception e)
-        {
-            return null;
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
         }
+        return null;
     }
     /**
      * obtenir un utilisateur à partir de l'id

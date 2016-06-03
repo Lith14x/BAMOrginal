@@ -2,6 +2,7 @@ package bam.bam.globalDisplay;
 
 import bam.bam.R;
 import bam.bam.bam.views.fragment.ProfilFragment;
+import bam.bam.bam.views.fragment.RechercheProfilsFragment;
 import bam.bam.bam.views.fragment.SendBamFragment;
 import bam.bam.globalDisplay.views.tabs.TabsFragment;
 
@@ -15,6 +16,8 @@ public enum FragmentParams {
     PROFIL(ProfilFragment.class,R.string.profil_titre),
     TABS(TabsFragment.class,R.string.tabs_titre),
     SENDBAM(SendBamFragment.class,R.string.send_bam_titre),
+    SEARCH(RechercheProfilsFragment.class,R.string.recherche_profil_titre),
+    FOUND(ProfilFragment.class,R.string.rech_found),
     PROFIL_FIRST(ProfilFragment.class,R.string.profil_titre);
 
     /**

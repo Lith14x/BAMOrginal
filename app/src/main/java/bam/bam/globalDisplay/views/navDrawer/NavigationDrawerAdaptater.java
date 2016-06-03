@@ -146,10 +146,23 @@ public class NavigationDrawerAdaptater extends RecyclerView.Adapter<NavigationDr
                 public boolean onTouch(View v, MotionEvent event) {
 
                     if (event.getAction() == MotionEvent.ACTION_UP) {
-                        if (position == FragmentParams.TABS.ordinal() + 1)
-                            activity.loadFragment(position - 1, true, activity.getString(FragmentParams.values()[position-1].getPageTitle()));
-                        else
-                            activity.loadFragment(position - 1, false, activity.getString(FragmentParams.values()[position-1].getPageTitle()));
+                        NavDrawerParams[] frag = NavDrawerParams.values();
+                        int toLoad = 0;
+                        boolean showTabs = false;
+                        switch(frag[position-1])
+                        {
+                            case PROFIL:
+                                toLoad = FragmentParams.PROFIL.ordinal();
+                                break;
+                            case TABS :
+                                toLoad = FragmentParams.TABS.ordinal();
+                                showTabs = true;
+                                break;
+                            case SEARCH :
+                                toLoad = FragmentParams.SEARCH.ordinal();
+                                break;
+                        }
+                        activity.loadFragment(toLoad, showTabs, activity.getString(FragmentParams.values()[toLoad].getPageTitle()));
                     }
 
                     if (event.getAction() == MotionEvent.ACTION_CANCEL && !(position == activity.getCurrent_fragment_pos() + 1)) {

@@ -44,8 +44,6 @@ public class SplashScreen extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_screen);
 
-
-
         // attendre 1s, sinon il y aura un écran noir avant le splashscreen
         Handler handler = new Handler();
         Runnable delay = new Runnable() {

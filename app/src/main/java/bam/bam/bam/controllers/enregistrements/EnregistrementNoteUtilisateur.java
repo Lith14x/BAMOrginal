@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -32,7 +33,7 @@ import bam.bam.utilities.Utility;
 /**
  * Created by Max on 18/11/2015.
  */
-public class EnregistrementNoteUtilisateur implements View.OnClickListener {
+public class EnregistrementNoteUtilisateur implements View.OnTouchListener {
 
     /**
      * Enregistrement de la note
@@ -59,7 +60,7 @@ public class EnregistrementNoteUtilisateur implements View.OnClickListener {
     /**
      * La note
      */
-    private UserNote note;
+    private float rbnote;
 
     /**
      * L'ID de l'utilisateur dont on doit modifier la note
@@ -85,9 +86,13 @@ public class EnregistrementNoteUtilisateur implements View.OnClickListener {
     }
 
     @Override
-    public void onClick(View v) {
-        if (!occup)
+    public boolean onTouch(View v,MotionEvent e) {
+        if (!occup) {
             updateProfil();
+            return true;
+        }else{
+            return false;
+        }
     }
 
     /**
@@ -105,7 +110,7 @@ public class EnregistrementNoteUtilisateur implements View.OnClickListener {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                note = new UserNote(rb.getNumStars());
+                rbnote = rb.getNumStars();
                 InfoToast.display(false, activity.getString(R.string.enregistrement),activity);
             }
 
@@ -117,8 +122,10 @@ public class EnregistrementNoteUtilisateur implements View.OnClickListener {
 
                     user = userDAO.getUser(targetID);
 
-                    user.addNote(note);
-                    serveurOk = userJSONParser.updateUser(user);
+
+                    user.setNote(new UserNote((rbnote+user.getRealNote().getVal()*user.getRealNote().getNbVotes())/(user.getRealNote().getNbVotes()+1),user.getRealNote().getNbVotes()+1));
+                    int ret = userJSONParser.setUser(user);
+                    serveurOk = ret == 0 ? false : true;
 
                 }
 
@@ -130,7 +137,7 @@ public class EnregistrementNoteUtilisateur implements View.OnClickListener {
                 if (serveurOk != null && serveurOk) {
                     userDAO.updateUser(user);
                     Refresher.getInstance().onRefresh();
-                    goListsApp();
+                    InfoToast.display(false, "OK ! Merci pour cet avis", activity);
                 }
                 else
                 {

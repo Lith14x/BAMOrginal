@@ -40,6 +40,9 @@
     <string name="limiteBams">Vous avez dépassé la limite de BAM</string>
     <string name="bamAnnul">Le BAM a été annulé</string>
 
+    <!-- FRAME RECHERCHE PROFIL -->
+    <string name="recherche_profil_titre">Rechercher un utilisateur</string>
+
     <!-- FRAME PROFIL -->
     <string name="profil_titre">Mon profil</string>
     <string name="profil_pseudo">Mon pseudo</string>
@@ -59,5 +62,6 @@
     <string name="rech_tel">Téléphone</string>
     <string name="rech_note">Note</string>
     <string name="rech_status">Statut</string>
+    <string name="rech_found">Résultat de la recherche</string>
 
 </resources>

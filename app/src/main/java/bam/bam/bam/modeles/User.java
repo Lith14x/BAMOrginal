@@ -116,16 +116,16 @@ public class User {
         this.user_phone_number = user_phone_number;
     }
 
-    public void addNote(UserNote note)
+    public void addNote(float note)
     {
         float val = this.note.getVal();
         int nbVotes = this.note.getNbVotes();
         float buff;
 
-        buff = (val*nbVotes + note.getVal())/(nbVotes+1);
+        buff = (val*nbVotes + note)/(nbVotes+1);
 
-        note.setNbVotes(note.getNbVotes()+1);
-        note.setVal(buff);
+        this.note.setNbVotes(this.note.getNbVotes()+1);
+        this.note.setVal(buff);
     }
 
     public void setNote(UserNote note){this.note = note;}
@@ -138,5 +138,10 @@ public class User {
 
     public String getUser_device_id() {
         return user_device_id;
+    }
+
+    public User getCopy()
+    {
+        return new User(id, user_pseudo, user_device_id, user_phone_number,photo_data, note.getVal(), user_status, note.getNbVotes());
     }
 }
