@@ -87,6 +87,7 @@ public class UserDAO extends DAO {
             values.put(UserTable.NOTE, u.getNote());
             values.put(UserTable.STATUS, u.getStatus());
             values.put(UserTable.NBN, u.getNbn());
+            values.put(UserTable.AMIS, u.getUser_liste_amis());
 
 
             // On insère, sans vérifier que le user est déjà présent
@@ -116,6 +117,7 @@ public class UserDAO extends DAO {
         values.put(UserTable.NOTE, user.getNote());
         values.put(UserTable.STATUS, user.getStatus());
         values.put(UserTable.NBN, user.getNbn());
+        values.put(UserTable.AMIS, user.getUser_liste_amis());
 
         getDatabase().update(UserTable.TABLE_NAME, values, UserTable.ID + " =  '" + user.getId() + "'", null);
 
@@ -183,6 +185,22 @@ public class UserDAO extends DAO {
         String user_pseudo;
         String user_phone_number;
         String photo_data ;
+        String user_liste_amis;
+
+        try {
+
+            do {
+                note =rs.getFloat("user_note");
+                nbn = rs.getInt("user_nbn");
+                status = rs.getString("user_status");
+                user_device_id = rs.getString("user_device_id");
+                id = rs.getInt("id");
+                user_pseudo = rs.getString("user_pseudo");
+                user_phone_number = rs.getString("user_phone_number");
+                photo_data = rs.getString("user_photo_id");
+                user_liste_amis = rs.getString("user_list_amis");
+
+                listUsers.add(new User(id, user_pseudo, user_device_id, user_phone_number,photo_data, note, status, nbn,user_liste_amis));
 
         try {
 
@@ -288,6 +306,52 @@ public class UserDAO extends DAO {
     }
 
     /**
+     * Obtenir la liste des amis
+     */
+
+    public List<User> getListeAmis(User user) {
+        String[] Id;
+        int k;
+        ArrayList<User> Amis = new ArrayList<User>();
+        Id = user.getUser_liste_amis().split(";");
+        for (k = 0; k < Id.length;k++ ){
+            Amis.add(getUser((Integer.parseInt(Id[k]))));
+        }
+        return Amis;
+    }
+
+    public static String addAmis(User user, User ami){
+        String Amis=user.getUser_liste_amis();
+        if (Amis == ""){
+            Amis+=ami.getId();
+        } else {
+            Amis+=";"+ami.getId();
+        }
+        return Amis;
+    }
+
+    public String removeAmis(User user,User ami){
+        String Amis=user.getUser_liste_amis();
+        String[] Id;
+        int ami_id =ami.getId();
+        int i;
+        if (Amis != ""){
+            Id = Amis.split(";");
+            for (i=0;i<Id.length;i++ ) {
+                if (Integer.parseInt(Id[i])==ami_id){
+                    Amis.replace(";" + ami_id, "");
+                    return Amis;
+                }
+            }
+            return Amis;
+        }
+        if (Amis == "" + ami_id){
+            Amis = "";
+        }
+        return Amis;
+    }
+
+    /**
      * obtenir un utilisateur à partir du curseur
      *
      * @param curseur le curseur
@@ -308,7 +372,8 @@ public class UserDAO extends DAO {
                 curseur.getString(curseur.getColumnIndex(UserTable.PHOTO)),
                 curseur.getFloat(curseur.getColumnIndex(UserTable.NOTE)),
                 curseur.getString(curseur.getColumnIndex(UserTable.STATUS)),
-                curseur.getInt(curseur.getColumnIndex(UserTable.NBN)));
+                curseur.getInt(curseur.getColumnIndex(UserTable.NBN)),
+                curseur.getString(curseur.getColumnIndex(UserTable.AMIS)));
     }
 
     /**

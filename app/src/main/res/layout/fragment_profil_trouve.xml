@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:isScrollContainer="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        android:orientation="vertical"
+        android:id="@+id/fragTrouve">
+
+        <!-- Récupère le focus-->
+
+
+        <LinearLayout
+            android:background="@drawable/frame_border"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="3dp"
+                android:layout_marginBottom="30dp"
+                android:background="@drawable/frame_border">
+
+            <com.balysv.materialripple.MaterialRippleLayout
+                style="@style/ripple_photo">
+
+                <ImageView
+                    android:id="@+id/photo"
+                    style="@style/image_profil"/>
+
+            </com.balysv.materialripple.MaterialRippleLayout>
+            </LinearLayout>
+
+            <TextView
+                android:text="@string/rech_pseudo"
+                style="@style/profil_send_textView"/>
+
+            <TextView android:id="@+id/pseudoTV"
+                android:maxLength="10"
+                style="@style/profil_send_edittext"/>
+
+            <TextView
+                android:text="@string/rech_tel"
+                style="@style/profil_send_textView"/>
+
+            <EditText android:id="@+id/tel"
+                style="@style/edittext_tel"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/rech_note"
+                android:id="@+id/ratingbar"
+                style="@style/profil_send_textView" />
+
+            <RatingBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ratingBar"
+                android:layout_gravity="center_horizontal"
+                android:numStars="5" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:id="@+id/textView"
+                android:text="@string/rech_status"
+                style="@style/profil_send_textView" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/statut"
+                android:layout_gravity="center_horizontal"
+                style="@style/profil_send_textView" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</ScrollView>
+

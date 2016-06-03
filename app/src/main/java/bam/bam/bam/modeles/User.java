@@ -47,7 +47,13 @@ public class User {
      */
     private String photo_data ;
 
-    public User(int id, String user_pseudo, String user_device_id, String user_phone_number,String photo_data, float note, String status, int nbn ) {
+    /**
+     * liste amis
+     */
+    private String user_list_amis;
+
+
+    public User(int id, String user_pseudo, String user_device_id, String user_phone_number,String photo_data, float note, String status, int nbn, String user_list_amis) {
 
         this.id = id;
         this.photo_data  = photo_data ;
@@ -56,9 +62,10 @@ public class User {
         this.user_device_id = user_device_id;
         this.note = new UserNote(note,nbn);
         this.user_status = status;
+        this.user_list_amis = user_list_amis;
     }
 
-    public User(String user_pseudo,String user_phone_number,String photo_data ,String user_device_id) {
+    public User(String user_pseudo, String user_phone_number, String photo_data, String user_device_id) {
 
         this.id = -1;
         this.photo_data  = photo_data ;
@@ -67,6 +74,7 @@ public class User {
         this.user_device_id = user_device_id;
         this.note = new UserNote();
         this.user_status = "default status";
+        this.user_list_amis = "";
     }
 
     public int getId() {
@@ -124,7 +132,8 @@ public class User {
 
         buff = (val*nbVotes + note)/(nbVotes+1);
 
-        this.note.setNbVotes(this.note.getNbVotes()+1);
+        note.setNbVotes(note.getNbVotes()+1);
+        note.setVal(buff);
         this.note.setVal(buff);
     }
 
@@ -144,4 +153,10 @@ public class User {
     {
         return new User(id, user_pseudo, user_device_id, user_phone_number,photo_data, note.getVal(), user_status, note.getNbVotes());
     }
+
+    public String getUser_liste_amis(){
+        return user_list_amis;
+    }
+
+    public void setUser_liste_amis(String amis) { this.user_list_amis = amis;}
 }

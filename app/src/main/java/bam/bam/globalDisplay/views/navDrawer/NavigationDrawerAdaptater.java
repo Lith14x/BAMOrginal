@@ -161,6 +161,9 @@ public class NavigationDrawerAdaptater extends RecyclerView.Adapter<NavigationDr
                             case SEARCH :
                                 toLoad = FragmentParams.SEARCH.ordinal();
                                 break;
+                            case AMIS :
+                                toLoad = FragmentParams.AMIS.ordinal();
+                                break;
                         }
                         activity.loadFragment(toLoad, showTabs, activity.getString(FragmentParams.values()[toLoad].getPageTitle()));
                     }

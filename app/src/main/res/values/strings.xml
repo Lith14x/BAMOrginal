@@ -63,5 +63,7 @@
     <string name="rech_note">Note</string>
     <string name="rech_status">Statut</string>
     <string name="rech_found">Résultat de la recherche</string>
+    <string name="amis_titre">Mes Amis</string>
+    <string name="amis_titre2">amis</string>
 
 </resources>

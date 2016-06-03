@@ -20,6 +20,7 @@ import bam.bam.R;
 import bam.bam.bam.views.fragment.ProfilFragment;
 import bam.bam.bam.views.fragment.RechercheProfilsFragment;
 import bam.bam.globalDisplay.FragmentParams;
+import bam.bam.bam.views.fragment.MesAmisFragment;
 import bam.bam.globalDisplay.views.SplashScreen;
 import bam.bam.utilities.GPS;
 import bam.bam.bam.dataBDD.BamDAO;
@@ -54,6 +55,9 @@ public class Refresher implements SwipeRefreshLayout.OnRefreshListener{
 
     private String keyword;
 
+    private String keyword;
+
+    private String amis;
     /**
      * l'instance de la classe
      */
@@ -191,5 +195,9 @@ public class Refresher implements SwipeRefreshLayout.OnRefreshListener{
     public void setKeyword(String keyword)
     {
         this.keyword = keyword;
+    }
+
+    public void setAmis(String amis){
+        this.amis = amis;
     }
 }
