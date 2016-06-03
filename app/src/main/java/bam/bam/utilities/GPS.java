@@ -5,11 +5,15 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
+
+import java.util.List;
 
 import bam.bam.R;
 import bam.bam.globalDisplay.views.MainActivity;
@@ -33,13 +37,21 @@ public class GPS {
      */
     private static MyLocationListener locationListener;
 
+    /**
+     * manager pour la localisation
+     *
+     */
+    private static Locator locator;
+
+    /**
+     * Le contexte de l'application
+     */
+    private static Context context;
+
     public static void lancerGPS(Context context) {
-        LocationManager manager = (LocationManager) context.getSystemService(Activity.LOCATION_SERVICE);
-        locationListener = new MyLocationListener();
-        if (ActivityCompat.checkSelfPermission((Context) context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission((Context) context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+        GPS.context = context;
+        locator = new Locator(context);
+        locator.getLocation(Locator.Method.NETWORK_THEN_GPS, new MyLocationListener());
     }
 
     /**
@@ -51,8 +63,13 @@ public class GPS {
      */
     public static Location getLastBestLocation(boolean list,Context context,boolean toast) {
 
-        if(isGPSActivated(context)) {
+        /*if(isGPSActivated(context)) {
 
+            try {
+                locationGPS = manager.getLastKnownLocation(bestProvider());
+            } catch (SecurityException e){
+                locationGPS = null;
+            }
             if(locationGPS == null && toast)
             {
                 InfoToast.display(list, context.getString(R.string.waitGPS),context);
@@ -65,7 +82,8 @@ public class GPS {
             if(toast)
                 infoGPS(list,context);
             return null;
-        }
+        }*/
+        return locationGPS;
     }
 
     /**
@@ -73,11 +91,19 @@ public class GPS {
      * @param context le context
      * @return si le GPS est activé
      */
-    public static boolean isGPSActivated(Context context)
+    /*public static boolean isGPSActivated(Context context)
     {
-        LocationManager manager = (LocationManager) context.getSystemService(Activity.LOCATION_SERVICE);
-        return manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-    }
+        return bestProvider()!=null;
+    }*/
+
+    /*public static String bestProvider()
+    {
+        Criteria criteria = new Criteria();
+        criteria.setAccuracy(Criteria.ACCURACY_FINE);
+        String provider = manager.getBestProvider(criteria, true);
+
+        return provider;
+    }*/
 
     /**
      * message d'erreur du GPS
@@ -93,27 +119,17 @@ public class GPS {
     /**
      * classe pour la localisation
      */
-    private static class MyLocationListener implements LocationListener {
+    private static class MyLocationListener implements Locator.Listener {
 
         @Override
-        public void onLocationChanged(Location location) {
+        public void onLocationFound(Location location) {
             locationGPS = location;
 
         }
 
         @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-
-        }
-
-        @Override
-        public void onProviderEnabled(String provider) {
-
-        }
-
-        @Override
-        public void onProviderDisabled(String provider) {
-
+        public void onLocationNotFound() {
+            InfoToast.display(true,"Impossible de géolocaliser",context);
         }
     }
 }

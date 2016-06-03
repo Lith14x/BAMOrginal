@@ -154,11 +154,12 @@ public class UserDAO extends DAO {
         {
             sb.append(i+",");
         }
-        Log.d("[UserTable]",sb.toString());
+        Log.d("[UserTable]", sb.toString());
         List<User> users = new ArrayList<>();
-
-        for (curseur.moveToFirst(); !curseur.isAfterLast(); curseur.moveToNext()) {
-            users.add(cursorToUser(curseur));
+        if(curseur.getColumnCount() > 0) {
+            for (curseur.moveToFirst(); !curseur.isAfterLast(); curseur.moveToNext()) {
+                users.add(cursorToUser(curseur));
+            }
         }
 
         curseur.close();
@@ -202,19 +203,6 @@ public class UserDAO extends DAO {
 
                 listUsers.add(new User(id, user_pseudo, user_device_id, user_phone_number,photo_data, note, status, nbn,user_liste_amis));
 
-        try {
-
-            do {
-                note =rs.getFloat("user_note");
-                nbn = rs.getInt("user_nbn");
-                status = rs.getString("user_status");
-                user_device_id = rs.getString("user_device_id");
-                id = rs.getInt("id");
-                user_pseudo = rs.getString("user_pseudo");
-                user_phone_number = rs.getString("user_phone_number");
-                photo_data = rs.getString("user_photo_id");
-
-                listUsers.add(new User(id, user_pseudo, user_device_id, user_phone_number,photo_data, note, status, nbn));
 
             } while (rs.next());
 
@@ -364,16 +352,22 @@ public class UserDAO extends DAO {
         Log.i("[User]","Note : "+curseur.getFloat(curseur.getColumnIndex(UserTable.NOTE)));
         Log.i("[User]","Statut : "+curseur.getString(curseur.getColumnIndex(UserTable.STATUS)));
         Log.i("[User]","Nombre de votes : "+curseur.getInt(curseur.getColumnIndex(UserTable.NBN)));
+        try {
 
-        return new User(curseur.getInt(curseur.getColumnIndex(UserTable.ID)),
-                curseur.getString(curseur.getColumnIndex(UserTable.PSEUDO)),
-                curseur.getString(curseur.getColumnIndex(UserTable.DEVICE_ID)),
-                curseur.getString(curseur.getColumnIndex(UserTable.PHONE)),
-                curseur.getString(curseur.getColumnIndex(UserTable.PHOTO)),
-                curseur.getFloat(curseur.getColumnIndex(UserTable.NOTE)),
-                curseur.getString(curseur.getColumnIndex(UserTable.STATUS)),
-                curseur.getInt(curseur.getColumnIndex(UserTable.NBN)),
-                curseur.getString(curseur.getColumnIndex(UserTable.AMIS)));
+            return new User(curseur.getInt(curseur.getColumnIndex(UserTable.ID)),
+                    curseur.getString(curseur.getColumnIndex(UserTable.PSEUDO)),
+                    curseur.getString(curseur.getColumnIndex(UserTable.DEVICE_ID)),
+                    curseur.getString(curseur.getColumnIndex(UserTable.PHONE)),
+                    curseur.getString(curseur.getColumnIndex(UserTable.PHOTO)),
+                    curseur.getFloat(curseur.getColumnIndex(UserTable.NOTE)),
+                    curseur.getString(curseur.getColumnIndex(UserTable.STATUS)),
+                    curseur.getInt(curseur.getColumnIndex(UserTable.NBN)),
+                    curseur.getString(curseur.getColumnIndex(UserTable.AMIS)));
+        }catch(IllegalStateException e) {
+            UserTable.onUpgrade(this.database,0,0);
+
+            return null;
+        }
     }
 
     /**

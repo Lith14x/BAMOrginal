@@ -42,17 +42,17 @@ public class EnregistrementSendBam implements View.OnClickListener {
     /**
      * le titre
      */
-    private EditText titre;
+    private final EditText titre;
 
     /**
      * la description
      */
-    private EditText desc;
+    private final EditText desc;
 
     /**
      * le prix
      */
-    private EditText prix;
+    private final EditText prix;
 
     /**
      * Parser des bams
@@ -108,6 +108,9 @@ public class EnregistrementSendBam implements View.OnClickListener {
                 private Bam bam;
                 private Bam bamRep = null;
                 private Location location;
+                private final String description = desc.getText().toString();
+                private final String titreBam = titre.getText().toString();
+                private final float prixBam = Float.parseFloat(prix.getText().toString());
 
                 @Override
                 protected void onPreExecute() {
@@ -126,7 +129,7 @@ public class EnregistrementSendBam implements View.OnClickListener {
                             cal.setTime(new Date());
                             cal.add(Calendar.MINUTE, 20);
 
-                            bam = new Bam(desc.getText().toString(), titre.getText().toString(), Float.parseFloat(prix.getText().toString()),1,
+                            bam = new Bam(description, titreBam, prixBam,1,
                                     location.getLatitude(), location.getLongitude(), Utility.dateToString(new Date()), Utility.dateToString(cal.getTime()),
                                     new UserDAO(activity).getUserByDevice(Utility.getPhoneId(activity)).getId());
 
@@ -158,7 +161,7 @@ public class EnregistrementSendBam implements View.OnClickListener {
                                     tlm.setPager(1); // mettre sur la page liste envoyé
 
                                     FragmentParams fParams = FragmentParams.TABS;
-                                    activity.loadFragment(fParams.ordinal(), true, activity.getString(fParams.getPageTitle()));
+                                    activity.loadFragment(fParams.TABS.ordinal(), true, activity.getString(fParams.TABS.getPageTitle()));
                                     Clavier.ferrmerClavier(activity); // enlever le clavier
 
                                     InfoToast.display(true, activity.getString(R.string.messBamEnv), activity);

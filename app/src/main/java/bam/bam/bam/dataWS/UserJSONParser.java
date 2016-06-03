@@ -267,11 +267,6 @@ public class UserJSONParser {
             Log.e("[UserJSONParser]","JSONException");
             e.printStackTrace();
             return null;
-        } catch(org.json.JSONException e)
-        {
-            Log.e("[UserJSONParser]","JSONException");
-            e.printStackTrace();
-            return null;
         }
     }
 
