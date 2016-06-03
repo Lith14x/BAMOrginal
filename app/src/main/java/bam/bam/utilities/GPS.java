@@ -1,14 +1,20 @@
 package bam.bam.utilities;
 
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 
 import bam.bam.R;
+import bam.bam.globalDisplay.views.MainActivity;
+
+import static android.support.v4.app.ActivityCompat.requestPermissions;
 
 /**
  * classe du GPS
@@ -27,10 +33,12 @@ public class GPS {
      */
     private static MyLocationListener locationListener;
 
-    public static void lancerGPS(Context context)
-    {
+    public static void lancerGPS(Context context) {
         LocationManager manager = (LocationManager) context.getSystemService(Activity.LOCATION_SERVICE);
         locationListener = new MyLocationListener();
+        if (ActivityCompat.checkSelfPermission((Context) context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission((Context) context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
         manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
     }
 

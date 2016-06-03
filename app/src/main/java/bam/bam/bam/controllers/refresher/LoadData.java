@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 
 import bam.bam.bam.views.fragment.BamsEnvoyesReponsesFragment;
 import bam.bam.bam.views.fragment.BamsRecusFragment;
+import bam.bam.bam.views.fragment.MesAmisFragment;
 import bam.bam.bam.views.fragment.RechercheProfilsFragment;
 import bam.bam.globalDisplay.views.MainActivity;
 import bam.bam.utilities.Internet;
@@ -51,6 +52,9 @@ public class LoadData {
 
         LoadDataRechTask loadRech = new LoadDataRechTask(activity,this,(RechercheProfilsFragment)activity.getTabsLayoutManager().getAdapterVP().getItem(3));
         loadRech.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+        LoadDataAmisTask loadAmis = new LoadDataAmisTask(activity,new LoadData(activity,null),(MesAmisFragment)activity.getTabsLayoutManager().getAdapterVP().getItem(2));
+        loadAmis.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     /**

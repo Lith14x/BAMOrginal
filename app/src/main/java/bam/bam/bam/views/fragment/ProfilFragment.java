@@ -65,7 +65,7 @@ public class ProfilFragment extends Fragment
 
     public void refreshProfil(User user, View view,MainActivity act) // Recharge les infos utilisateur sur la page
     {
-
+        Log.d("[ProfilFragment]","Refreshing user profile");
 
 
         Log.d("[ProfilFragment]","Refreshing user profile");

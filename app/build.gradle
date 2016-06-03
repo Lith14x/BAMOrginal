@@ -2,13 +2,12 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "22.0.1"
-
+    buildToolsVersion '22.0.1'
     defaultConfig {
         applicationId "bam.bam"
         multiDexEnabled true
-        minSdkVersion 22
-        targetSdkVersion 22
+        minSdkVersion 23
+        targetSdkVersion 23
         versionCode 3
         versionName "1.0"
     }
@@ -19,6 +18,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'),
                     'proguard-rules.pro'
         }
+    }
+    productFlavors {
     }
 }
 

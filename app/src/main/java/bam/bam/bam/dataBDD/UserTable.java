@@ -58,6 +58,12 @@ public class UserTable {
     /**
      * Commande de creation de la table
      */
+
+    public static final String AMIS = "user_list_amis";
+    /**
+     * Liste des amis
+     */
+
     private static final String DATABASE_CREATE = "create table " + TABLE_NAME
             + "( " + ID + " integer not null, "
             + PSEUDO + " text not null, "
@@ -66,7 +72,8 @@ public class UserTable {
             + PHOTO + " text not null, "
             + NOTE + " float, "
             + STATUS + " text not null, "
-            + NBN + " integer "
+            + NBN + " integer, "
+            + AMIS + " text not null "
             + ");";
 
     public static void onCreate(SQLiteDatabase database) {
