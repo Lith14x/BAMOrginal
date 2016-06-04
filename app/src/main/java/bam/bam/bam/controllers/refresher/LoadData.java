@@ -8,6 +8,7 @@ import bam.bam.bam.views.fragment.BamsRecusFragment;
 import bam.bam.bam.views.fragment.MesAmisFragment;
 import bam.bam.bam.views.fragment.RechercheProfilsFragment;
 import bam.bam.globalDisplay.views.MainActivity;
+import bam.bam.globalDisplay.views.tabs.TabsLayoutManager;
 import bam.bam.utilities.Internet;
 
 /**
@@ -42,19 +43,16 @@ public class LoadData {
      */
     public void loadList()
     {
+        TabsLayoutManager tlm = activity.getTabsLayoutManager();
+
         LoadDataRecTask loadRec = new LoadDataRecTask(activity,this,location,
-                (BamsRecusFragment) activity.getTabsLayoutManager().getAdapterVP().getItem(0));
+                (BamsRecusFragment) tlm.getAdapterVP().getItem(0));
         loadRec.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         LoadDataEnvTask loadEnv = new LoadDataEnvTask(activity,this,
                 (BamsEnvoyesReponsesFragment)activity.getTabsLayoutManager().getAdapterVP().getItem(1));
         loadEnv.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
-        LoadDataRechTask loadRech = new LoadDataRechTask(activity,this,(RechercheProfilsFragment)activity.getTabsLayoutManager().getAdapterVP().getItem(3));
-        loadRech.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
-        LoadDataAmisTask loadAmis = new LoadDataAmisTask(activity,new LoadData(activity,null),(MesAmisFragment)activity.getTabsLayoutManager().getAdapterVP().getItem(2));
-        loadAmis.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     /**

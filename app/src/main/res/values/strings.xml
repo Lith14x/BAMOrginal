@@ -11,7 +11,7 @@
     <string name="pb_serveur">problème de connexion avec le serveur</string>
     <string name="enregistrement">Enregistrement...</string>
     <string name="URL">https://bam-serverws.rhcloud.com/ws/api/v1/</string>
-
+    <string name="facebook_app_id">933778530031176</string>
     <!-- FRAME TABS -->
     <string name="bam_recus_envoyes_titre">BAM reçus / envoyés</string>
     <string name="tab_recus">BAM reçus</string>
