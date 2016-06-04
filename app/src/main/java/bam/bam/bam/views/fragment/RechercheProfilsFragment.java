@@ -131,7 +131,7 @@ public class RechercheProfilsFragment extends Fragment {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
                         (keyCode == KeyEvent.KEYCODE_ENTER)) { // Si l'on a appuyé sur entrée et que l'on était sur la barre de recherche
                     // On cherche dans la DB et on ouvre la fenêtre des résultats
-                    //Refresher.getInstance().setKeyword(etKeyword.getText().toString()); // On modifie le keyword du refresher
+                    Refresher.getInstance().setKeyword(etKeyword.getText().toString()); // On modifie le keyword du refresher
                     //Refresher.getInstance().onRefresh(); // On refresh
 
                     //LoadDataRechTask loadSearch = new LoadDataRechTask(activity,new LoadData(activity,null),rpf);
