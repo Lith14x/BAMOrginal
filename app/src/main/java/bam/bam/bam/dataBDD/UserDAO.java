@@ -220,8 +220,8 @@ public class UserDAO extends DAO {
     public List<User> getUsersByKeyword(String keyword)
     {
         this.open();
-        String query = "SELECT * FROM users";
-        //String query = "SELECT * FROM " + UserTable.TABLE_NAME + " WHERE user_pseudo LIKE '%"+keyword+"%';";
+        //String query = "SELECT * FROM users";
+        String query = "SELECT * FROM " + UserTable.TABLE_NAME + " WHERE user_pseudo LIKE '%"+keyword+"%';";
         /*try {
             Connection con = DriverManager.getConnection("jdbc://bam-serverws.rhcloud.com/","adminj3UCslK","cfgmWUpHkRAL"); //!!!!Problème de sécurité ici!!!!
             Properties connectionProps = new Properties();
