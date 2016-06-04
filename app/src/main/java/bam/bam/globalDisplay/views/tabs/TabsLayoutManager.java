@@ -81,6 +81,16 @@ public class TabsLayoutManager {
 
     }
 
+
+    public int getIndex(String title)
+    {
+        for(int i =0; i < adapterVP.getCount();i++)
+        {
+            if(adapterVP.getPageTitle(i) == title)
+                return i;
+        }
+        return -1;
+    }
     /**
      * charger les composants des tabs
      */

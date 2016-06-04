@@ -103,10 +103,8 @@ public class Refresher implements SwipeRefreshLayout.OnRefreshListener{
             Location location = GPS.getLastBestLocation(true,activity,true);
 
             if (location != null) {
-
                 LoadData loadD = new LoadData(activity,location);
                 loadD.loadList();
-
             }
             else if(keyword != null)
             {

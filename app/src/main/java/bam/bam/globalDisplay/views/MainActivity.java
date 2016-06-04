@@ -1,6 +1,6 @@
 package bam.bam.globalDisplay.views;
 
-
+import android.view.View.OnClickListener;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +12,16 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 
 import bam.bam.R;
 import bam.bam.bam.controllers.refresher.Refresher;
@@ -23,12 +33,18 @@ import bam.bam.notifications.MyService;
 import bam.bam.utilities.Clavier;
 import bam.bam.utilities.Internet;
 
+import static bam.bam.R.id.button;
+
 /**
  * Avtivity qui va mettre la barre, le navigation drawer, et les tabs
  *
  * @author Marc
  */
 public class MainActivity extends AppCompatActivity {
+    private CallbackManager callbackManager;
+    private TextView info;
+    private LoginButton loginButton;
+    private  Button bouton;
 
     /**
      * numéro de la fragment courante
@@ -54,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
      * savoir si c'est le premier lancement de l'appli
      */
     private boolean first;
+    private boolean fb;
 
 
     @Override
@@ -114,11 +131,78 @@ public class MainActivity extends AppCompatActivity {
 
         toolBarLayoutManager.syncDrawerToggle();
     }
+    public void inscription() {
+        Bundle b = getIntent().getExtras();
+        first = b.getBoolean("first");
+        boolean notification = b.getBoolean("notification");
 
+        // si l'application était fermé, on lance lance le splashcreen quand on clic sur la notif
+        if(notification)
+        {
+            NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            nm.cancel(1);
+            Intent mainIntent = new Intent(MainActivity.this,SplashScreen.class);
+            startActivity(mainIntent);
+        }
+
+        setContentView(R.layout.drawer);
+
+        // charger la toolBar
+        toolBarLayoutManager = new ToolBarLayoutManager(this);
+        toolBarLayoutManager.load();
+
+        // charger le navigationDrawer
+        navDrawerLM = new NavigationDrawerLayoutManager(this, toolBarLayoutManager);
+        navDrawerLM.load();
+
+        // charger les tabs
+        tabsLayoutManager = new TabsLayoutManager(this);
+        tabsLayoutManager.load();
+        toolBarLayoutManager.syncDrawerToggle();
+
+        FragmentParams fParams = FragmentParams.PROFIL_FIRST;
+        loadFragment(fParams.ordinal(), false, getString(fParams.getPageTitle()));
+
+    }
     /**
      * si c'est la première connexion, charger la page profil
      */
     public void premierLancement() {
+
+        bouton = (Button) findViewById(R.id.button);
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        callbackManager = CallbackManager.Factory.create();
+
+        setContentView(R.layout.main_activity);
+
+        info = (TextView)findViewById(R.id.info);
+        loginButton = (LoginButton)findViewById(R.id.login_button);
+        Button button = (Button) findViewById(R.id.button);
+        button.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+               inscription();
+            }
+        });
+
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                info.setText("User ID:  " +
+                        loginResult.getAccessToken().getUserId() + "\n" +
+                        "Auth Token: " + loginResult.getAccessToken().getToken());
+            }
+
+            @Override
+            public void onCancel() {
+                info.setText("Login attempt cancelled.");
+            }
+
+            @Override
+            public void onError(FacebookException e) {
+                info.setText("Login attempt failed.");
+            }
+        });
+
         FragmentParams fParams = FragmentParams.PROFIL_FIRST;
         loadFragment(fParams.ordinal(), false, getString(fParams.getPageTitle()));
         first = false;
@@ -295,6 +379,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean isFirst() {
         return first;
     }
+    public boolean isFB() {return fb;}
 
     /**
      * mettre si c'est la première connexion
@@ -304,7 +389,7 @@ public class MainActivity extends AppCompatActivity {
     public void setFirst(boolean first) {
         this.first = first;
     }
-
+    public void setFB(boolean fb) {this.fb= fb;}
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
