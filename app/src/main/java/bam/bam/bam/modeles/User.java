@@ -151,7 +151,7 @@ public class User {
 
     public User getCopy()
     {
-        return new User(id, user_pseudo, user_device_id, user_phone_number,photo_data, note.getVal(), user_status, note.getNbVotes());
+        return new User(id, user_pseudo, user_device_id, user_phone_number,photo_data, note.getVal(), user_status, note.getNbVotes(),user_list_amis);
     }
 
     public String getUser_liste_amis(){
