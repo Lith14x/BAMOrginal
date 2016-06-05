@@ -132,8 +132,8 @@ public class User {
 
         buff = (val*nbVotes + note)/(nbVotes+1);
 
-        note.setNbVotes(note.getNbVotes()+1);
-        note.setVal(buff);
+        this.note.setNbVotes(this.note.getNbVotes()+1);
+        this.note.setVal(buff);
         this.note.setVal(buff);
     }
 
@@ -151,7 +151,7 @@ public class User {
 
     public User getCopy()
     {
-        return new User(id, user_pseudo, user_device_id, user_phone_number,photo_data, note.getVal(), user_status, note.getNbVotes(),user_list_amis);
+        return new User(id, user_pseudo, user_device_id, user_phone_number,photo_data, note.getVal(), user_status, note.getNbVotes(),getUser_liste_amis());
     }
 
     public String getUser_liste_amis(){

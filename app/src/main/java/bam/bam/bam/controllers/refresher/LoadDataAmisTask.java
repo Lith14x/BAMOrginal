@@ -31,7 +31,7 @@ public class LoadDataAmisTask extends AsyncTask<Void,Void,Void> {
     /**
      * le dernier utilisateur checké pour la recherche
      */
-    private User lastUser;
+    private List<User> users;
 
     /**
      * parser pour les utilisateurs
@@ -174,7 +174,7 @@ public class LoadDataAmisTask extends AsyncTask<Void,Void,Void> {
         super.onPostExecute(aVoid);
 
         if (amis != null) {
-            lastUser = amis.get(amis.size()-1);
+            rpf.loadAdpProfils(amis);
         } else {
             pbServeur();
         }

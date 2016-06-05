@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -19,10 +20,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.app.AlertDialog;
 
+import com.balysv.materialripple.MaterialRippleLayout;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import bam.bam.R;
+import bam.bam.bam.controllers.refresher.LoadData;
 import bam.bam.bam.controllers.refresher.LoadDataAmisTask;
 import bam.bam.bam.controllers.refresher.Refresher;
 import bam.bam.bam.dataBDD.UserDAO;
@@ -69,7 +73,7 @@ public class MesAmisFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_mes_amis, container, false);
+        final View v = inflater.inflate(R.layout.fragment_mes_amis, container, false);
         activity = (MainActivity) getActivity();
 
         // frame résultats
@@ -83,21 +87,38 @@ public class MesAmisFragment extends Fragment {
         LinearLayoutManager lm = new LinearLayoutManager(getActivity()); // LayoutManager de la recherche de profils
         lm.setOrientation(LinearLayoutManager.VERTICAL);// Un linearLayoutManager vertical : une liste verticale.
         rvProfils.setLayoutManager(lm);// le RecyclerView se trouve donc formaté
-        UserJSONParser ujp = new UserJSONParser(this.getContext());
-        List<Boolean> co = new ArrayList<>();
-        co.add(false);
-        loadAdpProfils(ujp.getListeAmis(ujp.getUser(Utility.getPhoneId(activity),true,co)));
+        List<User> users = new ArrayList<User>();
+        users.add(new User(17,"Bao","6ed2de667e0b42b8","0678494940","",0,"Bougre",0,"15"));
+        loadAdpProfils(users);
+        final MesAmisFragment rpf = this;
 
-        return v;
-    }
+        final View v2 = inflater.inflate(R.layout.amis_item, container, false);
+        MaterialRippleLayout rippleLayout = (MaterialRippleLayout)v2.findViewById(R.id.ripple);
+        rippleLayout.setOnTouchListener(new View.OnTouchListener(){
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                LoadDataAmisTask Data = new LoadDataAmisTask(activity, new LoadData(activity, null),rpf);
+                Data.execute();
+                return false;
+            }
+
+            public void onClick(View v) {
+                LoadDataAmisTask Data = new LoadDataAmisTask(activity, new LoadData(activity, null),rpf);
+                Data.execute();
+            }
+        });
+
+            return v;
+        }
 
 
+                /**
+                 * charger la liste des utilisateurs dans l'adapter prévu à cet effet
+                 *
+                 * @param users liste des utilisateurs
+                 */
 
-    /**
-     * charger la liste des utilisateurs dans l'adapter prévu à cet effet
-     *
-     * @param users liste des utilisateurs
-     */
     public void loadAdpProfils(List<User> users) {
 
         if (adpProfils == null) {

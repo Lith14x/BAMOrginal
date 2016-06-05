@@ -126,8 +126,8 @@ public class MesAmisAdaptater extends RecyclerView.Adapter<MesAmisAdaptater.View
         final User curUser = users.get(position);
         holder.pseudo.setText(curUser.getUser_pseudo());
         holder.photo.setImageBitmap(Utility.decodeBase64(users.get(position).getPhoto_data()));
-        holder.status.setText(curUser.getStatus());
-        holder.rating.setRating(curUser.getRealNote().getVal());
+        //holder.status.setText(curUser.getStatus());
+        //holder.rating.setRating(curUser.getRealNote().getVal());
     }
 
     /**
