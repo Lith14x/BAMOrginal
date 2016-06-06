@@ -86,7 +86,7 @@ public class MesAmisAdaptater extends RecyclerView.Adapter<MesAmisAdaptater.View
             super(itemView);
 
             vue = itemView;
-            pseudo = (TextView) itemView.findViewById(R.id.pseudo);
+            pseudo = (TextView) itemView.findViewById(R.id.nom_ami);
             photo = (ImageView) itemView.findViewById(R.id.photo);
             tel = (ImageView) itemView.findViewById(R.id.tel);
         }
@@ -94,7 +94,7 @@ public class MesAmisAdaptater extends RecyclerView.Adapter<MesAmisAdaptater.View
 
 
     public MesAmisAdaptater(List<User> users, MesAmisFragment rpf){
-        this.users = new ArrayList<>(users);
+        this.users = users;
         this.context = rpf.getActivity();
         this.rpf = rpf;
     }

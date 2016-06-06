@@ -52,9 +52,6 @@ public class Refresher implements SwipeRefreshLayout.OnRefreshListener{
     /**
      * keyword pour recherche
      */
-
-    private String keyword;
-
     private String amis;
     /**
      * l'instance de la classe

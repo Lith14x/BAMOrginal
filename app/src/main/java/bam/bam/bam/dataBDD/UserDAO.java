@@ -227,7 +227,6 @@ public class UserDAO extends DAO {
             Properties connectionProps = new Properties();
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
-
             return resultSetToUsers(rs);
         } catch (SQLException e) {}
         */
@@ -248,7 +247,7 @@ public class UserDAO extends DAO {
             e.printStackTrace();
         }
 
-            this.close();
+        this.close();
 
         return users;
     }

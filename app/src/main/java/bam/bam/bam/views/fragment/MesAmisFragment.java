@@ -8,21 +8,27 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.app.AlertDialog;
 
+import com.balysv.materialripple.MaterialRippleLayout;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import bam.bam.R;
+import bam.bam.bam.controllers.refresher.LoadData;
 import bam.bam.bam.controllers.refresher.LoadDataAmisTask;
 import bam.bam.bam.controllers.refresher.Refresher;
 import bam.bam.bam.dataBDD.UserDAO;
@@ -67,9 +73,11 @@ public class MesAmisFragment extends Fragment {
      */
     private MesAmisAdaptater adpProfils;
 
+    private List<User> amis;
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_mes_amis, container, false);
+        final View v = inflater.inflate(R.layout.fragment_mes_amis, container, false);
         activity = (MainActivity) getActivity();
 
         // frame résultats
@@ -83,21 +91,30 @@ public class MesAmisFragment extends Fragment {
         LinearLayoutManager lm = new LinearLayoutManager(getActivity()); // LayoutManager de la recherche de profils
         lm.setOrientation(LinearLayoutManager.VERTICAL);// Un linearLayoutManager vertical : une liste verticale.
         rvProfils.setLayoutManager(lm);// le RecyclerView se trouve donc formaté
-        UserJSONParser ujp = new UserJSONParser(this.getContext());
-        List<Boolean> co = new ArrayList<>();
-        co.add(false);
-        loadAdpProfils(ujp.getListeAmis(ujp.getUser(Utility.getPhoneId(activity),true,co)));
-
-        return v;
-    }
+        final MesAmisFragment rpf = this;
+        final View v2 = inflater.inflate(R.layout.amis_item, container, false);
+        TextView text = (TextView)v2.findViewById(R.id.nom_ami);
+        text.setOnClickListener(new View.OnClickListener() {
 
 
+            @Override
+            public void onClick(View v) {
+                Log.d("[Layout]", "Clic !");
+                LoadDataAmisTask Data = new LoadDataAmisTask(activity, new LoadData(activity, null), rpf);
+                Data.execute();
+            }
+        });
 
-    /**
-     * charger la liste des utilisateurs dans l'adapter prévu à cet effet
-     *
-     * @param users liste des utilisateurs
-     */
+            return v;
+        }
+
+
+                /**
+                 * charger la liste des utilisateurs dans l'adapter prévu à cet effet
+                 *
+                 * @param users liste des utilisateurs
+                 */
+
     public void loadAdpProfils(List<User> users) {
 
         if (adpProfils == null) {
@@ -130,6 +147,22 @@ public class MesAmisFragment extends Fragment {
     public boolean isAmisVisible()
     {
         return amisVisible;
+    }
+
+    public void onStart() {
+        super.onStart();
+        if(!this.isHidden()) {
+
+            View v = this.getView();
+
+            MainActivity act = ((MainActivity) getActivity());
+
+            final LoadDataAmisTask userLoader = new LoadDataAmisTask(act,new LoadData(act,null),this);
+
+            userLoader.execute();
+
+        }else{}
+
     }
 
 

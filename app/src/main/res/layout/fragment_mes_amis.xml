@@ -29,7 +29,4 @@
 
     </LinearLayout>
 
-    <!-- Ombre dessous le blank-->
-    <View style="@style/blank_shadow" />
-
 </RelativeLayout>
