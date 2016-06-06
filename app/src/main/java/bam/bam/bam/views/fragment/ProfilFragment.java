@@ -81,10 +81,14 @@ public class ProfilFragment extends Fragment
 
 
         User buff = RechercheProfilsFragment.getLastProfil();
+        User buff2 = MesAmisFragment.getLastProfil();
+        if(buff == null)
+            buff = buff2;
         if(buff != null) {
             user = buff.getCopy();
             Log.d("azeazeaze", "not null");
             RechercheProfilsFragment.resetLastProfil();
+            MesAmisFragment.resetLastProfil();
 
             ratingBar.setIsIndicator(false);
             ratingBar.setOnTouchListener(new EnregistrementNoteUtilisateur(this,user.getId(),act,ratingBar));

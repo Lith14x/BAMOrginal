@@ -36,12 +36,6 @@ import bam.bam.globalDisplay.views.MainActivity;
 public class Refresher implements SwipeRefreshLayout.OnRefreshListener{
 
     /**
-     *  keyword de recherche
-     */
-
-    private String keyword = null;
-
-    /**
      * l'activity de l'appli
      */
     private MainActivity activity;
@@ -58,6 +52,12 @@ public class Refresher implements SwipeRefreshLayout.OnRefreshListener{
     /**
      * keyword pour recherche
      */
+<<<<<<< HEAD
+
+=======
+>>>>>>> Amis
+    private String keyword;
+
     private String amis;
     /**
      * l'instance de la classe

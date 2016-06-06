@@ -36,6 +36,7 @@ import bam.bam.bam.dataWS.UserJSONParser;
 import bam.bam.bam.modeles.User;
 import bam.bam.bam.views.adaptater.MesAmisAdaptater;
 import bam.bam.bam.views.adaptater.RechercheProfilsAdapter;
+import bam.bam.globalDisplay.FragmentParams;
 import bam.bam.globalDisplay.views.MainActivity;
 import bam.bam.utilities.Utility;
 
@@ -50,6 +51,11 @@ public class MesAmisFragment extends Fragment {
      * activity de l'appli
      */
     private MainActivity activity;
+
+    /**
+     * dernier profil
+     */
+    private static User lastProfil = null;
 
     /**
      * si la page amis est visible
@@ -93,20 +99,26 @@ public class MesAmisFragment extends Fragment {
         rvProfils.setLayoutManager(lm);// le RecyclerView se trouve donc formaté
         final MesAmisFragment rpf = this;
         final View v2 = inflater.inflate(R.layout.amis_item, container, false);
-        TextView text = (TextView)v2.findViewById(R.id.nom_ami);
-        text.setOnClickListener(new View.OnClickListener() {
 
-
-            @Override
-            public void onClick(View v) {
-                Log.d("[Layout]", "Clic !");
-                LoadDataAmisTask Data = new LoadDataAmisTask(activity, new LoadData(activity, null), rpf);
-                Data.execute();
-            }
-        });
 
             return v;
         }
+    @Override
+    public void onStart() {
+        super.onStart();
+        if(!this.isHidden()) {
+
+            View v = this.getView();
+
+            MainActivity act = ((MainActivity) getActivity());
+
+            final LoadDataAmisTask userLoader = new LoadDataAmisTask(act,new LoadData(act,null),this);
+
+            userLoader.execute();
+
+        }else{}
+
+    }
 
 
                 /**
@@ -138,6 +150,23 @@ public class MesAmisFragment extends Fragment {
         loadAdpProfils(userDAO.getListeAmis(user));
     }
 
+    /**
+     * aller sur la page de l'utilisateur sur lequel on aurait cliqué
+     *
+     * @param user l'user
+     */
+    public void frameNext(User user)
+    {
+        lastProfil = user;
+        activity.loadFragment(FragmentParams.FOUND.ordinal(), false, activity.getString(FragmentParams.FOUND.getPageTitle()));
+
+        fragAmis.setVisibility(View.GONE);
+//        fragTrouve.setVisibility(View.VISIBLE);
+        activity.getTabsLayoutManager().setCrayonVisibility(View.GONE);
+
+        amisVisible = false;
+
+    }
 
     /**
      * savoir si on est sur la liste des recherches de profils
@@ -149,21 +178,17 @@ public class MesAmisFragment extends Fragment {
         return amisVisible;
     }
 
-    public void onStart() {
-        super.onStart();
-        if(!this.isHidden()) {
-
-            View v = this.getView();
-
-            MainActivity act = ((MainActivity) getActivity());
-
-            final LoadDataAmisTask userLoader = new LoadDataAmisTask(act,new LoadData(act,null),this);
-
-            userLoader.execute();
-
-        }else{}
-
+    /**
+     *
+     */
+    public static User getLastProfil()
+    {
+        return lastProfil;
     }
 
+    public static void resetLastProfil()
+    {
+        lastProfil = null;
+    }
 
 }

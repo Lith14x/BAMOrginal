@@ -24,7 +24,7 @@
                         style="@style/photo_pseudo_list"/>
 
                     <TextView
-                        android:id="@+id/nom_ami"
+                        android:id="@+id/status_amis"
                         style="@style/pseudo_recu_env" />
 
                 </LinearLayout>
@@ -41,7 +41,7 @@
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:id="@+id/status"
+                            android:id="@+id/nom_amis"
                             style="@style/titre" />
 
                     </LinearLayout>
@@ -56,7 +56,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:isIndicator="true"
-                            android:id="@+id/nbEtoiles" />
+                            android:id="@+id/etoilesAmis" />
 
                         <LinearLayout
                             android:gravity="right|center_vertical"

@@ -86,9 +86,12 @@ public class MesAmisAdaptater extends RecyclerView.Adapter<MesAmisAdaptater.View
             super(itemView);
 
             vue = itemView;
-            pseudo = (TextView) itemView.findViewById(R.id.nom_ami);
+            pseudo = (TextView) itemView.findViewById(R.id.nom_amis);
+            status = (TextView) itemView.findViewById(R.id.status_amis);
             photo = (ImageView) itemView.findViewById(R.id.photo);
             tel = (ImageView) itemView.findViewById(R.id.tel);
+            rating = (RatingBar) itemView.findViewById(R.id.etoilesAmis);
+
         }
     }
 
@@ -125,9 +128,18 @@ public class MesAmisAdaptater extends RecyclerView.Adapter<MesAmisAdaptater.View
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final User curUser = users.get(position);
         holder.pseudo.setText(curUser.getUser_pseudo());
+        holder.status.setText(curUser.getStatus());
+        holder.rating.setRating(curUser.getRealNote().getVal());
         holder.photo.setImageBitmap(Utility.decodeBase64(users.get(position).getPhoto_data()));
         holder.status.setText(curUser.getStatus());
         holder.rating.setRating(curUser.getRealNote().getVal());
+        holder.pseudo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rpf.frameNext(curUser);
+
+            }
+        });
     }
 
     /**
