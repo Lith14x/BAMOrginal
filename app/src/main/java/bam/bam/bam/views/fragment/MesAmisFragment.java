@@ -8,12 +8,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
@@ -71,6 +73,8 @@ public class MesAmisFragment extends Fragment {
      */
     private MesAmisAdaptater adpProfils;
 
+    private List<User> amis;
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.fragment_mes_amis, container, false);
@@ -87,24 +91,16 @@ public class MesAmisFragment extends Fragment {
         LinearLayoutManager lm = new LinearLayoutManager(getActivity()); // LayoutManager de la recherche de profils
         lm.setOrientation(LinearLayoutManager.VERTICAL);// Un linearLayoutManager vertical : une liste verticale.
         rvProfils.setLayoutManager(lm);// le RecyclerView se trouve donc formaté
-        List<User> users = new ArrayList<User>();
-        users.add(new User(17,"Bao","6ed2de667e0b42b8","0678494940","",0,"Bougre",0,"15"));
-        loadAdpProfils(users);
         final MesAmisFragment rpf = this;
-
         final View v2 = inflater.inflate(R.layout.amis_item, container, false);
-        MaterialRippleLayout rippleLayout = (MaterialRippleLayout)v2.findViewById(R.id.ripple);
-        rippleLayout.setOnTouchListener(new View.OnTouchListener(){
+        TextView text = (TextView)v2.findViewById(R.id.nom_ami);
+        text.setOnClickListener(new View.OnClickListener() {
+
 
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                LoadDataAmisTask Data = new LoadDataAmisTask(activity, new LoadData(activity, null),rpf);
-                Data.execute();
-                return false;
-            }
-
             public void onClick(View v) {
-                LoadDataAmisTask Data = new LoadDataAmisTask(activity, new LoadData(activity, null),rpf);
+                Log.d("[Layout]", "Clic !");
+                LoadDataAmisTask Data = new LoadDataAmisTask(activity, new LoadData(activity, null), rpf);
                 Data.execute();
             }
         });
@@ -151,6 +147,22 @@ public class MesAmisFragment extends Fragment {
     public boolean isAmisVisible()
     {
         return amisVisible;
+    }
+
+    public void onStart() {
+        super.onStart();
+        if(!this.isHidden()) {
+
+            View v = this.getView();
+
+            MainActivity act = ((MainActivity) getActivity());
+
+            final LoadDataAmisTask userLoader = new LoadDataAmisTask(act,new LoadData(act,null),this);
+
+            userLoader.execute();
+
+        }else{}
+
     }
 
 

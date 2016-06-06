@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.balysv.materialripple.MaterialRippleLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/ripple_bam_env"
-    android:id="@+id/ripple">
-    <LinearLayout
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/item"
         style="@style/linear_list_env"
         android:padding="0dp">
@@ -28,7 +24,7 @@
                         style="@style/photo_pseudo_list"/>
 
                     <TextView
-                        android:id="@+id/pseudo"
+                        android:id="@+id/nom_ami"
                         style="@style/pseudo_recu_env" />
 
                 </LinearLayout>
@@ -80,4 +76,3 @@
 
         </RelativeLayout>
     </LinearLayout>
-</com.balysv.materialripple.MaterialRippleLayout>
