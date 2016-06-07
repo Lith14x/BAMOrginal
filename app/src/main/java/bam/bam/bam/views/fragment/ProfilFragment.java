@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.media.Rating;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.method.KeyListener;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -87,20 +88,22 @@ public class ProfilFragment extends Fragment
         if(buff != null) {
             user = buff.getCopy();
             Log.d("azeazeaze", "not null");
-            RechercheProfilsFragment.resetLastProfil();
-            MesAmisFragment.resetLastProfil();
+
 
             ratingBar.setIsIndicator(false);
-            ratingBar.setOnTouchListener(new EnregistrementNoteUtilisateur(this,user.getId(),act,ratingBar));
+            ratingBar.setOnTouchListener(new EnregistrementNoteUtilisateur(this, user.getId(), act, ratingBar));
             btn.setEnabled(false);
             btn.setVisibility(View.GONE);
             btn.setOnClickListener(null);
+            tel.setFocusable(false);
+            tel.setClickable(false);
         }
         else {
             ratingBar.setIsIndicator(true);
             btn.setOnClickListener(new EnregistrementProfil(this, act, image, tel, pseudoET));
             btn.setEnabled(true);
-            btn.setVisibility(View.VISIBLE);
+            tel.setFocusable(true);
+            tel.setClickable(true);
         }
 
         if(!act.isFirst()) // si c'est pour une modification de profil
@@ -147,6 +150,18 @@ public class ProfilFragment extends Fragment
                 Log.d("[ProfilFragment]","L'utilisateur est null");*/
         }else{}
 
+    }
+
+    @Override
+
+    public void onStop()
+    {
+        super.onStop();
+        try {
+            Thread.sleep(1000);
+        }catch(Exception e){}
+        RechercheProfilsFragment.resetLastProfil();
+        MesAmisFragment.resetLastProfil();
     }
 
     @Override

@@ -44,9 +44,9 @@
     <string name="recherche_profil_titre">Rechercher un utilisateur</string>
 
     <!-- FRAME PROFIL -->
-    <string name="profil_titre">Mon profil</string>
-    <string name="profil_pseudo">Mon pseudo</string>
-    <string name="profil_tel">Mon téléphone</string>
+    <string name="profil_titre">Profil</string>
+    <string name="profil_pseudo">Pseudo</string>
+    <string name="profil_tel">Téléphone</string>
     <string name="profil_bouton">Enregistrer</string>
     <string name="resizeMessage">"Whoops - your device doesn't support the crop action!"</string>
     <string name="messSaveProfil">Profil sauvegardé</string>

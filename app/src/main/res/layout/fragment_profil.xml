@@ -69,7 +69,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Ma note"
+                android:text="Note"
                 android:id="@+id/ratingbar"
                 style="@style/profil_send_textView" />
 
@@ -86,7 +86,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:id="@+id/statutTextView"
-                android:text="Mon statut"
+                android:text="Statut"
                 style="@style/profil_send_textView" />
 
             <TextView
